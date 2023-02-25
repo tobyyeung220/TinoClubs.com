@@ -41,6 +41,9 @@ def home_page():
 
 @app.route('/club/<hyphened_club_name>')
 def club_page(hyphened_club_name: str):
+    club_name = hyphened_club_name.replace('-', ' ')
+    session.setdefault('recently_viewed', [])
+    session['recently_viewed'] = [club_name] + [prev_club for prev_club in session['recently_viewed'] if prev_club != club_name][:7]
     return render_template('club.html')
 
 
