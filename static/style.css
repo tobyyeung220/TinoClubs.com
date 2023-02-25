@@ -1,0 +1,22 @@
+/* gradients */
+.gd-text {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+}
+.gd-pink { background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); }
+.gd-pink-blue {background-color: #FF3CAC; background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);}
+.gd-green {background-color: #08AEEA; background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);}
+.gd-dark-blue {background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);}
+.gd-blue {background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%);}
+.gd-red {background-image: linear-gradient(to right, #f43b47 0%, #453a94 100%);}
+
+/* clears the ‘X’ from Internet Explorer input fields */
+input[type=search]::-ms-clear { display: none; width : 0; height: 0; }
+input[type=search]::-ms-reveal { display: none; width : 0; height: 0; }
+/* clears the ‘X’ from Chrome input fields */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
