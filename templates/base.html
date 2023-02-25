@@ -1,7 +1,7 @@
-{% macro searchbar(responsive_class, current_query) %}
-<form method="post" action="/search" class="{{responsive_class}} position-relative w-50">
+{% macro searchbar(responsive_class, placeholder, current_query) %}
+<form method="post" action="/search" class="{{responsive_class}} position-relative">
     <input name="search_query" type="search" class="form-input form-control" style="border-radius:20px"
-           placeholder="Search your favorite clubs" value="{{current_query}}" required>
+           placeholder="{{placeholder}}" value="{{current_query}}" required>
     <button class="btn position-absolute end-0 top-0" type="submit">
         <i class="bi bi-search text-info"></i>
     </button>
@@ -40,7 +40,7 @@
             <img src="/static/icons/dusty.png" width="32" height="32" class="me-1">
             Tino Clubs
         </a>
-        {{ searchbar("d-lg-none", current_query) }}
+        {{ searchbar("d-lg-none", "Search", current_query) }}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -55,7 +55,7 @@
                         <a class="nav-link" href="/categories">Categories</a>
                     </li>
                 </ul>
-                {{ searchbar("d-none d-lg-block", current_query) }}
+                {{ searchbar("d-none d-lg-block w-50", "Search your favorite clubs", current_query) }}
                 <form class="form-check form-switch me-2 opacity-75">
                     <input class="form-check-input" type="checkbox" role="switch" id="darkModeToggle" onchange="toggleDarkMode()" {{'checked' if session.isDarkMode}}>
                     <label class="form-check-label text-white" for="darkModeToggle">Dark Mode</label>
