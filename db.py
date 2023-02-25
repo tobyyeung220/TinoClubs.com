@@ -27,6 +27,16 @@ db = SQLAlchemy()  # "app: Flask" argument will be passed into later during main
 
 
 class Club(db.Model):
+    class SocialMedia:
+        def __init__(self, name: str, url: str, text: str):
+            self.name = name
+            self.url = url
+            self.text = text
+
+        @property
+        def icon_url(self):
+            return '/static/social_medias/' + self.name + '.png'
+
     __tablename__ = 'club'
     name = db.Column(db.String, primary_key=True, index=True, nullable=False)
     aka = db.Column(db.String, index=True)
@@ -44,8 +54,8 @@ class Club(db.Model):
         return self.raw_tags.split()
 
     @property
-    def social_medias(self) -> list[dict]:
-        return json.loads(self.raw_social_medias)
+    def social_medias(self) -> list[SocialMedia]:
+        return [self.SocialMedia(**d) for d in json.loads(self.raw_social_medias)]
 
     @property
     def leaderships(self) -> list[dict]:
@@ -56,3 +66,33 @@ class Club(db.Model):
         new_club = cls(**kwargs)
         db.session.merge(new_club)
         db.session.commit()
+
+    @classmethod
+    def from_club_name(cls, club_name: str) -> 'Club':
+        return cls.query.filter_by(name=club_name).first()
+
+
+class GetClubNames:
+    @staticmethod
+    def reduce_to_single_field(func):
+        def inner(*args, **kwargs):
+            return [row[0] for row in func(*args, **kwargs)]
+        return inner
+
+    @classmethod
+    @reduce_to_single_field
+    def by_category(cls, category: ClubCategory, limit: int, offset=0) -> list[Club]:
+        return Club.query.with_entities(Club.name).filter_by(category=category).limit(limit).offset(offset)
+
+    @classmethod
+    def new_clubs(cls) -> list[Club]:
+        ...
+
+    @classmethod
+    def all_alphabetically_ordered(cls) -> list[Club]:
+        ...
+
+    @classmethod
+    def by_search_query(cls, search_query: str) -> list[Club]:
+        ...
+

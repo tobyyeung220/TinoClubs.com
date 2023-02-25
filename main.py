@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect
 import uuid
-from db import db, ClubCategory
+from db import db, ClubCategory, Club, GetClubNames
 from admin import init_admin
 
 app = Flask(__name__)
@@ -33,7 +33,9 @@ def club_page(hyphened_club_name: str):
     club_name = hyphened_club_name.replace('-', ' ')
     session.setdefault('recently_viewed', [])
     session['recently_viewed'] = [club_name] + [prev_club for prev_club in session['recently_viewed'] if prev_club != club_name][:7]
-    return render_template('club.html')
+    club_data = Club.from_club_name(club_name)
+    return render_template('club.html', club=club_data,
+                           names_of_same_category_clubs=GetClubNames.by_category(club_data.category, limit=4))
 
 
 @app.route('/categories')

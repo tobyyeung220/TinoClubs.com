@@ -40,48 +40,37 @@
     <div class="row">
         <div class="col-12 col-lg-8">
             <div class="d-flex align-items-center">
-                <img src="/static/club/Black-Student-Union.jpg" class="img-fluid rounded-pill img-thumbnail"
+                <img src="/static/club/{{club.name.replace(' ', '-')}}.jpg" class="img-fluid rounded-pill img-thumbnail"
                      style="max-width:140px;max-height:140px">
                 <div class="ms-5">
-                    <p class="text-secondary mb-1">aka. BSU</p>
-                    <h1 class="fw-bold gd-text gd-pink-blue">Black Student Union</h1>
+                    {% if club.aka %}
+                    <p class="text-secondary mb-1">aka. {{ club.aka }}</p>
+                    {% endif %}
+                    <h1 class="fw-bold gd-text gd-pink-blue">{{ club.name }}</h1>
                 </div>
             </div>
             <div class="d-flex mt-4" style="flex-wrap: wrap;">
-                {{ tag('#Cultural Club') }}
-                {{ tag('#Meeting this Tuesday!') }}
-                {{ tag('#Everyone is Welcome to Join') }}
-                {{ tag('#Black Lives Matter') }}
-                {{ tag('#Student Union') }}
+                {% for t in club.tags %}
+                {{ tag(t) }}
+                {% endfor %}
             </div>
             <div class="container-fluid px-3 mt-4 text-secondary">
-                <p>The Purpose of Black Student Union is to:</p>
-                <ol>
-                    <li>Provide a safe space for everyone on our campus, with a heavy emphasis on the little population
-                        of black students on our campus
-                    </li>
-                    <li>Inform, educate, and advise Cupertino High, as well as our community, on issues that heavily
-                        affect the black community
-                    </li>
-                </ol>
-                <p>BSU is a judgment-free, safe, validating environment, where mental health, self-acceptance, and
-                    acknowledgment are made to prosper.</p>
+                <p>{{ club.description }}</p>
             </div>
         </div>
         <div class="col-12 col-lg-4">
             <div class="card shadow-sm rounded-3" style="border:0px">
                 <div class="card-body">
-                    <p class="card-subtitle text-secondary">BSU Meets</p>
-                    <h5 class="card-title mt-2 gd-text gd-pink-blue">Every Other Tuesday Lunch @ Room 6222</h5>
+                    <p class="card-subtitle text-secondary">{{ club.aka if club.aka else club.name }} Meets</p>
+                    <h5 class="card-title mt-2 gd-text gd-pink-blue">{{ club.meeting_time }} @ {{ club.meeting_location }}</h5>
                 </div>
             </div>
             <div class="mt-4 card shadow-sm rounded-3" style="border:0px">
                 <div class="card-body">
                     <p class="card-subtitle text-secondary">Reach out to BSU</p>
-                    {{ social_media("/static/icons/instagram_icon.webp", "https://www.instagram.com/tino.bsu/", "@tino.bsu") }}
-                    {{ social_media("/static/icons/discord_icon.png", "https://discord.com/invite/ZCFuQMyS", "ZCFuQMyS") }}
-                    {{ social_media("/static/icons/gmail_icon.png", "mailto:blacksu.chs@gmail.com", "blacksu.chs@gmail.com") }}
-                    {{ social_media("/static/icons/linktree_icon.png", "https://linktr.ee/bsu.at.chsu", "linktr.ee/bsu.at.chsu") }}
+                    {% for media in club.social_medias %}
+                    {{ social_media(media.icon_url, media.url, media.text) }}
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -91,34 +80,24 @@
 <div class="container mt-4">
     <h4 class="fw-bold gd-text gd-pink-blue">Club Leadership</h4>
     <div class="px-2 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        {% for person in club.leaderships %}
         <div class="col">
-            {{ person_card("Jenny Padgett", "Club Advisor", "jenny_padgett@fuhsd.org") }}
+            {{ person_card(person.name, person.role) }}
         </div>
-        <div class="col">
-            {{ person_card("Rochelle Awuah", "Co-President", "rawuah461@student.fuhsd.org") }}
-        </div>
-        <div class="col">
-            {{ person_card("Liza Thorpe", "Co-President", "athorpe227@student.fuhsd.org") }}
-        </div>
+        {% endfor %}
     </div>
 </div>
 
 
 <div class="container mt-5">
-    <h4 class="fw-bold gd-text gd-pink-blue">Other Cultural Clubs</h4>
+    <div class="d-flex justify-content-between">
+        <h4 class="fw-bold gd-text gd-pink-blue">Other {{club.category.display_name}} Clubs</h4>
+        <a href="/categories/{{club.category.value}}" class="text-decoration-none">See More</a>
+    </div>
     <div class="px-2 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3">
-        <div class="col">
-            {{ club_card("LatinX Student Union") }}
-        </div>
-        <div class="col">
-            {{ club_card("Korean American Student Association") }}
-        </div>
-        <div class="col">
-            {{ club_card("South Asian Heritage Association") }}
-        </div>
-        <div class="col">
-            {{ club_card("National Chinese Honor Society") }}
-        </div>
+        {% for name in names_of_same_category_clubs %}
+        <div class="col">{{ club_card(name) }}</div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
