@@ -7,22 +7,21 @@
 </span>
 {% endmacro %}
 
-{% macro person_card(name, role, email, shadow="shadow-sm", roundedness="rounded-pill", max_width="420px") %}
+{% macro person_card(name, role, email, shadow="shadow-sm", roundedness="rounded-pill") %}
 {% set available_avatar_bgs = ['primary', 'info', 'danger', 'warning', 'success'] %}
-<div class="card {{shadow}} {{roundedness}}" style="border:0px;max-width:{{max_width}}">
-    <div class="d-flex align-items-center ps-3">
-        <div style="width:90px;height:90px" class="text-center rounded-pill bg-{{available_avatar_bgs|random}}">
+<div class="card {{shadow}} {{roundedness}}" style="border:0px">
+    <div class="d-flex align-items-center ps-2">
+        <div style="width:60px;height:60px" class="text-center rounded-pill bg-{{available_avatar_bgs|random}}">
             {% if name.split()|length >= 2 %}
-            <h1 style="margin-top:23%">{{name.split()[0][0] + name.split()[-1][0]}}</h1>
+            <h3 style="margin-top:23%">{{name.split()[0][0] + name.split()[-1][0]}}</h3>
             {% else %}
-            <h1 style="margin-top:23%">{{name.split()[0][0]}}</h1>
+            <h3 style="margin-top:23%">{{name.split()[0][0]}}</h3>
             {% endif %}
         </div>
         <div>
             <div class="card-body">
-                <p class="text-secondary mb-1">{{ role }}</p>
-                <h5 class="card-title">{{ name }}</h5>
-                <a href="mailto:{{email}}" class="text-decoration-none text-info"><small>{{ email }}</small></a>
+                <small class="text-secondary mb-1">{{ role }}</small>
+                <h6 class="card-title mb-0">{{ name }}</h6>
             </div>
         </div>
     </div>
@@ -91,7 +90,7 @@
 
 <div class="container mt-4">
     <h4 class="fw-bold gd-text gd-pink-blue">Club Leadership</h4>
-    <div class="px-2 row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
+    <div class="px-2 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
         <div class="col">
             {{ person_card("Jenny Padgett", "Club Advisor", "jenny_padgett@fuhsd.org") }}
         </div>
