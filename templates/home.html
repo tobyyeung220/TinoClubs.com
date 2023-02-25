@@ -30,7 +30,7 @@
     <div class="px-2 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3">
     {% for club_name in session.recently_viewed %}
     <div class="col">
-        {{ club_card(club_name, "/static/club/" + club_name.replace(' ', '-') + ".jpg") }}
+        {{ club_card(club_name) }}
     </div>
     {% endfor %}
 </div>
