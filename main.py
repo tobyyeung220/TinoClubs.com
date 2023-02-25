@@ -1,29 +1,18 @@
 from flask import Flask, render_template, request, session, redirect
 import uuid
-import enum
+from db import db, ClubCategory
+from admin import init_admin
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db.init_app(app)
+with app.app_context():
+    db.create_all()
 
-class ClubCategory(enum.Enum):
-    stem = 'stem'
-    business = 'business'
-    volunteering = 'volunteering'
-    culture_and_identity = 'culture_and_identity'
-    sports = 'sports'
-    hobbies = 'hobbies'
-
-    __display_names_mapping = {'stem': 'STEM & Technology', 'business': 'Business', 'volunteering': 'Volunteering',
-                               'culture_and_identity': 'Culture & Identity', 'sports': 'Sports', 'hobbies': 'Hobbies'}
-
-    @property
-    def img(self):
-        return f'/static/categories/{self.name}.png'
-
-    @property
-    def display_name(self):
-        return ClubCategory.__display_names_mapping[self.value]
+init_admin(app, db.session)
 
 
 @app.before_request
