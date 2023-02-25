@@ -2,6 +2,7 @@
 
 import json
 import os
+from db import Club
 
 categories_mapping = {
     'volunteering & honor societies': ClubCategory.volunteering,
