@@ -1,82 +1,7 @@
-<!doctype html>
-<html lang="en" data-bs-theme="light">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tino Clubs</title>
-    <link rel="icon" type="image/x-icon" href="/static/icons/dusty.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <style>
-        .gd-pink { background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); }
-        .gd-pink-blue {background-color: #FF3CAC;
-                      background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);}
-        .gd-green {background-color: #08AEEA; background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);}
-        .gd-dark-blue {background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);}
-        .gd-blue {background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%);}
-        .gd-red {background-image: linear-gradient(to right, #f43b47 0%, #453a94 100%);}
-        /* clears the ‘X’ from Internet Explorer */
-        input[type=search]::-ms-clear { display: none; width : 0; height: 0; }
-        input[type=search]::-ms-reveal { display: none; width : 0; height: 0; }
-        /* clears the ‘X’ from Chrome */
-        input[type="search"]::-webkit-search-decoration,
-        input[type="search"]::-webkit-search-cancel-button,
-        input[type="search"]::-webkit-search-results-button,
-        input[type="search"]::-webkit-search-results-decoration { display: none; }
-        .gd-text {
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            -moz-background-clip: text;
-            -moz-text-fill-color: transparent;
-        }
-    </style>
-</head>
+{% extends "base.html" %}
+{% set page_title = "Home" %}
 
-<body>
-
-<nav class="sticky-top navbar navbar-expand-lg navbar-dark gd-blue">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold me-xl-5" href="/">
-            <img src="/static/icons/dusty.png" width="32" height="32" class="me-1">
-            Tino Clubs
-        </a>
-        <form method="post" action="/search" class="w-50 d-lg-none position-relative">
-            <input name="search_query" type="search" class="form-input form-control" style="border-radius:20px"
-                   placeholder="Search your favorite clubs" value="" required>
-            <button class="btn position-absolute end-0 top-0" type="submit">
-                <i class="bi bi-search text-info"></i>
-            </button>
-        </form>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <div class="d-flex justify-content-between align-items-center w-100">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/categories">Categories</a>
-                    </li>
-                </ul>
-                <form method="post" action="/search" class="d-none d-lg-block position-relative w-50">
-                    <input name="search_query" type="search" class="form-input form-control"
-                           style="border-radius:20px" placeholder="Search your favorite clubs" value="" required>
-                    <button class="btn position-absolute end-0 top-0" type="submit">
-                        <i class="bi bi-search text-info"></i>
-                    </button>
-                </form>
-                <div class="form-check form-switch me-2 opacity-75">
-                    <input class="form-check-input" type="checkbox" role="switch" id="darkModeToggle">
-                    <label class="form-check-label text-white" for="darkModeToggle">Dark Mode</label>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
-
+{% block content %}
 <div class="container mt-3">
     <div class="row">
         <div class="col-12 col-lg-8">
@@ -231,9 +156,4 @@
         </div>
     </div>
 </div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-</body>
-
-</html>
+{% endblock %}

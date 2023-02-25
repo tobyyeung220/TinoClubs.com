@@ -15,24 +15,23 @@ def before_request():
 
 @app.route('/')
 def home_page():
-    return render_template('base.html')
-    # return render_template('home.html')
+    return render_template('home.html')
 
 
 @app.route('/club/<hyphened_club_name>')
-def each_club_page(hyphened_club_name: str):
+def club_page(hyphened_club_name: str):
     return render_template('club.html')
 
 
 @app.route('/categories')
-def club_categories_page():
+def categories_page():
     return render_template('categories.html')
 
 
 @app.route('/search', methods=['GET', 'POST'])
 @app.route('/search/<search_query>')
-def search_clubs_page(search_query: str = None):
-    ...
+def search_page(search_query: str = None):
+    return render_template('search.html')
 
 
 if __name__ == '__main__':
