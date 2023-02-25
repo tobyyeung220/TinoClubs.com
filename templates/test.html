@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tino Clubs</title>
+    <link rel="icon" type="image/x-icon" href="/static/icons/dusty.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        .gd-pink { background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); }
+        .gd-pink-blue {background-color: #FF3CAC;
+                      background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);}
+        .gd-green {background-color: #08AEEA; background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);}
+        .gd-dark-blue {background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);}
+        .gd-blue {background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%);}
+        .gd-red {background-image: linear-gradient(to right, #f43b47 0%, #453a94 100%);}
+        /* clears the ‘X’ from Internet Explorer */
+        input[type=search]::-ms-clear { display: none; width : 0; height: 0; }
+        input[type=search]::-ms-reveal { display: none; width : 0; height: 0; }
+        /* clears the ‘X’ from Chrome */
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration { display: none; }
+        .gd-text {
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-background-clip: text;
+            -moz-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="sticky-top navbar navbar-expand-lg navbar-dark gd-blue">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">
+            <img src="/static/icons/dusty.png" width="32" height="32" class="me-1">
+            Tino Clubs
+        </a>
+        <form method="post" action="/search" class="w-50 d-lg-none position-relative">
+            <input name="search_query" type="search" class="form-input form-control" style="border-radius:20px"
+                   placeholder="Search your favorite clubs" value="" required>
+            <button class="btn position-absolute end-0 top-0" type="submit">
+                <i class="bi bi-search text-info"></i>
+            </button>
+        </form>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/categories">Categories</a>
+                    </li>
+                </ul>
+                <form method="post" action="/search" style="width:42%" class="d-none d-lg-block position-relative">
+                    <input name="search_query" type="search" class="form-input form-control"
+                           style="border-radius:20px" placeholder="Search your favorite clubs" value="" required>
+                    <button class="btn position-absolute end-0 top-0" type="submit">
+                        <i class="bi bi-search text-info"></i>
+                    </button>
+                </form>
+                <div class="d-flex align-items-center">
+                    <div class="form-check form-switch me-2 opacity-75">
+                        <input class="form-check-input" type="checkbox" role="switch" id="darkModeToggle">
+                        <label class="form-check-label text-white" for="darkModeToggle">Dark Mode</label>
+                    </div>
+                    <a href="/profile">
+                        <img src="/static/icons/google_signin_button.png" class="img-fluid" style="max-height:48px">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            <div class="d-flex align-items-center">
+                <img src="/static/icons/bsu.png" class="img-fluid rounded-pill img-thumbnail"
+                     style="max-width:140px;max-height:140px">
+                <div class="ms-5">
+                    <p class="text-secondary mb-1">aka. BSU</p>
+                    <h1 class="fw-bold gd-text gd-pink-blue">Black Student Union</h1>
+                </div>
+            </div>
+            <div class="d-flex mt-4" style="flex-wrap: wrap;">
+                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Cultural Club</span>
+                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Everyone is Welcome to Join</span>
+                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Meeting this Tuesday</span>
+                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Black Lives Matter</span>
+                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Student Union</span>
+            </div>
+            <div class="container-fluid px-3 mt-4 text-secondary">
+                <p>The Purpose of Black Student Union is to:</p>
+                <ol>
+                    <li>Provide a safe space for everyone on our campus, with a heavy emphasis on the little population
+                        of black students on our campus
+                    </li>
+                    <li>Inform, educate, and advise Cupertino High, as well as our community, on issues that heavily
+                        affect the black community
+                    </li>
+                </ol>
+                <p>BSU is a judgment-free, safe, validating environment, where mental health, self-acceptance, and
+                    acknowledgment are made to prosper.</p>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card shadow-sm rounded-3" style="border:0px">
+                <div class="card-body">
+                    <p class="card-subtitle text-secondary">BSU Meets</p>
+                    <h5 class="card-title mt-2 gd-text gd-pink-blue">Every Other Tuesday Lunch @ Room 6222</h5>
+                </div>
+            </div>
+            <div class="mt-4 card shadow-sm rounded-3" style="border:0px">
+                <div class="card-body">
+                    <p class="card-subtitle text-secondary">Reach out to BSU</p>
+                    <a class="px-0 d-flex mt-3 text-decoration-none" href="https://www.instagram.com/tino.bsu/" target="_blank">
+                        <div style="width:36px;height:36px"><img src="/static/icons/instagram_icon.webp" class="img-fluid"></div>
+                        <p class="ms-3 gd-text gd-pink">@tino.bsu</p>
+                    </a>
+                    <a class="px-0 d-flex mt-3 text-decoration-none" href="https://discord.com/invite/ZCFuQMyS" target="_blank">
+                        <div style="width:36px;height:36px"><img src="/static/icons/discord_icon.png" class="img-fluid"></div>
+                        <p class="ms-3">ZCFuQMyS</p>
+                    </a>
+                    <a class="px-0 d-flex mt-3 text-decoration-none" href="mailto:blacksu.chs@gmail.com" target="_blank">
+                        <div style="width:36px;height:36px"><img src="/static/icons/gmail_icon.png" class="img-fluid"></div>
+                        <p class="ms-3 text-danger">blacksu.chs@gmail.com</p>
+                    </a>
+                    <a class="px-0 d-flex mt-3 text-decoration-none" href="https://linktr.ee/bsu.at.chsu" target="_blank">
+                        <div style="width:36px;height:36px"><img src="/static/icons/linktree_icon.png" class="img-fluid"></div>
+                        <p class="ms-3 gd-text gd-green">linktr.ee/bsu.at.chsu</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <h4 class="fw-bold gd-text gd-pink-blue">Club Leadership</h4>
+    <div class="px-2 row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-3">
+        <div class="col">
+            <div class="card shadow-sm rounded-pill" style="border:0px;max-width:420px">
+                <div class="d-flex align-items-center ps-4">
+                    <img src="/static/icons/jenny_padgett.jpeg" class="img-fluid rounded-pill" style="height:88px">
+                    <div>
+                        <div class="card-body">
+                            <p class="text-secondary mb-1">Club Advisor</p>
+                            <h5 class="card-title">Ms. Jenny Padgett</h5>
+                            <a href="mailto:jenny_padgett@fuhsd.org" class="text-decoration-none text-info">jenny_padgett@fuhsd.org</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow-sm rounded-pill" style="border:0px;max-width:420px">
+                <div class="d-flex align-items-center ps-4">
+                    <img src="/static/icons/person_icon.png" class="img-fluid" style="height:100px">
+                    <div>
+                        <div class="card-body">
+                            <p class="text-secondary mb-1">Co-President</p>
+                            <h5 class="card-title">Rochelle Awuah</h5>
+                            <a href="mailto:rawuah461@student.fuhsd.org" class="text-decoration-none text-info">rawuah461@student.fuhsd.org</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow-sm rounded-pill" style="border:0px;max-width:420px">
+                <div class="d-flex align-items-center ps-4">
+                    <img src="/static/icons/person_icon.png" class="img-fluid" style="height:100px">
+                    <div>
+                        <div class="card-body">
+                            <p class="text-secondary mb-1">Co-President</p>
+                            <h5 class="card-title">Liza Thorpe</h5>
+                            <a href="mailto:athorpe227@student.fuhsd.org" class="text-decoration-none text-info">athorpe227@student.fuhsd.org</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <h4 class="fw-bold gd-text gd-pink-blue">Other Cultural Clubs</h4>
+    <div class="px-2 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3">
+        <div class="col">
+            <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
+                <img src="/static/icons/lsu_icon.jpeg" class="card-img-top" style="max-width:280px;max-height:280px">
+                <div class="card-body">
+                    <h5 class="card-title">LatinX Student Union</h5>
+                    <a href="#" class="btn btn-primary rounded-3">See More Info</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
+                <img src="/static/icons/kasa_icon.jpeg" class="card-img-top" style="max-width:280px;max-height:280px">
+                <div class="card-body">
+                    <h5 class="card-title">Korean American Student Association</h5>
+                    <a href="#" class="btn btn-primary rounded-3">See More Info</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
+                <img src="/static/icons/saha_icon.jpeg" class="card-img-top" style="max-width:280px;max-height:280px">
+                <div class="card-body">
+                    <h5 class="card-title">South Asian Heritage Association</h5>
+                    <a href="#" class="btn btn-primary rounded-3">See More Info</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
+                <img src="/static/icons/nchs_icon.jpeg" class="card-img-top" style="max-width:280px;max-height:280px">
+                <div class="card-body">
+                    <h5 class="card-title">National Chinese Honor Society</h5>
+                    <a href="#" class="btn btn-primary rounded-3">See More Info</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+
+</html>
