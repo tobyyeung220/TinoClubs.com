@@ -1,18 +1,22 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
+import uuid
 
 app = Flask(__name__)
+app.secret_key = uuid.uuid4().hex
 
 
 @app.before_request
 def before_request():
-    if request.args.get('toggleDarkmode'):
-        session.setdefault('isDarkmode', not session.get('isDarkmode', False))
+    if 'toggleDarkMode' in request.args:
+        session['isDarkMode'] = not session.get('isDarkMode', False)
+        return redirect(request.path)
     session.permanent = True
 
 
 @app.route('/')
 def home_page():
-    return render_template('home.html')
+    return render_template('base.html')
+    # return render_template('home.html')
 
 
 @app.route('/club/<hyphened_club_name>')
