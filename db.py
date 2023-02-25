@@ -1,6 +1,6 @@
 import enum
-import json
 from flask_sqlalchemy import SQLAlchemy
+import json
 
 
 class ClubCategory(enum.Enum):
@@ -28,7 +28,7 @@ db = SQLAlchemy()  # "app: Flask" argument will be passed into later during main
 
 class Club(db.Model):
     __tablename__ = 'club'
-    name = db.Column(db.String, primary_key=True, index=True)
+    name = db.Column(db.String, primary_key=True, index=True, nullable=False)
     aka = db.Column(db.String, index=True)  # can be null
     category = db.Column(db.Enum(ClubCategory), nullable=False, index=True)
     description = db.Column(db.Text, nullable=False)  # will be rendered as markdown
@@ -50,3 +50,9 @@ class Club(db.Model):
     @property
     def leaderships(self) -> list[dict]:
         return json.loads(self.raw_leaderships)
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_club = cls(**kwargs)
+        db.session.merge(new_club)
+        db.session.commit()
