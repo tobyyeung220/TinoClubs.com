@@ -36,7 +36,7 @@
 
 <nav class="sticky-top navbar navbar-expand-lg navbar-dark gd-blue">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="/">
+        <a class="navbar-brand fw-bold me-xl-5" href="/">
             <img src="/static/icons/dusty.png" width="32" height="32" class="me-1">
             Tino Clubs
         </a>
@@ -61,21 +61,16 @@
                         <a class="nav-link" href="/categories">Categories</a>
                     </li>
                 </ul>
-                <form method="post" action="/search" style="width:42%" class="d-none d-lg-block position-relative">
+                <form method="post" action="/search" class="d-none d-lg-block position-relative w-50">
                     <input name="search_query" type="search" class="form-input form-control"
                            style="border-radius:20px" placeholder="Search your favorite clubs" value="" required>
                     <button class="btn position-absolute end-0 top-0" type="submit">
                         <i class="bi bi-search text-info"></i>
                     </button>
                 </form>
-                <div class="d-flex align-items-center">
-                    <div class="form-check form-switch me-2 opacity-75">
-                        <input class="form-check-input" type="checkbox" role="switch" id="darkModeToggle">
-                        <label class="form-check-label text-white" for="darkModeToggle">Dark Mode</label>
-                    </div>
-                    <a href="/profile">
-                        <img src="/static/icons/google_signin_button.png" class="img-fluid" style="max-height:48px">
-                    </a>
+                <div class="form-check form-switch me-2 opacity-75">
+                    <input class="form-check-input" type="checkbox" role="switch" id="darkModeToggle">
+                    <label class="form-check-label text-white" for="darkModeToggle">Dark Mode</label>
                 </div>
             </div>
         </div>
@@ -126,19 +121,19 @@
                     <p class="card-subtitle text-secondary">Reach out to BSU</p>
                     <a class="px-0 d-flex mt-3 text-decoration-none" href="https://www.instagram.com/tino.bsu/" target="_blank">
                         <div style="width:36px;height:36px"><img src="/static/icons/instagram_icon.webp" class="img-fluid"></div>
-                        <p class="ms-3 gd-text gd-pink">@tino.bsu</p>
+                        <p class="ms-3 text-secondary">@tino.bsu</p>
                     </a>
                     <a class="px-0 d-flex mt-3 text-decoration-none" href="https://discord.com/invite/ZCFuQMyS" target="_blank">
                         <div style="width:36px;height:36px"><img src="/static/icons/discord_icon.png" class="img-fluid"></div>
-                        <p class="ms-3">ZCFuQMyS</p>
+                        <p class="ms-3 text-secondary">ZCFuQMyS</p>
                     </a>
                     <a class="px-0 d-flex mt-3 text-decoration-none" href="mailto:blacksu.chs@gmail.com" target="_blank">
                         <div style="width:36px;height:36px"><img src="/static/icons/gmail_icon.png" class="img-fluid"></div>
-                        <p class="ms-3 text-danger">blacksu.chs@gmail.com</p>
+                        <p class="ms-3 text-secondary">blacksu.chs@gmail.com</p>
                     </a>
                     <a class="px-0 d-flex mt-3 text-decoration-none" href="https://linktr.ee/bsu.at.chsu" target="_blank">
                         <div style="width:36px;height:36px"><img src="/static/icons/linktree_icon.png" class="img-fluid"></div>
-                        <p class="ms-3 gd-text gd-green">linktr.ee/bsu.at.chsu</p>
+                        <p class="ms-3 text-secondary">linktr.ee/bsu.at.chsu</p>
                     </a>
                 </div>
             </div>
