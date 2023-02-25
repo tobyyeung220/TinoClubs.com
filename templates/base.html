@@ -8,12 +8,22 @@
 </form>
 {% endmacro %}
 
+{% macro club_card(name, icon_url) %}
+<div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
+    <img src="{{ icon_url }}" class="card-img-top" style="max-width:280px;max-height:280px">
+    <div class="card-body">
+        <h5 class="card-title">{{ name }}</h5>
+        <a href="/club/{{name.replace(' ', '-')}}" class="btn btn-primary rounded-3">See More Info</a>
+    </div>
+</div>
+{% endmacro %}
+
 <!doctype html>
 <html lang="en" data-bs-theme="{{'dark' if session.isDarkMode else 'light'}}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tino Clubs {{('.' + page_title) if page_title}}</title>
+    <title>Tino Clubs {{('| ' + page_title) if page_title}}</title>
     <link rel="icon" type="image/x-icon" href="/static/icons/dusty.png">
     <link rel="stylesheet" href="/static/style.css">
     <script src="/static/script.js"></script>

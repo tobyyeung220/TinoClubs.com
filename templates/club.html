@@ -1,6 +1,41 @@
 {% extends "base.html" %}
 {% set page_title = "Home" %}
 
+{% macro tag(text, color="info", margin="m-2", roundedness="rounded-3") %}
+<span class="badge {{margin}} text-{{color}} bg-{{color}} bg-opacity-10 border border-{{color}} border-opacity-10 {{roundedness}}">
+    {{ text }}
+</span>
+{% endmacro %}
+
+{% macro person_card(name, role, email, shadow="shadow-sm", roundedness="rounded-pill", max_width="420px") %}
+{% set available_avatar_bgs = ['primary', 'info', 'danger', 'warning', 'success'] %}
+<div class="card {{shadow}} {{roundedness}}" style="border:0px;max-width:{{max_width}}">
+    <div class="d-flex align-items-center ps-3">
+        <div style="width:90px;height:90px" class="text-center rounded-pill bg-{{available_avatar_bgs|random}}">
+            {% if name.split()|length >= 2 %}
+            <h1 style="margin-top:23%">{{name.split()[0][0] + name.split()[-1][0]}}</h1>
+            {% else %}
+            <h1 style="margin-top:23%">{{name.split()[0][0]}}</h1>
+            {% endif %}
+        </div>
+        <div>
+            <div class="card-body">
+                <p class="text-secondary mb-1">{{ role }}</p>
+                <h5 class="card-title">{{ name }}</h5>
+                <a href="mailto:{{email}}" class="text-decoration-none text-info"><small>{{ email }}</small></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro social_media(icon, url, text, margin_top="mt-3") %}
+<a class="{{margin_top}} px-0 d-flex text-decoration-none" href="{{url}}" target="_blank">
+    <div style="width:36px;height:36px"><img src="{{icon}}" class="img-fluid"></div>
+    <p class="ms-3 text-secondary">{{ text }}</p>
+</a>
+{% endmacro %}
+
 {% block content %}
 <div class="container mt-3">
     <div class="row">
@@ -14,11 +49,11 @@
                 </div>
             </div>
             <div class="d-flex mt-4" style="flex-wrap: wrap;">
-                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Cultural Club</span>
-                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Everyone is Welcome to Join</span>
-                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Meeting this Tuesday</span>
-                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Black Lives Matter</span>
-                <span class="m-2 badge text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-3">#Student Union</span>
+                {{ tag('#Cultural Club') }}
+                {{ tag('#Meeting this Tuesday!') }}
+                {{ tag('#Everyone is Welcome to Join') }}
+                {{ tag('#Black Lives Matter') }}
+                {{ tag('#Student Union') }}
             </div>
             <div class="container-fluid px-3 mt-4 text-secondary">
                 <p>The Purpose of Black Student Union is to:</p>
@@ -44,22 +79,10 @@
             <div class="mt-4 card shadow-sm rounded-3" style="border:0px">
                 <div class="card-body">
                     <p class="card-subtitle text-secondary">Reach out to BSU</p>
-                    <a class="px-0 d-flex mt-3 text-decoration-none" href="https://www.instagram.com/tino.bsu/" target="_blank">
-                        <div style="width:36px;height:36px"><img src="/static/icons/instagram_icon.webp" class="img-fluid"></div>
-                        <p class="ms-3 text-secondary">@tino.bsu</p>
-                    </a>
-                    <a class="px-0 d-flex mt-3 text-decoration-none" href="https://discord.com/invite/ZCFuQMyS" target="_blank">
-                        <div style="width:36px;height:36px"><img src="/static/icons/discord_icon.png" class="img-fluid"></div>
-                        <p class="ms-3 text-secondary">ZCFuQMyS</p>
-                    </a>
-                    <a class="px-0 d-flex mt-3 text-decoration-none" href="mailto:blacksu.chs@gmail.com" target="_blank">
-                        <div style="width:36px;height:36px"><img src="/static/icons/gmail_icon.png" class="img-fluid"></div>
-                        <p class="ms-3 text-secondary">blacksu.chs@gmail.com</p>
-                    </a>
-                    <a class="px-0 d-flex mt-3 text-decoration-none" href="https://linktr.ee/bsu.at.chsu" target="_blank">
-                        <div style="width:36px;height:36px"><img src="/static/icons/linktree_icon.png" class="img-fluid"></div>
-                        <p class="ms-3 text-secondary">linktr.ee/bsu.at.chsu</p>
-                    </a>
+                    {{ social_media("/static/icons/instagram_icon.webp", "https://www.instagram.com/tino.bsu/", "@tino.bsu") }}
+                    {{ social_media("/static/icons/discord_icon.png", "https://discord.com/invite/ZCFuQMyS", "ZCFuQMyS") }}
+                    {{ social_media("/static/icons/gmail_icon.png", "mailto:blacksu.chs@gmail.com", "blacksu.chs@gmail.com") }}
+                    {{ social_media("/static/icons/linktree_icon.png", "https://linktr.ee/bsu.at.chsu", "linktr.ee/bsu.at.chsu") }}
                 </div>
             </div>
         </div>
@@ -68,48 +91,15 @@
 
 <div class="container mt-4">
     <h4 class="fw-bold gd-text gd-pink-blue">Club Leadership</h4>
-    <div class="px-2 row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-3">
+    <div class="px-2 row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-4">
         <div class="col">
-            <div class="card shadow-sm rounded-pill" style="border:0px;max-width:420px">
-                <div class="d-flex align-items-center ps-4">
-                    <img src="/static/icons/jenny_padgett.jpeg" class="img-fluid rounded-pill" style="height:88px">
-                    <div>
-                        <div class="card-body">
-                            <p class="text-secondary mb-1">Club Advisor</p>
-                            <h5 class="card-title">Ms. Jenny Padgett</h5>
-                            <a href="mailto:jenny_padgett@fuhsd.org" class="text-decoration-none text-info">jenny_padgett@fuhsd.org</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ person_card("Jenny Padgett", "Club Advisor", "jenny_padgett@fuhsd.org") }}
         </div>
         <div class="col">
-            <div class="card shadow-sm rounded-pill" style="border:0px;max-width:420px">
-                <div class="d-flex align-items-center ps-4">
-                    <img src="/static/icons/person_icon.png" class="img-fluid" style="height:100px">
-                    <div>
-                        <div class="card-body">
-                            <p class="text-secondary mb-1">Co-President</p>
-                            <h5 class="card-title">Rochelle Awuah</h5>
-                            <a href="mailto:rawuah461@student.fuhsd.org" class="text-decoration-none text-info">rawuah461@student.fuhsd.org</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ person_card("Rochelle Awuah", "Co-President", "rawuah461@student.fuhsd.org") }}
         </div>
         <div class="col">
-            <div class="card shadow-sm rounded-pill" style="border:0px;max-width:420px">
-                <div class="d-flex align-items-center ps-4">
-                    <img src="/static/icons/person_icon.png" class="img-fluid" style="height:100px">
-                    <div>
-                        <div class="card-body">
-                            <p class="text-secondary mb-1">Co-President</p>
-                            <h5 class="card-title">Liza Thorpe</h5>
-                            <a href="mailto:athorpe227@student.fuhsd.org" class="text-decoration-none text-info">athorpe227@student.fuhsd.org</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ person_card("Liza Thorpe", "Co-President", "athorpe227@student.fuhsd.org") }}
         </div>
     </div>
 </div>
@@ -119,40 +109,16 @@
     <h4 class="fw-bold gd-text gd-pink-blue">Other Cultural Clubs</h4>
     <div class="px-2 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3">
         <div class="col">
-            <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
-                <img src="/static/icons/lsu_icon.jpeg" class="card-img-top" style="max-width:280px;max-height:280px">
-                <div class="card-body">
-                    <h5 class="card-title">LatinX Student Union</h5>
-                    <a href="#" class="btn btn-primary rounded-3">See More Info</a>
-                </div>
-            </div>
+            {{ club_card("LatinX Student Union", "/static/icons/lsu_icon.jpeg") }}
         </div>
         <div class="col">
-            <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
-                <img src="/static/icons/kasa_icon.jpeg" class="card-img-top" style="max-width:280px;max-height:280px">
-                <div class="card-body">
-                    <h5 class="card-title">Korean American Student Association</h5>
-                    <a href="#" class="btn btn-primary rounded-3">See More Info</a>
-                </div>
-            </div>
+            {{ club_card("Korean American Student Association", "/static/icons/kasa_icon.jpeg") }}
         </div>
         <div class="col">
-            <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
-                <img src="/static/icons/saha_icon.jpeg" class="card-img-top" style="max-width:280px;max-height:280px">
-                <div class="card-body">
-                    <h5 class="card-title">South Asian Heritage Association</h5>
-                    <a href="#" class="btn btn-primary rounded-3">See More Info</a>
-                </div>
-            </div>
+            {{ club_card("South Asian Heritage Association", "/static/icons/saha_icon.jpeg") }}
         </div>
         <div class="col">
-            <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
-                <img src="/static/icons/nchs_icon.jpeg" class="card-img-top" style="max-width:280px;max-height:280px">
-                <div class="card-body">
-                    <h5 class="card-title">National Chinese Honor Society</h5>
-                    <a href="#" class="btn btn-primary rounded-3">See More Info</a>
-                </div>
-            </div>
+            {{ club_card("National Chinese Honor Society", "/static/icons/nchs_icon.jpeg") }}
         </div>
     </div>
 </div>
