@@ -28,16 +28,16 @@ db = SQLAlchemy()  # "app: Flask" argument will be passed into later during main
 
 class Club(db.Model):
     __tablename__ = 'club'
-    name = db.Column(db.String, primary_key=True)
-    aka = db.Column(db.String)  # can be null
-    category = db.Column(db.Enum(ClubCategory), nullable=False)
+    name = db.Column(db.String, primary_key=True, index=True)
+    aka = db.Column(db.String, index=True)  # can be null
+    category = db.Column(db.Enum(ClubCategory), nullable=False, index=True)
     description = db.Column(db.Text, nullable=False)  # will be rendered as markdown
     meeting_time = db.Column(db.String, nullable=False)
     meeting_location = db.Column(db.String, nullable=False)
-    raw_tags = db.Column(db.String, nullable=False)  # comma separated
+    raw_tags = db.Column(db.String, nullable=False, index=True)  # comma separated
     raw_social_medias = db.Column(db.String, nullable=False)  # JSON array; see admin.py for allowed values
     raw_leaderships = db.Column(db.String, nullable=False)  # JSON array; see admin.py for allowed values
-    is_new = db.Column(db.Boolean, nullable=False)
+    is_new = db.Column(db.Boolean, nullable=False, index=True)
 
     @property
     def tags(self) -> list[str]:
