@@ -55,7 +55,7 @@
                     {% if club.aka %}
                     <p class="text-secondary mb-1">aka. {{ club.aka }}</p>
                     {% endif %}
-                    <h1 class="fw-bold {{'gd-pink gd-text' if club.is_new else 'gd-text gd-blue'}}">{{ club.name }}</h1>
+                    <h1 class="fw-bold {{'gd-pink gd-text' if club.is_new}}">{{ club.name }}</h1>
                 </div>
             </div>
             <div class="d-flex mt-4" style="flex-wrap: wrap;">
@@ -89,7 +89,7 @@
 </div>
 
 <div class="container mt-4">
-    <h4 class="fw-bold gd-text gd-blue">Club Leadership</h4>
+    <h5>Club Leadership</h5>
     <div class="px-2 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
         {% for person in club.leaderships %}
         <div class="col">
@@ -102,7 +102,7 @@
 
 <div class="container mt-3 mt-lg-5">
     <div class="d-flex justify-content-between mb-4">
-        <h4 class="fw-bold gd-text gd-blue">Other {{club.category.display_name}} Clubs</h4>
+        <h5>Other {{club.category.display_name}} Clubs</h5>
         <a href="/explore#{{club.category.value}}" class="text-decoration-none">See More</a>
     </div>
     {{ club_cards_grid(overviews_of_same_category_clubs) }}
