@@ -3,6 +3,7 @@ from flask import redirect
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
 from db import Club
+import os
 
 
 class ClubModelView(ModelView):
@@ -42,3 +43,6 @@ def init_admin(app, db_session):
     tino_clubs_admin.add_view(ClubModelView(Club, db_session, name="Manage Clubs"))
     tino_clubs_admin.add_view(FileAdmin('./static/club', name='Manage Club Logos'))
 
+
+def is_valid_admin_credentials(auth):
+    return auth and auth.username == os.environ['ADMIN_USERNAME'] and auth.password == os.environ['ADMIN_PASSWORD']

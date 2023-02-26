@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect
 import uuid
 from db import db, ClubCategory, Club, GetClubNames
-from admin import init_admin
+from admin import init_admin, is_valid_admin_credentials
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
@@ -17,6 +17,9 @@ init_admin(app, db.session)
 
 @app.before_request
 def before_request():
+    if request.path.startswith('/admin'):
+        if not is_valid_admin_credentials(request.authorization):
+            return 'Unauthorized', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'}
     if 'toggleDarkMode' in request.args:
         session['isDarkMode'] = not session.get('isDarkMode', False)
         return redirect(request.path)
@@ -39,12 +42,14 @@ def home_page():
 @app.route('/club/<hyphened_club_name>')
 def club_page(hyphened_club_name: str):
     club_name = hyphened_club_name.replace('-', ' ')
-    club_data = db.get_or_404(Club, club_name, description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
+    club_data = db.get_or_404(Club, club_name,
+                              description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
     session.setdefault('recently_viewed', [])
     session['recently_viewed'] = [club_name] + [prev_club for prev_club in session['recently_viewed'] if
                                                 prev_club != club_name][:7]
     return render_template('club.html', club=club_data,
-                           names_of_same_category_clubs=GetClubNames.from_category(club_data.category, limit=4, exclude_name=club_name))
+                           names_of_same_category_clubs=GetClubNames.from_category(club_data.category, limit=4,
+                                                                                   exclude_name=club_name))
 
 
 @app.route('/explore')
