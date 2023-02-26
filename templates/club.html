@@ -1,12 +1,6 @@
 {% extends "base.html" %}
 {% set page_title = club.name %}
 
-{% macro tag(text, color="info", margin="m-2", roundedness="rounded-3") %}
-<span class="badge {{margin}} text-{{color}} bg-{{color}} bg-opacity-10 border border-{{color}} border-opacity-10 {{roundedness}}">
-    {{ text }}
-</span>
-{% endmacro %}
-
 {% macro person_card(name, role, email, shadow="shadow-sm", roundedness="rounded-pill") %}
 {% set available_avatar_bgs = ['primary', 'info', 'danger', 'warning', 'success'] %}
 <div class="card {{shadow}} {{roundedness}}" style="border:0px">

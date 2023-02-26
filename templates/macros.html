@@ -1,0 +1,41 @@
+{% macro searchbar(responsive_class, placeholder, current_query) %}
+<form method="post" action="/search" class="{{responsive_class}} position-relative">
+    <input name="search_query" type="search" class="form-input form-control" style="border-radius:20px"
+           placeholder="{{placeholder}}" value="{{current_query}}" required>
+    <button class="btn position-absolute end-0 top-0" type="submit">
+        <i class="bi bi-search text-info"></i>
+    </button>
+</form>
+{% endmacro %}
+
+{% macro tag(text, color="info", margin="m-2", roundedness="rounded-3") %}
+<span class="badge {{margin}} text-{{color}} bg-{{color}} bg-opacity-10 border border-{{color}} border-opacity-10 {{roundedness}}">
+    {{ text }}
+</span>
+{% endmacro %}
+
+{% macro club_card(overview, btn_class="text-decoration-none") %}
+<div class="card shadow-sm rounded-3 h-100" style="border:0px">
+    <div class="card-body p-0 alignment-placeholder"></div>
+    <img src="{{overview.img_url}}" class="card-img-top" style="max-width:280px;max-height:280px">
+    <div class="card-body p-0 alignment-placeholder"></div>
+    <div class="card-body">
+        {% if overview.aka %}
+        <small class="text-secondary">aka. {{ overview.aka }}</small>
+        {% endif %}
+        <h5 class="card-title">{{ overview.name }}</h5>
+        <a href="{{overview.page_url}}" class="{{btn_class}} stretched-link">See More Info</a>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro club_cards_grid(club_overviews, margin="px-3 px-lg-5", row_cols="row-cols-2 row-cols-lg-3 row-cols-xl-4",
+                        gutter="g-3 g-md-5", btn_class="text-decoration-none", display_category=False) %}
+<div class="row {{margin}} {{row_cols}} {{gutter}}">
+    {% for overview in club_overviews %}
+    <div class="col">
+        {{ club_card(overview, btn_class=btn_class) }}
+    </div>
+    {% endfor %}
+    </div>
+{% endmacro %}
