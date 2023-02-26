@@ -44,7 +44,7 @@ def club_page(hyphened_club_name: str):
     session['recently_viewed'] = [club_name] + [prev_club for prev_club in session['recently_viewed'] if
                                                 prev_club != club_name][:7]
     return render_template('club.html', club=club_data,
-                           names_of_same_category_clubs=GetClubNames.from_category(club_data.category, limit=4))
+                           names_of_same_category_clubs=GetClubNames.from_category(club_data.category, limit=4, exclude_name=club_name))
 
 
 @app.route('/explore')

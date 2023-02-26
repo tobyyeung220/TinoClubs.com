@@ -80,10 +80,13 @@ class GetClubNames:
 
     @classmethod
     @reduce_to_scalar
-    def from_category(cls, category: ClubCategory, limit: int = None, offset=0) -> list[str]:
-        if limit is not None:
-            return Club.query.with_entities(Club.name).filter_by(category=category).limit(limit).offset(offset)
-        return Club.query.with_entities(Club.name).filter_by(category=category)
+    def from_category(cls, category: ClubCategory, limit: int = None, offset=0, exclude_name: str = None) -> list[str]:
+        sql = Club.query.with_entities(Club.name).filter_by(category=category)
+        if exclude_name:
+            sql = sql.filter(Club.name != exclude_name)
+        if limit is None:
+            return sql
+        return sql.limit(limit).offset(offset)
 
     @classmethod
     @reduce_to_scalar
@@ -93,7 +96,7 @@ class GetClubNames:
     @classmethod
     @reduce_to_scalar
     def from_search_query(cls, search_query: str) -> list[str]:
-        return Club.query.with_entities(Club.name)\
+        return Club.query.with_entities(Club.name) \
             .filter(or_(*[field.like('%' + search_query + '%') for field in cls.fulltext_matchable_fields])).all()
 
     @classmethod
