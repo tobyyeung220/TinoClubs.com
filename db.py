@@ -132,6 +132,7 @@ class GetClubOverviews:
     @classmethod
     @encode_to_overview
     def from_search_query(cls, search_query: str) -> list[str]:
+        search_query = search_query.lower().strip()
         return cls.sql_base() \
             .filter(or_(*[field.like('%' + search_query + '%') for field in cls.fulltext_matchable_fields]))\
             .order_by(*cls.order_by_clauses).all()

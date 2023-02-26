@@ -1,7 +1,7 @@
 {% macro searchbar(responsive_class, placeholder, current_query) %}
 <form method="post" action="/search" class="{{responsive_class}} position-relative">
     <input name="search_query" type="search" class="form-input form-control" style="border-radius:20px"
-           placeholder="{{placeholder}}" value="{{current_query}}" required>
+           placeholder="{{placeholder}}" value="{{current_query}}" required maxlength="60">
     <button class="btn position-absolute end-0 top-0" type="submit">
         <i class="bi bi-search text-info"></i>
     </button>
