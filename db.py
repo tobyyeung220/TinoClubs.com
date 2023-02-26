@@ -77,18 +77,16 @@ class GetClubNames:
 
     @classmethod
     @reduce_to_single_field
-    def by_category(cls, category: ClubCategory, limit: int, offset=0) -> list[Club]:
-        return Club.query.with_entities(Club.name).filter_by(category=category).limit(limit).offset(offset)
+    def by_category(cls, category: ClubCategory, limit: int = None, offset=0) -> list[str]:
+        if limit is not None:
+            return Club.query.with_entities(Club.name).filter_by(category=category).limit(limit).offset(offset)
+        return Club.query.with_entities(Club.name).filter_by(category=category)
 
     @classmethod
-    def new_clubs(cls) -> list[Club]:
+    def new_clubs(cls) -> list[str]:
         ...
 
     @classmethod
-    def all_alphabetically_ordered(cls) -> list[Club]:
-        ...
-
-    @classmethod
-    def by_search_query(cls, search_query: str) -> list[Club]:
+    def by_search_query(cls, search_query: str) -> list[str]:
         ...
 

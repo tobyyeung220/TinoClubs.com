@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% set page_title = "Home" %}
+{% set page_title = club.name %}
 
 {% macro tag(text, color="info", margin="m-2", roundedness="rounded-3") %}
 <span class="badge {{margin}} text-{{color}} bg-{{color}} bg-opacity-10 border border-{{color}} border-opacity-10 {{roundedness}}">
@@ -78,7 +78,7 @@
 </div>
 
 <div class="container mt-4">
-    <h4 class="fw-bold gd-text gd-pink-blue">Club Leadership</h4>
+    <h4 class="fw-bold gd-text gd-blue">Club Leadership</h4>
     <div class="px-2 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
         {% for person in club.leaderships %}
         <div class="col">
@@ -91,8 +91,8 @@
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between">
-        <h4 class="fw-bold gd-text gd-pink-blue">Other {{club.category.display_name}} Clubs</h4>
-        <a href="/explore/{{club.category.value}}" class="text-decoration-none">See More</a>
+        <h4 class="fw-bold gd-text gd-blue">Other {{club.category.display_name}} Clubs</h4>
+        <a href="/explore#{{club.category.value}}" class="text-decoration-none">See More</a>
     </div>
     <div class="px-2 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3">
         {% for name in names_of_same_category_clubs %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% set page_title = "Home" %}
+{% set page_title = "Explore" %}
 
 {% block content %}
 
@@ -12,12 +12,25 @@
                 <div class="card-body p-0 m-0"></div>
                 <div class="card-body pt-4 pb-2 px-2 px-md-3">
                     <small class="card-title fw-bold">{{ category.display_name }}</small>
-                    <a href="/explore/{{category.value}}" class="stretched-link"></a>
+                    <a href="/explore#{{category.value}}" class="stretched-link"></a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+
+{% for category in ClubCategory %}
+<a id="{{category.value}}"></a>
+<div class="container mt-5">
+    <h5>{{category.display_name}} Clubs</h5>
+    <div class="px-2 px-lg-4 row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3">
+        {% for club_name in clubs_of_category[category] %}
+        <div class="col">{{ club_card(club_name) }}</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endfor %}
 
 {% endblock %}

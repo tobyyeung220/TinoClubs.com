@@ -40,7 +40,8 @@ def club_page(hyphened_club_name: str):
 
 @app.route('/explore')
 def explore_page():
-    return render_template('explore.html', ClubCategory=ClubCategory)
+    clubs_of_category = {category: GetClubNames.by_category(category) for category in ClubCategory}
+    return render_template('explore.html', ClubCategory=ClubCategory, clubs_of_category=clubs_of_category)
 
 
 @app.route('/search', methods=['GET', 'POST'])
