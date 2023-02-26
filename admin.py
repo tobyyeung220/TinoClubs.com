@@ -16,6 +16,7 @@ class ClubModelView(ModelView):
 
     column_display_pk = True
     column_descriptions = {
+        'name': 'Club name must NOT contain hyphen - !',
         'description_in_markdown': 'This will be rendered as markdown',
         'tags_separated_by_comma': 'Please separate this field by comma with NO SPACE. Example: #Recruiting,#NewClub,#JoinNow',
         'social_medias_in_json': 'Please follow a JSON array format of: [{"name": String, "url": String, "text": String}]'
