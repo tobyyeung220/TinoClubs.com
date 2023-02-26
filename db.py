@@ -1,6 +1,6 @@
 import enum
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 import json
 
 
@@ -96,3 +96,7 @@ class GetClubNames:
         return Club.query.with_entities(Club.name)\
             .filter(or_(*[field.like('%' + search_query + '%') for field in cls.fulltext_matchable_fields])).all()
 
+    @classmethod
+    @reduce_to_scalar
+    def random(cls, limit: int) -> list[str]:
+        return Club.query.with_entities(Club.name).order_by(func.random()).limit(limit)

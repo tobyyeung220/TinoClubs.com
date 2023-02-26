@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect
+import random
+import os
 import uuid
 from db import db, ClubCategory, Club, GetClubNames
 from admin import init_admin
@@ -30,7 +32,10 @@ def page_not_found(e):
 
 @app.route('/')
 def home_page():
-    return render_template('home.html', new_club_names=GetClubNames.new_clubs())
+    total_clubs_cnt = Club.query.count()
+    random_club_names = GetClubNames.random(10)
+    return render_template('home.html', new_club_names=GetClubNames.new_clubs(),
+                           total_clubs_cnt=total_clubs_cnt, random_club_names=random_club_names)
 
 
 @app.route('/club/<hyphened_club_name>')
