@@ -13,9 +13,9 @@
     <div class="d-flex align-items-center ps-2">
         <div style="width:60px;height:60px" class="text-center rounded-pill bg-{{available_avatar_bgs|random}}">
             {% if name.split()|length >= 2 %}
-            <h3 style="margin-top:23%">{{name.split()[0][0] + name.split()[-1][0]}}</h3>
+            <h3 style="margin-top:23%" class="text-white">{{name.split()[0][0] + name.split()[-1][0]}}</h3>
             {% else %}
-            <h3 style="margin-top:23%">{{name.split()[0][0]}}</h3>
+            <h3 style="margin-top:23%" class="text-white">{{name.split()[0][0]}}</h3>
             {% endif %}
         </div>
         <div>
@@ -31,12 +31,12 @@
 {% macro social_media(icon, url, text, margin_top="mt-3") %}
 <a class="{{margin_top}} px-0 d-flex text-decoration-none" href="{{url}}" target="_blank">
     <div style="width:36px;height:36px"><img src="{{icon}}" class="img-fluid"></div>
-    <p class="ms-3 text-secondary">{{ text }}</p>
+    <p class="ms-3 text-primary">{{ text }}</p>
 </a>
 {% endmacro %}
 
 {% block content %}
-<div class="container mt-3">
+<div class="container mt-3 mt-lg-5">
     <div class="row">
         <div class="col-12 col-lg-8">
             <div class="d-flex align-items-center">
@@ -46,7 +46,7 @@
                     {% if club.aka %}
                     <p class="text-secondary mb-1">aka. {{ club.aka }}</p>
                     {% endif %}
-                    <h1 class="fw-bold gd-text gd-pink-blue">{{ club.name }}</h1>
+                    <h1 class="fw-bold gd-text gd-blue">{{ club.name }}</h1>
                 </div>
             </div>
             <div class="d-flex mt-4" style="flex-wrap: wrap;">
