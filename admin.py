@@ -20,7 +20,7 @@ class ClubModelView(ModelView):
         'tags_separated_by_comma': 'Please separate this field by comma with NO SPACE. Example: #Recruiting,#NewClub,#JoinNow',
         'social_medias_in_json': 'Please follow a JSON array format of: [{"name": String, "url": String, "text": String}]'
                              '\nExample: [{"name": "instagram", "url": "https://instagram.com/iamjiamingliu", "text": "@iamjiamingliu"}, {"name": "email", "url": "mailto:jiamingliu888@gmail.com", "text": "jiamingliu888@gmail.com"}]'
-                             '\n"name" can be: "instagram", "facebook", "discord", "email", "tiktok", "bereal", "linktree", "twitter", "youtube", "pinterest", "linkedin", "reddit", "twitch", "website"'
+                             '\n"name" can be anything as long as its .webp is in "Manage Social Media Icons"'
                              '\nIf "name" is "website", then the url should be the url of the club\' own website',
         'leaderships_in_json': 'Please follow a JSON array format of: [{"name": String, "role": String}]'
                            '\nExample: [{"name": "Jiaming Liu", "role": "President"}]'
@@ -39,7 +39,11 @@ class RedirectToClubDB(AdminIndexView):
 
 
 class FileAdmin2(FileAdmin):
-    ...   # kinda dumb...
+    ...
+
+
+class FileAdmin3(FileAdmin):
+    ...
 
 
 def init_admin(app, db_session):
@@ -47,6 +51,7 @@ def init_admin(app, db_session):
     tino_clubs_admin.add_view(ClubModelView(Club, db_session, name="Manage Clubs"))
     tino_clubs_admin.add_view(FileAdmin('./static/club', name='Manage Club Logos'))
     tino_clubs_admin.add_view(FileAdmin2('./static/thumb', name='Manage Club Thumbnails'))
+    tino_clubs_admin.add_view(FileAdmin3('./static/social_medias', name='Manage Social Medias Icons'))
 
 
 def is_valid_admin_credentials(auth):

@@ -38,7 +38,7 @@ class Club(db.Model):
 
         @property
         def icon_url(self):
-            return '/static/social_medias/' + self.name + '.png'
+            return '/static/social_medias/' + self.name + '.webp'
 
     __tablename__ = 'club'
     name = db.Column(db.String, primary_key=True, index=True, nullable=False)
