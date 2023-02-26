@@ -34,13 +34,13 @@
 </head>
 
 <body>
-<nav class="sticky-top navbar navbar-expand-lg navbar-dark gd-blue">
+<nav class="sticky-top navbar navbar-expand-md navbar-dark gd-blue">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold me-xl-5" href="/">
             <img src="/static/icons/dusty.png" width="32" height="32" class="me-1">
-            Tino Clubs
+            <span class="d-none d-md-inline">Tino Clubs</span>
         </a>
-        {{ searchbar("d-lg-none", "Search", current_query) }}
+        {{ searchbar("d-md-none", "Search", current_query) }}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -55,7 +55,7 @@
                         <a class="nav-link" href="/explore">Explore</a>
                     </li>
                 </ul>
-                {{ searchbar("d-none d-lg-block w-50", "Search your favorite clubs", current_query) }}
+                {{ searchbar("d-none d-md-inline w-50", "Search your favorite clubs", current_query) }}
                 <form class="form-check form-switch me-2 opacity-75">
                     <input class="form-check-input" type="checkbox" role="switch" id="darkModeToggle"
                            onchange="toggleDarkMode()" {{'checked' if session.isDarkMode}}>
