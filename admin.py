@@ -10,11 +10,11 @@ class ClubModelView(ModelView):
     def __init__(self, model, *args, **kwargs):
         self.column_list = [c.key for c in model.__table__.columns]
         self.form_columns = self.column_list
+        self.column_searchable_list = self.column_list
+        self.column_filters = self.column_list
         super(ClubModelView, self).__init__(model, *args, **kwargs)
 
     column_display_pk = True
-    column_searchable_list = ['name', 'aka', 'description_in_markdown', 'meeting_time', 'meeting_location', 'tags_separated_by_comma', 'social_medias_in_json', 'leaderships_in_json']
-    column_filters = ['category', 'is_new']
     column_descriptions = {
         'description_in_markdown': 'This will be rendered as markdown',
         'tags_separated_by_comma': 'Please separate this field by comma with NO SPACE. Example: #Recruiting,#NewClub,#JoinNow',
