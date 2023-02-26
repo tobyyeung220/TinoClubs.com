@@ -16,10 +16,11 @@
 <link rel="stylesheet" href="/static/roller.css">
 
 <div class="gd-blue">
-    <div class="row">
+    <!-- relative -60 to counter the bottom wave offset -->
+    <div class="row" style="position:relative;bottom:-60px">
         <div class="col-12 col-lg-5">
             <div class="container text-white ps-3 ps-lg-5">
-                <h3 class="pt-2 pt-lg-5">{{total_clubs_cnt}} Clubs,</h3>
+                <h3 class="">{{total_clubs_cnt}} Clubs,</h3>
                 <h1 class="fw-bold">Infinite Possibilities</h1>
                 <a class="mt-4 btn btn-lg rounded-pill text-white bg-primary" href="/explore">
                     Explore Tino Clubs <i class="bi bi-arrow-right"></i>
@@ -28,7 +29,7 @@
         </div>
         <div class="d-none d-lg-inline col-lg-7">
             <div class="container px-0">
-                <div class="pt-4 rollers position-relative overflow-hidden">
+                <div class="rollers position-relative overflow-hidden">
                     <div class="wrapper">
                         {{ scrolling_club_circles("roll-LL", random_club_names[:random_club_names|length//2]) }}
                         {{ scrolling_club_circles("roll-RL", random_club_names[:random_club_names|length//2]) }}
@@ -43,7 +44,7 @@
     </div>
 </div>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 240" style="margin-top:-1px">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 240" style="margin-top:-1px" class="mb-4 mb-sm-0">
     <defs>
         <linearGradient id="gd-blue-fill" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" style="stop-color:#0acffe;stop-opacity:1"/>

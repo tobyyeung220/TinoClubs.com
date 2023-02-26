@@ -8,7 +8,9 @@
         {% for category in ClubCategory %}
         <div class="col d-flex justify-content-center">
             <div class="card shadow-sm rounded-3" style="border:0px">
-                <img src="{{ category.img }}" class="card-img-top pt-4 px-4 pt-md-5 px-md-5">
+                <div class="text-center pt-4 px-4 pt-md-5 px-md-5">
+                    <img src="{{ category.img }}" class="img-fluid">
+                </div>
                 <div class="card-body p-0 m-0"></div>
                 <div class="card-body pt-4 pb-2 px-2 px-md-3">
                     <small class="card-title fw-bold">{{ category.display_name }}</small>

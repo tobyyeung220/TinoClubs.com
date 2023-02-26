@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request, session, redirect
-import random
-import os
 import uuid
 from db import db, ClubCategory, Club, GetClubNames
 from admin import init_admin
