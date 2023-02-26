@@ -2,3 +2,4 @@ flask==2.2.3
 flask-sqlalchemy==3.0.3
 sqlalchemy==1.4.46
 flask-admin==1.6.1
+markdown2==2.4.8

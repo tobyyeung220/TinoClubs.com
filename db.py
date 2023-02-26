@@ -2,6 +2,7 @@ import enum
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_, func
 import json
+import markdown2
 
 
 class ClubCategory(enum.Enum):
@@ -42,25 +43,29 @@ class Club(db.Model):
     name = db.Column(db.String, primary_key=True, index=True, nullable=False)
     aka = db.Column(db.String, index=True)
     category = db.Column(db.Enum(ClubCategory), nullable=False, index=True)
-    description = db.Column(db.Text)  # will be rendered as markdown
+    description_in_markdown = db.Column(db.Text)
     meeting_time = db.Column(db.String, nullable=False)
     meeting_location = db.Column(db.String, nullable=False)
-    raw_tags = db.Column(db.String, index=True)  # comma separated
-    raw_social_medias = db.Column(db.String)  # JSON array; see admin.py for allowed values
-    raw_leaderships = db.Column(db.String)  # JSON array; see admin.py for allowed values
+    tags_separated_by_comma = db.Column(db.String, index=True)
+    social_medias_in_json = db.Column(db.String)  # visit /admin for acceptable data format
+    leaderships_in_json = db.Column(db.String)  # visit /admin for acceptable data format
     is_new = db.Column(db.Boolean, index=True)
 
     @property
+    def description(self) -> str:
+        return markdown2.markdown(self.description_in_markdown)
+
+    @property
     def tags(self) -> list[str]:
-        return self.raw_tags.split()
+        return self.tags_separated_by_comma.split()
 
     @property
     def social_medias(self) -> list[SocialMedia]:
-        return [self.SocialMedia(**d) for d in json.loads(self.raw_social_medias or "[]")]
+        return [self.SocialMedia(**d) for d in json.loads(self.social_medias_in_json or "[]")]
 
     @property
     def leaderships(self) -> list[dict]:
-        return json.loads(self.raw_leaderships or "[]")
+        return json.loads(self.leaderships_in_json or "[]")
 
     @classmethod
     def create(cls, **kwargs):
@@ -70,8 +75,8 @@ class Club(db.Model):
 
 
 class GetClubNames:
-    fulltext_matchable_fields = [Club.name, Club.aka, Club.category, Club.raw_tags]
-    order_by_clauses = [Club.is_new.desc(), (func.length(Club.description) * func.length(Club.raw_social_medias).desc())]
+    fulltext_matchable_fields = [Club.name, Club.aka, Club.category, Club.tags_separated_by_comma]
+    order_by_clauses = [Club.is_new.desc(), (func.length(Club.description_in_markdown) * func.length(Club.social_medias_in_json).desc())]
 
     @staticmethod
     def reduce_to_scalar(func):
