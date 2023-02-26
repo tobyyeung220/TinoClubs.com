@@ -30,6 +30,10 @@
 {% endmacro %}
 
 {% block content %}
+{% if club.is_new %}
+<div class="gd-pink text-center text-white">{{ club.name }} is a new club!</div>
+{% endif %}
+
 <div class="container mt-3 mt-lg-4">
     <div class="row">
         <div class="col-12 col-lg-8">
@@ -51,7 +55,7 @@
                     {% if club.aka %}
                     <p class="text-secondary mb-1">aka. {{ club.aka }}</p>
                     {% endif %}
-                    <h1 class="fw-bold gd-text gd-blue">{{ club.name }}</h1>
+                    <h1 class="fw-bold {{'gd-pink gd-text' if club.is_new else 'gd-text gd-blue'}}">{{ club.name }}</h1>
                 </div>
             </div>
             <div class="d-flex mt-4" style="flex-wrap: wrap;">
