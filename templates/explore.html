@@ -24,7 +24,7 @@
 <a id="{{category.value}}"></a>
 <div class="container mt-3 mt-lg-5">
     <h5>{{category.display_name}} Clubs</h5>
-    <div class="px-2 px-lg-4 row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3">
+    <div class="mt-3 px-3 px-lg-5 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3 g-md-5">
         {% for club_name in clubs_of_category[category] %}
         <div class="col">{{ club_card(club_name) }}</div>
         {% endfor %}

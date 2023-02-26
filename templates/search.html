@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container mt-3 mt-lg-5">
     <h5>{{ matching_club_names | length }} results found for {{ search_query }}</h5>
-    <div class="px-2 px-lg-4 row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3">
+    <div class="mt-3 px-3 px-lg-5 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3 g-md-5">
         {% for club_name in matching_club_names %}
         <div class="col">{{ club_card(club_name) }}</div>
         {% endfor %}

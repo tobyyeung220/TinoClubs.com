@@ -61,13 +61,13 @@
         <div class="col-12 col-lg-4">
             <div class="card shadow-sm rounded-3" style="border:0px">
                 <div class="card-body">
-                    <p class="card-subtitle text-secondary">{{ club.aka if club.aka else club.name }} Meets</p>
+                    <p class="card-subtitle text-secondary">{{ club.name }} Meets</p>
                     <h5 class="card-title mt-2 gd-text gd-pink-blue">{{ club.meeting_time }} @ {{ club.meeting_location }}</h5>
                 </div>
             </div>
             <div class="mt-4 card shadow-sm rounded-3" style="border:0px">
                 <div class="card-body">
-                    <p class="card-subtitle text-secondary">Reach out to BSU</p>
+                    <p class="card-subtitle text-secondary">Reach out to {{ club.name}}</p>
                     {% for media in club.social_medias %}
                     {{ social_media(media.icon_url, media.url, media.text) }}
                     {% endfor %}
@@ -94,7 +94,7 @@
         <h4 class="fw-bold gd-text gd-blue">Other {{club.category.display_name}} Clubs</h4>
         <a href="/explore#{{club.category.value}}" class="text-decoration-none">See More</a>
     </div>
-    <div class="px-2 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3">
+    <div class="mt-3 px-3 px-lg-5 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3 g-md-5">
         {% for name in names_of_same_category_clubs %}
         <div class="col">{{ club_card(name) }}</div>
         {% endfor %}
