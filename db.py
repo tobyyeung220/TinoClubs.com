@@ -71,6 +71,7 @@ class Club(db.Model):
 
 class GetClubNames:
     fulltext_matchable_fields = [Club.name, Club.aka, Club.category, Club.raw_tags]
+    order_by_clauses = [Club.is_new.desc(), (func.length(Club.description) * func.length(Club.raw_social_medias).desc())]
 
     @staticmethod
     def reduce_to_scalar(func):
@@ -81,7 +82,7 @@ class GetClubNames:
     @classmethod
     @reduce_to_scalar
     def from_category(cls, category: ClubCategory, limit: int = None, offset=0, exclude_name: str = None) -> list[str]:
-        sql = Club.query.with_entities(Club.name).filter_by(category=category)
+        sql = Club.query.with_entities(Club.name).filter_by(category=category).order_by(*cls.order_by_clauses)
         if exclude_name:
             sql = sql.filter(Club.name != exclude_name)
         if limit is None:
@@ -97,7 +98,8 @@ class GetClubNames:
     @reduce_to_scalar
     def from_search_query(cls, search_query: str) -> list[str]:
         return Club.query.with_entities(Club.name) \
-            .filter(or_(*[field.like('%' + search_query + '%') for field in cls.fulltext_matchable_fields])).all()
+            .filter(or_(*[field.like('%' + search_query + '%') for field in cls.fulltext_matchable_fields]))\
+            .order_by(*cls.order_by_clauses).all()
 
     @classmethod
     @reduce_to_scalar
