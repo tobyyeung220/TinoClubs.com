@@ -8,15 +8,26 @@
 </form>
 {% endmacro %}
 
-{% macro club_card(name, btn_class="text-decoration-none") %}
-<div class="card shadow-sm rounded-3 h-100" style="border:0px;max-width:280px">
+{% macro club_card(overview, btn_class="text-decoration-none") %}
+<div class="card shadow-sm rounded-3 h-100" style="border:0px">
     <div class="card-body p-0 alignment-placeholder"></div>
-    <img src="/static/club/{{name.replace(' ', '-')}}.jpg" class="card-img-top" style="max-width:280px;max-height:280px">
+    <img src="{{overview.img_url}}" class="card-img-top" style="max-width:280px;max-height:280px">
     <div class="card-body">
-        <h5 class="card-title">{{ name }}</h5>
-        <a href="/club/{{name.replace(' ', '-')}}" class="{{btn_class}} stretched-link">See More Info</a>
+        <h5 class="card-title">{{ overview.name }}</h5>
+        <a href="{{overview.page_url}}" class="{{btn_class}} stretched-link">See More Info</a>
     </div>
 </div>
+{% endmacro %}
+
+{% macro club_cards_grid(club_overviews, margin="mt-3 px-3 px-lg-5", row_cols="row-cols-2 row-cols-lg-3 row-cols-xl-4",
+                        gutter="g-3 g-md-5", btn_class="text-decoration-none", display_category=False) %}
+<div class="row {{margin}} {{row_cols}} {{gutter}}">
+    {% for overview in club_overviews %}
+    <div class="col">
+        {{ club_card(overview, btn_class=btn_class) }}
+    </div>
+    {% endfor %}
+    </div>
 {% endmacro %}
 
 <!doctype html>

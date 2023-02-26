@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% set page_title = "Home" %}
 
-{% macro scrolling_club_circles(scrolling_class, club_names) %}
+{% macro scrolling_club_circles(scrolling_class, club_overviews) %}
 <div class="items-container {{scrolling_class}}">
-    {% for name in club_names %}
-    <a class="item" href="/club/{{name}}" target="_blank">
-        <img src="/static/club/{{name.replace(' ', '-')}}.jpg" class="club rounded-pill"
-             style="max-width:100px;max-height:100px">
+    {% for overview in club_overviews %}
+    <a class="item" href="{{overview.page_url}}" target="_blank">
+        <img src="{{overview.img_url}}" class="club rounded-pill" style="max-width:100px;max-height:100px">
     </a>
     {% endfor %}
 </div>
@@ -55,22 +54,16 @@
           d="M0,224L48,208C96,192,192,160,288,144C384,128,480,128,576,149.3C672,171,768,213,864,197.3C960,181,1056,107,1152,85.3C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
 </svg>
 
-{% if session.recently_viewed %}
+{% if recently_viewed %}
 <div class="container" style="margin-top:-12px">
     <p class="text-center text-secondary">Your Recently Viewed</p>
-    <div class="mt-3 px-3 px-lg-5 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3 g-md-5">
-    {% for club_name in session.recently_viewed %}
-    <div class="col">
-        {{ club_card(club_name) }}
-    </div>
-    {% endfor %}
-    </div>
+    {{ club_cards_grid(recently_viewed) }}
 </div>
 {% endif %}
 
 {% if new_club_names %}
 <div class="container" style="margin-top:-12px">
-    {% if session.recently_viewed %}<hr class="mt-5">{% endif %}
+    {% if recently_viewed %}<hr class="mt-5">{% endif %}
     <h3 class="text-center fw-bold gd-text gd-pink mb-3">New Clubs!</h3>
     <div class="mt-3 px-3 px-lg-5 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3 g-md-5">
     {% for club_name in new_club_names %}

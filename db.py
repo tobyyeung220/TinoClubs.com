@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_, func
 import json
 import markdown2
+from dataclasses import dataclass, asdict
 
 
 class ClubCategory(enum.Enum):
@@ -74,20 +75,49 @@ class Club(db.Model):
         db.session.commit()
 
 
-class GetClubNames:
+@dataclass
+class ClubOverview:
+    name: str
+    category: ClubCategory
+    aka: str
+    is_new: bool
+
+    @property
+    def hyphened_name(self):
+        return self.name.replace(' ', '-')
+
+    @property
+    def img_url(self):
+        return '/static/club/' + self.hyphened_name + '.jpg'
+
+    @property
+    def page_url(self):
+        return '/club/' + self.hyphened_name
+
+    def dict(self):
+        dict_data = asdict(self)
+        dict_data['category'] = dict_data['category'].value
+        return dict_data
+
+
+class GetClubOverviews:
     fulltext_matchable_fields = [Club.name, Club.aka, Club.category, Club.tags_separated_by_comma]
     order_by_clauses = [Club.is_new.desc(), (func.length(Club.description_in_markdown) * func.length(Club.social_medias_in_json).desc())]
 
     @staticmethod
-    def reduce_to_scalar(func):
+    def encode_to_overview(func):
         def inner(*args, **kwargs):
-            return [row[0] for row in func(*args, **kwargs)]
+            return [ClubOverview(*row) for row in func(*args, **kwargs)]
         return inner
 
     @classmethod
-    @reduce_to_scalar
-    def from_category(cls, category: ClubCategory, limit: int = None, offset=0, exclude_name: str = None) -> list[str]:
-        sql = Club.query.with_entities(Club.name).filter_by(category=category).order_by(*cls.order_by_clauses)
+    def sql_base(cls):
+        return Club.query.with_entities(Club.name, Club.category, Club.aka, Club.is_new)
+
+    @classmethod
+    @encode_to_overview
+    def from_category(cls, category: ClubCategory, limit: int = None, offset=0, exclude_name: str = None) -> list[ClubOverview]:
+        sql = cls.sql_base().filter_by(category=category).order_by(*cls.order_by_clauses)
         if exclude_name:
             sql = sql.filter(Club.name != exclude_name)
         if limit is None:
@@ -95,18 +125,18 @@ class GetClubNames:
         return sql.limit(limit).offset(offset)
 
     @classmethod
-    @reduce_to_scalar
+    @encode_to_overview
     def new_clubs(cls) -> list[str]:
-        return Club.query.with_entities(Club.name).filter_by(is_new=True)
+        return cls.sql_base().filter_by(is_new=True)
 
     @classmethod
-    @reduce_to_scalar
+    @encode_to_overview
     def from_search_query(cls, search_query: str) -> list[str]:
-        return Club.query.with_entities(Club.name) \
+        return cls.sql_base() \
             .filter(or_(*[field.like('%' + search_query + '%') for field in cls.fulltext_matchable_fields]))\
             .order_by(*cls.order_by_clauses).all()
 
     @classmethod
-    @reduce_to_scalar
+    @encode_to_overview
     def random(cls, limit: int) -> list[str]:
-        return Club.query.with_entities(Club.name).order_by(func.random()).limit(limit)
+        return cls.sql_base().order_by(func.random()).limit(limit)

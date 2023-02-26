@@ -55,7 +55,7 @@
                 {% endfor %}
             </div>
             <div class="container-fluid px-3 mt-4 text-secondary">
-                <p>{{ club.description }}</p>
+                {{ club.description|safe }}
             </div>
         </div>
         <div class="col-12 col-lg-4">

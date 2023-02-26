@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect
 import uuid
-from db import db, ClubCategory, Club, GetClubNames
+from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
 from admin import init_admin, is_valid_admin_credentials
 
 app = Flask(__name__)
@@ -34,8 +34,9 @@ def page_not_found(e):
 @app.route('/')
 def home_page():
     total_clubs_cnt = Club.query.count()
-    random_club_names = GetClubNames.random(10)
-    return render_template('home.html', new_club_names=GetClubNames.new_clubs(),
+    random_club_names = GetClubOverviews.random(10)
+    recently_viewed = [ClubOverview(**d) for d in session.get('recently_viewed', [])]
+    return render_template('home.html', new_club_names=GetClubOverviews.new_clubs(), recently_viewed=recently_viewed,
                            total_clubs_cnt=total_clubs_cnt, random_club_names=random_club_names)
 
 
@@ -44,17 +45,19 @@ def club_page(hyphened_club_name: str):
     club_name = hyphened_club_name.replace('-', ' ')
     club_data = db.get_or_404(Club, club_name,
                               description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
+
     session.setdefault('recently_viewed', [])
-    session['recently_viewed'] = [club_name] + [prev_club for prev_club in session['recently_viewed'] if
-                                                prev_club != club_name][:7]
-    return render_template('club.html', club=club_data,
-                           names_of_same_category_clubs=GetClubNames.from_category(club_data.category, limit=4,
-                                                                                   exclude_name=club_name))
+    current_overview = ClubOverview(club_name, club_data.category, club_data.aka, club_data.is_new)
+    prev_overviews = [prev for prev in session['recently_viewed'] if prev['name'] != club_name]
+    session['recently_viewed'] = [current_overview.dict()] + prev_overviews[:7]
+
+    same_category_clubs = GetClubOverviews.from_category(club_data.category, limit=4, exclude_name=club_name)
+    return render_template('club.html', club=club_data, overviews_of_same_category_clubs=same_category_clubs)
 
 
 @app.route('/explore')
 def explore_page():
-    clubs_of_category = {category: GetClubNames.from_category(category) for category in ClubCategory}
+    clubs_of_category = {category: GetClubOverviews.from_category(category) for category in ClubCategory}
     return render_template('explore.html', ClubCategory=ClubCategory, clubs_of_category=clubs_of_category)
 
 
@@ -64,7 +67,7 @@ def search_page(search_query: str = None):
     if request.method == 'POST':
         return redirect('/search/' + request.form.get('search_query'))
     return render_template('search.html', search_query=search_query,
-                           matching_club_names=GetClubNames.from_search_query(search_query))
+                           matching_club_names=GetClubOverviews.from_search_query(search_query))
 
 
 if __name__ == '__main__':
