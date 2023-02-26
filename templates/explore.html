@@ -4,14 +4,14 @@
 {% block content %}
 
 <div class="container d-flex justify-content-center mt-4">
-    <div class="px-2 row row-cols-2 row-cols-md-3 g-4 g-lg-5" style="max-width:800px">
+    <div class="row row-cols-3 row-cols-lg-6 g-2 g-md-4 g-xl-5 px-xl-4">
         {% for category in ClubCategory %}
         <div class="col d-flex justify-content-center">
-            <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
-                <img src="{{ category.img }}" class="card-img-top p-5">
+            <div class="card shadow-sm rounded-3" style="border:0px">
+                <img src="{{ category.img }}" class="card-img-top pt-4 px-4 pt-md-5 px-md-5">
                 <div class="card-body p-0 m-0"></div>
-                <div class="card-body pt-0">
-                    <h5 class="card-title">{{ category.display_name }}</h5>
+                <div class="card-body pt-4 pb-2 px-2 px-md-3">
+                    <small class="card-title fw-bold">{{ category.display_name }}</small>
                     <a href="/explore/{{category.value}}" class="stretched-link"></a>
                 </div>
             </div>
