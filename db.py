@@ -73,24 +73,25 @@ class GetClubNames:
     fulltext_matchable_fields = [Club.name, Club.aka, Club.category, Club.raw_tags]
 
     @staticmethod
-    def reduce_to_single_field(func):
+    def reduce_to_scalar(func):
         def inner(*args, **kwargs):
             return [row[0] for row in func(*args, **kwargs)]
         return inner
 
     @classmethod
-    @reduce_to_single_field
+    @reduce_to_scalar
     def from_category(cls, category: ClubCategory, limit: int = None, offset=0) -> list[str]:
         if limit is not None:
             return Club.query.with_entities(Club.name).filter_by(category=category).limit(limit).offset(offset)
         return Club.query.with_entities(Club.name).filter_by(category=category)
 
     @classmethod
+    @reduce_to_scalar
     def new_clubs(cls) -> list[str]:
-        ...
+        return Club.query.with_entities(Club.name).filter_by(is_new=True)
 
     @classmethod
-    @reduce_to_single_field
+    @reduce_to_scalar
     def from_search_query(cls, search_query: str) -> list[str]:
         return Club.query.with_entities(Club.name)\
             .filter(or_(*[field.like('%' + search_query + '%') for field in cls.fulltext_matchable_fields])).all()

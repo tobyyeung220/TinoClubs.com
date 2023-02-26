@@ -146,6 +146,21 @@
         {{ club_card(club_name) }}
     </div>
     {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if new_club_names %}
+<div class="container" style="margin-top:-12px">
+    {% if session.recently_viewed %}<hr class="mt-5">{% endif %}
+    <h3 class="text-center fw-bold gd-text gd-pink mb-3">New Clubs!</h3>
+    <div class="px-2 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3">
+    {% for club_name in new_club_names %}
+    <div class="col">
+        {{ club_card(club_name, btn_class="btn btn-sm gd-pink text-white rounded-pill") }}
+    </div>
+    {% endfor %}
+    </div>
 </div>
 {% endif %}
 

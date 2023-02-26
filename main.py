@@ -30,7 +30,7 @@ def page_not_found(e):
 
 @app.route('/')
 def home_page():
-    return render_template('home.html')
+    return render_template('home.html', new_club_names=GetClubNames.new_clubs())
 
 
 @app.route('/club/<hyphened_club_name>')

@@ -8,12 +8,12 @@
 </form>
 {% endmacro %}
 
-{% macro club_card(name) %}
+{% macro club_card(name, btn_class="text-decoration-none") %}
 <div class="card shadow-sm rounded-3" style="border:0px;max-width:280px">
     <img src="/static/club/{{name.replace(' ', '-')}}.jpg" class="card-img-top" style="max-width:280px;max-height:280px">
     <div class="card-body">
         <h5 class="card-title">{{ name }}</h5>
-        <a href="/club/{{name.replace(' ', '-')}}" class="btn btn-sm btn-primary rounded-pill">See More Info</a>
+        <a href="/club/{{name.replace(' ', '-')}}" class="{{btn_class}}">See More Info</a>
     </div>
 </div>
 {% endmacro %}
