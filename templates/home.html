@@ -7,8 +7,8 @@
     <div class="container text-white ps-5">
         <h3 class="pt-2 pt-lg-5">70+ Clubs,</h3>
         <h1 class="fw-bold">Infinite Possibilities</h1>
-        <a class="mt-4 btn btn-lg rounded-pill text-white bg-primary" href="/categories">
-            Discover Tino Clubs <i class="bi bi-arrow-right"></i>
+        <a class="mt-4 btn btn-lg rounded-pill text-white bg-primary" href="/explore">
+            Explore Tino Clubs <i class="bi bi-arrow-right"></i>
         </a>
     </div>
 </div>
@@ -24,7 +24,7 @@
           d="M0,224L48,208C96,192,192,160,288,144C384,128,480,128,576,149.3C672,171,768,213,864,197.3C960,181,1056,107,1152,85.3C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
 </svg>
 
-
+{% if session.recently_viewed %}
 <div class="container" style="margin-top:-12px">
     <p class="text-center text-secondary">Your Recently Viewed</p>
     <div class="px-2 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3">
@@ -34,5 +34,6 @@
     </div>
     {% endfor %}
 </div>
+{% endif %}
 
 {% endblock %}

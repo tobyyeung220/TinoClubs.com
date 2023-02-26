@@ -33,14 +33,14 @@ def club_page(hyphened_club_name: str):
     club_name = hyphened_club_name.replace('-', ' ')
     session.setdefault('recently_viewed', [])
     session['recently_viewed'] = [club_name] + [prev_club for prev_club in session['recently_viewed'] if prev_club != club_name][:7]
-    club_data = Club.from_club_name(club_name)
+    club_data = db.get_or_404(Club, club_name)
     return render_template('club.html', club=club_data,
                            names_of_same_category_clubs=GetClubNames.by_category(club_data.category, limit=4))
 
 
-@app.route('/categories')
-def categories_page():
-    return render_template('categories.html', ClubCategory=ClubCategory)
+@app.route('/explore')
+def explore_page():
+    return render_template('explore.html', ClubCategory=ClubCategory)
 
 
 @app.route('/search', methods=['GET', 'POST'])

@@ -3,8 +3,6 @@
 
 {% block content %}
 
-<h3 class="fw-bold text-center mt-3 gd-text gd-pink-blue">Explore Clubs by Category</h3>
-
 <div class="container d-flex justify-content-center mt-4">
     <div class="px-2 row row-cols-2 row-cols-md-3 g-4 g-lg-5" style="max-width:800px">
         {% for category in ClubCategory %}
@@ -14,7 +12,7 @@
                 <div class="card-body p-0 m-0"></div>
                 <div class="card-body pt-0">
                     <h5 class="card-title">{{ category.display_name }}</h5>
-                    <a href="/categories/{{category.value}}" class="stretched-link"></a>
+                    <a href="/explore/{{category.value}}" class="stretched-link"></a>
                 </div>
             </div>
         </div>

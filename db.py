@@ -67,10 +67,6 @@ class Club(db.Model):
         db.session.merge(new_club)
         db.session.commit()
 
-    @classmethod
-    def from_club_name(cls, club_name: str) -> 'Club':
-        return cls.query.filter_by(name=club_name).first()
-
 
 class GetClubNames:
     @staticmethod
