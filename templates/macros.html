@@ -17,8 +17,8 @@
 {% macro club_card(overview, btn_class="text-decoration-none", display_category=False) %}
 <div class="card shadow-sm rounded-3 h-100" style="border:0px">
     <div class="card-body p-0 alignment-placeholder"></div>
-    <div class="position-relative">
-        <img data-src="{{overview.img_url}}" class="card-img-top lazyload" style="max-width:280px;max-height:280px">
+    <div class="position-relative bg-white rounded-3">
+        <img src="{{overview.thumb_url}}" data-src="{{overview.img_url}}" class="card-img-top lazyload" style="max-width:280px;max-height:280px">
         <div class="position-absolute bottom-0 end-0">
             {% if overview.is_new %} {{ tag("NEW", color="warning", margin="m-1") }} {% endif %}
             {% if display_category %} {{ tag(overview.category.display_name, margin="m-1") }} {% endif %}

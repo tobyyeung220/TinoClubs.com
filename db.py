@@ -87,6 +87,10 @@ class ClubOverview:
         return self.name.replace(' ', '-')
 
     @property
+    def thumb_url(self):
+        return '/static/thumb/' + self.hyphened_name + '.jpg'
+
+    @property
     def img_url(self):
         return '/static/club/' + self.hyphened_name + '.jpg'
 
