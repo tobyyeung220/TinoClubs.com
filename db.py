@@ -1,5 +1,6 @@
 import enum
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 import json
 
 
@@ -55,11 +56,11 @@ class Club(db.Model):
 
     @property
     def social_medias(self) -> list[SocialMedia]:
-        return [self.SocialMedia(**d) for d in json.loads(self.raw_social_medias)]
+        return [self.SocialMedia(**d) for d in json.loads(self.raw_social_medias or "[]")]
 
     @property
     def leaderships(self) -> list[dict]:
-        return json.loads(self.raw_leaderships)
+        return json.loads(self.raw_leaderships or "[]")
 
     @classmethod
     def create(cls, **kwargs):
@@ -69,6 +70,8 @@ class Club(db.Model):
 
 
 class GetClubNames:
+    fulltext_matchable_fields = [Club.name, Club.aka, Club.category, Club.raw_tags]
+
     @staticmethod
     def reduce_to_single_field(func):
         def inner(*args, **kwargs):
@@ -77,7 +80,7 @@ class GetClubNames:
 
     @classmethod
     @reduce_to_single_field
-    def by_category(cls, category: ClubCategory, limit: int = None, offset=0) -> list[str]:
+    def from_category(cls, category: ClubCategory, limit: int = None, offset=0) -> list[str]:
         if limit is not None:
             return Club.query.with_entities(Club.name).filter_by(category=category).limit(limit).offset(offset)
         return Club.query.with_entities(Club.name).filter_by(category=category)
@@ -87,6 +90,8 @@ class GetClubNames:
         ...
 
     @classmethod
-    def by_search_query(cls, search_query: str) -> list[str]:
-        ...
+    @reduce_to_single_field
+    def from_search_query(cls, search_query: str) -> list[str]:
+        return Club.query.with_entities(Club.name)\
+            .filter(or_(*[field.like('%' + search_query + '%') for field in cls.fulltext_matchable_fields])).all()
 

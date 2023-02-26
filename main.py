@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, url_for
 import uuid
 from db import db, ClubCategory, Club, GetClubNames
 from admin import init_admin
@@ -35,19 +35,22 @@ def club_page(hyphened_club_name: str):
     session['recently_viewed'] = [club_name] + [prev_club for prev_club in session['recently_viewed'] if prev_club != club_name][:7]
     club_data = db.get_or_404(Club, club_name)
     return render_template('club.html', club=club_data,
-                           names_of_same_category_clubs=GetClubNames.by_category(club_data.category, limit=4))
+                           names_of_same_category_clubs=GetClubNames.from_category(club_data.category, limit=4))
 
 
 @app.route('/explore')
 def explore_page():
-    clubs_of_category = {category: GetClubNames.by_category(category) for category in ClubCategory}
+    clubs_of_category = {category: GetClubNames.from_category(category) for category in ClubCategory}
     return render_template('explore.html', ClubCategory=ClubCategory, clubs_of_category=clubs_of_category)
 
 
 @app.route('/search', methods=['GET', 'POST'])
 @app.route('/search/<search_query>')
 def search_page(search_query: str = None):
-    return render_template('search.html')
+    if request.method == 'POST':
+        return redirect('/search/' + request.form.get('search_query'))
+    return render_template('search.html', search_query=search_query,
+                           matching_club_names=GetClubNames.from_search_query(search_query))
 
 
 if __name__ == '__main__':

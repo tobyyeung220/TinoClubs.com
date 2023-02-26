@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% set page_title = "Search" %}
+{% set current_query = search_query %}
 
 {% block content %}
-
+<div class="container mt-3 mt-lg-5">
+    <h5>{{ matching_club_names | length }} results found for {{ search_query }}</h5>
+    <div class="px-2 px-lg-4 row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3">
+        {% for club_name in matching_club_names %}
+        <div class="col">{{ club_card(club_name) }}</div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

@@ -22,7 +22,7 @@
 
 {% for category in ClubCategory %}
 <a id="{{category.value}}"></a>
-<div class="container mt-5">
+<div class="container mt-3 mt-lg-5">
     <h5>{{category.display_name}} Clubs</h5>
     <div class="px-2 px-lg-4 row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3">
         {% for club_name in clubs_of_category[category] %}
