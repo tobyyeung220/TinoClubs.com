@@ -30,10 +30,21 @@
 {% endmacro %}
 
 {% block content %}
-<div class="container mt-3 mt-lg-5">
+<div class="container mt-3 mt-lg-4">
     <div class="row">
         <div class="col-12 col-lg-8">
-            <div class="d-flex align-items-center">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item">
+                        <a href="/explore#{{club.category.value}}" class="text-decoration-none">
+                            {{club.category.display_name}}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{club.name}}</li>
+                </ol>
+            </nav>
+            <div class="d-flex align-items-center mt-lg-4">
                 <img src="/static/club/{{club.name.replace(' ', '-')}}.jpg" class="img-fluid rounded-pill img-thumbnail"
                      style="max-width:140px;max-height:140px">
                 <div class="ms-5">
