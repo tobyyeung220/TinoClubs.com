@@ -14,10 +14,16 @@
 </span>
 {% endmacro %}
 
-{% macro club_card(overview, btn_class="text-decoration-none") %}
+{% macro club_card(overview, btn_class="text-decoration-none", display_category=False) %}
 <div class="card shadow-sm rounded-3 h-100" style="border:0px">
     <div class="card-body p-0 alignment-placeholder"></div>
-    <img src="{{overview.img_url}}" class="card-img-top" style="max-width:280px;max-height:280px">
+    <div class="position-relative">
+        <img src="{{overview.img_url}}" class="card-img-top" style="max-width:280px;max-height:280px">
+        <div class="position-absolute bottom-0 end-0">
+            {% if overview.is_new %} {{ tag("NEW", color="warning", margin="m-1") }} {% endif %}
+            {% if display_category %} {{ tag(overview.category.display_name, margin="m-1") }} {% endif %}
+        </div>
+    </div>
     <div class="card-body p-0 alignment-placeholder"></div>
     <div class="card-body">
         {% if overview.aka %}
@@ -29,12 +35,12 @@
 </div>
 {% endmacro %}
 
-{% macro club_cards_grid(club_overviews, margin="px-3 px-lg-5", row_cols="row-cols-2 row-cols-lg-3 row-cols-xl-4",
+{% macro club_cards_grid(club_overviews, margin="pt-3 px-3 px-lg-5", row_cols="row-cols-2 row-cols-lg-3 row-cols-xl-4",
                         gutter="g-3 g-md-5", btn_class="text-decoration-none", display_category=False) %}
 <div class="row {{margin}} {{row_cols}} {{gutter}}">
     {% for overview in club_overviews %}
     <div class="col">
-        {{ club_card(overview, btn_class=btn_class) }}
+        {{ club_card(overview, btn_class, display_category) }}
     </div>
     {% endfor %}
     </div>
