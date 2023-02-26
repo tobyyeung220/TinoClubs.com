@@ -24,6 +24,8 @@ class ClubModelView(ModelView):
         'raw_leaderships': 'Please follow a JSON array format of: [{"name": String, "role": String}]'
                            '\nExample: [{"name": "Jiaming Liu", "role": "President"}]'
     }
+    column_formatters = {'description': lambda v, c, m, p: m.description[:40] + ('...' if len(m.description) > 40 else '')
+                        }
 
 
 class RedirectToClubDB(AdminIndexView):
