@@ -47,11 +47,17 @@ class FileAdmin3(FileAdmin):
 
 
 def init_admin(app, db_session):
+    app.config['FLASK_ADMIN_SWATCH'] = 'darkly'
     tino_clubs_admin = Admin(app, name='Tino Clubs Admin', template_mode='bootstrap3', index_view=RedirectToClubDB())
     tino_clubs_admin.add_view(ClubModelView(Club, db_session, name="Manage Clubs"))
     tino_clubs_admin.add_view(FileAdmin('./static/club', name='Manage Club Logos'))
     tino_clubs_admin.add_view(FileAdmin2('./static/thumb', name='Manage Club Thumbnails'))
     tino_clubs_admin.add_view(FileAdmin3('./static/social_medias', name='Manage Social Medias Icons'))
+
+
+def assert_environ_are_valid():
+    assert 'ADMIN_USERNAME' in os.environ, 'ADMIN_USERNAME not in environmental variables'
+    assert 'ADMIN_PASSWORD' in os.environ, 'ADMIN_PASSWORD not in environmental variables'
 
 
 def is_valid_admin_credentials(auth):

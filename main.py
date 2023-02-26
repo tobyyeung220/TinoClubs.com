@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, session, redirect
 import uuid
 from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
-from admin import init_admin, is_valid_admin_credentials
+from admin import init_admin, is_valid_admin_credentials, assert_environ_are_valid
+
+
+assert_environ_are_valid()
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
