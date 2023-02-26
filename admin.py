@@ -25,7 +25,7 @@ class ClubModelView(ModelView):
         'leaderships_in_json': 'Please follow a JSON array format of: [{"name": String, "role": String}]'
                            '\nExample: [{"name": "Jiaming Liu", "role": "President"}]'
     }
-    column_formatters = {'description': lambda v, c, m, p: m.description_in_markdown[:40] + ('...' if len(m.description_in_markdown) > 40 else '')
+    column_formatters = {'description_in_markdown': lambda v, c, m, p: m.description_in_markdown[:40] + ('...' if len(m.description_in_markdown) > 40 else '')
                         }
 
 
@@ -38,10 +38,15 @@ class RedirectToClubDB(AdminIndexView):
         return redirect('./club')
 
 
+class FileAdmin2(FileAdmin):
+    ...   # kinda dumb...
+
+
 def init_admin(app, db_session):
     tino_clubs_admin = Admin(app, name='Tino Clubs Admin', template_mode='bootstrap3', index_view=RedirectToClubDB())
     tino_clubs_admin.add_view(ClubModelView(Club, db_session, name="Manage Clubs"))
     tino_clubs_admin.add_view(FileAdmin('./static/club', name='Manage Club Logos'))
+    tino_clubs_admin.add_view(FileAdmin2('./static/thumb', name='Manage Club Thumbnails'))
 
 
 def is_valid_admin_credentials(auth):

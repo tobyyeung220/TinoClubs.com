@@ -107,15 +107,7 @@ class ClubOverview:
 class GetClubOverviews:
     fulltext_matchable_fields = [Club.name, Club.aka, Club.category, Club.tags_separated_by_comma]
 
-    @staticmethod
-    def len_zero_if_null(field):
-        return func.ifnull(func.length(field), 0)
-
-    order_by_clauses = [Club.is_new.desc(), (
-                                (1+len_zero_if_null(Club.description_in_markdown)) *
-                                (1+len_zero_if_null(Club.social_medias_in_json)) *
-                                (1+len_zero_if_null(Club.tags_separated_by_comma))
-                        ).desc()]
+    order_by_clauses = [Club.is_new.desc(), func.length(Club.description_in_markdown).desc()]
 
     @staticmethod
     def encode_to_overview(func):
