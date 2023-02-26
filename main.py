@@ -23,6 +23,11 @@ def before_request():
     session.permanent = True
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', e=e)
+
+
 @app.route('/')
 def home_page():
     return render_template('home.html')
@@ -31,9 +36,10 @@ def home_page():
 @app.route('/club/<hyphened_club_name>')
 def club_page(hyphened_club_name: str):
     club_name = hyphened_club_name.replace('-', ' ')
+    club_data = db.get_or_404(Club, club_name, description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
     session.setdefault('recently_viewed', [])
-    session['recently_viewed'] = [club_name] + [prev_club for prev_club in session['recently_viewed'] if prev_club != club_name][:7]
-    club_data = db.get_or_404(Club, club_name)
+    session['recently_viewed'] = [club_name] + [prev_club for prev_club in session['recently_viewed'] if
+                                                prev_club != club_name][:7]
     return render_template('club.html', club=club_data,
                            names_of_same_category_clubs=GetClubNames.from_category(club_data.category, limit=4))
 
