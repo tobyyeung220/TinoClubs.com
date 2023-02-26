@@ -36,7 +36,7 @@ def home_page():
     total_clubs_cnt = Club.query.count()
     random_club_names = GetClubOverviews.random(10)
     recently_viewed = [ClubOverview(**d) for d in session.get('recently_viewed', [])]
-    return render_template('home.html', new_club_names=GetClubOverviews.new_clubs(), recently_viewed=recently_viewed,
+    return render_template('home.html', new_clubs=GetClubOverviews.new_clubs(), recently_viewed=recently_viewed,
                            total_clubs_cnt=total_clubs_cnt, random_club_names=random_club_names)
 
 
@@ -67,7 +67,7 @@ def search_page(search_query: str = None):
     if request.method == 'POST':
         return redirect('/search/' + request.form.get('search_query'))
     return render_template('search.html', search_query=search_query,
-                           matching_club_names=GetClubOverviews.from_search_query(search_query))
+                           matching_club_overviews=GetClubOverviews.from_search_query(search_query))
 
 
 if __name__ == '__main__':

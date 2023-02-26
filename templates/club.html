@@ -96,10 +96,6 @@
         <h4 class="fw-bold gd-text gd-blue">Other {{club.category.display_name}} Clubs</h4>
         <a href="/explore#{{club.category.value}}" class="text-decoration-none">See More</a>
     </div>
-    <div class="mt-3 px-3 px-lg-5 row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3 g-md-5">
-        {% for name in names_of_same_category_clubs %}
-        <div class="col">{{ club_card(name) }}</div>
-        {% endfor %}
-    </div>
+    {{ club_cards_grid(overviews_of_same_category_clubs) }}
 </div>
 {% endblock %}
