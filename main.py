@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, session, redirect
 import uuid
 from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
 from admin import init_admin, is_valid_admin_credentials, assert_environ_are_valid
+from datetime import date
+import calendar
 
 
 assert_environ_are_valid()
@@ -39,10 +41,11 @@ def home_page():
     total_clubs_cnt = Club.query.count()
     random_club_names = GetClubOverviews.random(10)
     recently_viewed = [ClubOverview(**d) for d in session.get('recently_viewed', [])]
-    clubs_meeting_today = GetClubOverviews.meetings_today()
+    day_of_the_week = calendar.day_name[date.today().weekday()]
     return render_template('home.html', new_clubs=GetClubOverviews.new_clubs(), recently_viewed=recently_viewed,
                            total_clubs_cnt=total_clubs_cnt, random_club_names=random_club_names,
-                           clubs_meeting_today=clubs_meeting_today)
+                           clubs_meeting_today=GetClubOverviews.meetings_today(), day_of_the_week=day_of_the_week,
+                           clubs_meeting_today_or_next_week=GetClubOverviews.meetings_today_or_next_week())
 
 
 @app.route('/club/<hyphened_club_name>')

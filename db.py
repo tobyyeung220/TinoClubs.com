@@ -4,6 +4,8 @@ from sqlalchemy import or_, func
 import json
 import markdown2
 from dataclasses import dataclass, asdict
+from datetime import date
+import calendar
 
 
 class ClubCategory(enum.Enum):
@@ -144,8 +146,15 @@ class GetClubOverviews:
     @classmethod
     @return_overviews
     def meetings_today(cls):
-        today = 'monday'
-        return cls.sql_base().filter(Club.meeting_time.like('%' + today + '%')).order_by(*cls.order_by_clauses)
+        day_of_the_week = calendar.day_name[date.today().weekday()]
+        return cls.sql_base().filter(Club.meeting_time.like('%' + day_of_the_week + '%') & Club.meeting_time.like('%every%')).order_by(*cls.order_by_clauses)
+
+    @classmethod
+    @return_overviews
+    def meetings_today_or_next_week(cls):
+        day_of_the_week = calendar.day_name[date.today().weekday()]
+        return cls.sql_base().filter(
+            Club.meeting_time.like('%' + day_of_the_week + '%') & Club.meeting_time.not_like('%every%')).order_by(*cls.order_by_clauses)
 
     @classmethod
     @return_overviews
