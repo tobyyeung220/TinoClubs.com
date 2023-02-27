@@ -45,7 +45,7 @@ class Club(db.Model):
     aka = db.Column(db.String, index=True)
     category = db.Column(db.Enum(ClubCategory), nullable=False, index=True)
     description_in_markdown = db.Column(db.Text)
-    meeting_time = db.Column(db.String, nullable=False)
+    meeting_time = db.Column(db.String, nullable=False, index=True)
     meeting_location = db.Column(db.String, nullable=False)
     tags_separated_by_comma = db.Column(db.String, index=True)
     social_medias_in_json = db.Column(db.String)  # visit /admin for acceptable data format
@@ -86,6 +86,7 @@ class ClubOverview:
     name: str
     category: ClubCategory
     aka: str
+    meeting_location: str
     is_new: bool
 
     @property
@@ -116,18 +117,18 @@ class GetClubOverviews:
     order_by_clauses = [Club.is_new.desc(), func.length(Club.description_in_markdown).desc()]
 
     @staticmethod
-    def encode_to_overview(func):
+    def return_overviews(func):
         def inner(*args, **kwargs):
             return [ClubOverview(*row) for row in func(*args, **kwargs)]
         return inner
 
     @classmethod
     def sql_base(cls):
-        return Club.query.with_entities(Club.name, Club.category, Club.aka, Club.is_new)
+        return Club.query.with_entities(Club.name, Club.category, Club.aka, Club.meeting_location, Club.is_new)
 
     @classmethod
-    @encode_to_overview
-    def from_category(cls, category: ClubCategory, limit: int = None, offset=0, exclude_name: str = None) -> list[ClubOverview]:
+    @return_overviews
+    def from_category(cls, category: ClubCategory, limit: int = None, offset=0, exclude_name: str = None):
         sql = cls.sql_base().filter_by(category=category).order_by(*cls.order_by_clauses)
         if exclude_name:
             sql = sql.filter(Club.name != exclude_name)
@@ -136,19 +137,25 @@ class GetClubOverviews:
         return sql.limit(limit).offset(offset)
 
     @classmethod
-    @encode_to_overview
-    def new_clubs(cls) -> list[str]:
+    @return_overviews
+    def new_clubs(cls):
         return cls.sql_base().filter_by(is_new=True)
 
     @classmethod
-    @encode_to_overview
-    def from_search_query(cls, search_query: str) -> list[str]:
+    @return_overviews
+    def meetings_today(cls):
+        today = 'monday'
+        return cls.sql_base().filter(Club.meeting_time.like('%' + today + '%')).order_by(*cls.order_by_clauses)
+
+    @classmethod
+    @return_overviews
+    def from_search_query(cls, search_query: str):
         search_query = search_query.lower().strip()
         return cls.sql_base() \
             .filter(or_(*[field.like('%' + search_query + '%') for field in cls.fulltext_matchable_fields]))\
             .order_by(*cls.order_by_clauses).all()
 
     @classmethod
-    @encode_to_overview
-    def random(cls, limit: int) -> list[str]:
+    @return_overviews
+    def random(cls, limit: int):
         return cls.sql_base().order_by(func.random()).limit(limit)

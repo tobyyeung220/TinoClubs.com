@@ -39,8 +39,10 @@ def home_page():
     total_clubs_cnt = Club.query.count()
     random_club_names = GetClubOverviews.random(10)
     recently_viewed = [ClubOverview(**d) for d in session.get('recently_viewed', [])]
+    clubs_meeting_today = GetClubOverviews.meetings_today()
     return render_template('home.html', new_clubs=GetClubOverviews.new_clubs(), recently_viewed=recently_viewed,
-                           total_clubs_cnt=total_clubs_cnt, random_club_names=random_club_names)
+                           total_clubs_cnt=total_clubs_cnt, random_club_names=random_club_names,
+                           clubs_meeting_today=clubs_meeting_today)
 
 
 @app.route('/club/<hyphened_club_name>')
@@ -50,7 +52,7 @@ def club_page(hyphened_club_name: str):
                               description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
 
     session.setdefault('recently_viewed', [])
-    current_overview = ClubOverview(club_name, club_data.category, club_data.aka, club_data.is_new)
+    current_overview = ClubOverview(club_name, club_data.category, club_data.aka, club_data.meeting_location, club_data.is_new)
     prev_overviews = [prev for prev in session['recently_viewed'] if prev['name'] != club_name]
     session['recently_viewed'] = [current_overview.dict()] + prev_overviews[:3]
 

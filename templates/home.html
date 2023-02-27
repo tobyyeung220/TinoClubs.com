@@ -12,17 +12,22 @@
 {% endmacro %}
 
 {% macro club_row(overview) %}
-<div class="d-flex align-items-center my-3 my-lg-4 px-lg-5">
-    <img src="/static/thumb/Future-Business-Leaders-of-America.jpg" class="img-fluid rounded-pill"
-             style="max-height:40px">
-    <div class="ms-3 w-100">
+<div class="d-flex align-items-center my-4 px-lg-5">
+    <img src="{{overview.thumb_url}}" class="img-fluid rounded-pill"
+             style="max-height:40px;max-width:40px">
+    <div class="ms-3 ms-lg-4 w-100">
         <hr class="mt-0 mb-2">
-        <div class="d-flex justify-content-between">
-            <a class="text-decoration-none"
-               href="/club/Future-Business-Leaders-of-America" target="_blank">
-                <h5 class="text-crimson mb-0">Future Business Leaders of America (FBLA)</h5>
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-8 d-flex align-items-center">
+                <h6 class="mb-0">{{overview.name}}</h6>
+                {% if overview.aka %}
+                <span class="ms-2 d-none d-xl-inline text-secondary">({{overview.aka}})</span>
+                {% endif %}
+            </div>
+            <p class="col-6 col-lg-3 col-xl-2 text-secondary mb-0">{{overview.meeting_location}}</p>
+            <a class="col-6 col-lg-3 col-xl-2 text-decoration-none text-crimson text-end" href="{{overview.page_url}}" target="_blank">
+                See More
             </a>
-            <p class="text-secondary mb-0">Lunch @ Wagon Wheel</p>
         </div>
     </div>
 </div>
@@ -38,7 +43,7 @@
             <div class="container text-white ps-3 ps-lg-5">
                 <h3 class="">{{total_clubs_cnt}} Clubs,</h3>
                 <h1 class="fw-bold">Infinite Possibilities</h1>
-                <a class="mt-4 btn btn-lg rounded-pill text-white bg-danger bg-opacity-75" href="/explore">
+                <a class="mt-4 btn btn-lg rounded-pill text-white bg-danger" href="/explore">
                     Explore Tino Clubs <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
@@ -72,20 +77,29 @@
 </svg>
 
 {% if recently_viewed %}
-<div class="container" style="margin-top:-12px">
-    <p class="text-center text-secondary">Your Recently Viewed</p>
+<div class="container" style="margin-top:-28px">
+    <p class="text-center text-crimson">Your Recently Viewed</p>
     {{ club_cards_grid(recently_viewed) }}
 </div>
 {% endif %}
 
-<div class="container {{'my-5' if recently_viewed}} py-5">
-    <div class="d-flex justify-content-between">
+{% if clubs_meeting_today %}
+<div class="container {{'mt-4 mt-lg-5' if recently_viewed}} pb-5">
+    <div class="d-flex justify-content-between px-lg-4">
         <h4>Clubs Meeting Today</h4>
         <div class="spinner-grow text-crimson spinner-grow-sm" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
+    <div class="d-flex justify-content-center">
+        <div style="width:1200px">
+            {% for overview in clubs_meeting_today %}
+            {{ club_row(overview) }}
+            {% endfor %}
+        </div>
+    </div>
 </div>
+{% endif %}
 
 {% if new_clubs %}
 <div class="container">
