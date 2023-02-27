@@ -54,19 +54,25 @@ class Club(db.Model):
 
     @property
     def description(self) -> str:
-        return markdown2.markdown(self.description_in_markdown)
+        return markdown2.markdown(self.description_in_markdown or '')
 
     @property
     def tags(self) -> list[str]:
-        return self.tags_separated_by_comma.split()
+        return (self.tags_separated_by_comma or '').split()
 
     @property
     def social_medias(self) -> list[SocialMedia]:
-        return [self.SocialMedia(**d) for d in json.loads(self.social_medias_in_json or "[]")]
+        try:
+            return [self.SocialMedia(**d) for d in json.loads(self.social_medias_in_json or "[]")]
+        except json.JSONDecodeError:
+            return []
 
     @property
     def leaderships(self) -> list[dict]:
-        return json.loads(self.leaderships_in_json or "[]")
+        try:
+            return json.loads(self.leaderships_in_json or "[]")
+        except json.JSONDecodeError:
+            return []
 
     @classmethod
     def create(cls, **kwargs):
