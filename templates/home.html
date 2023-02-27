@@ -14,14 +14,14 @@
 {% block content %}
 <link rel="stylesheet" href="/static/roller.css">
 
-<div class="gd-blue">
+<div class="gd-crimson">
     <!-- relative -60 to counter the bottom wave offset -->
     <div class="row" style="position:relative;bottom:-60px">
         <div class="col-12 col-lg-5">
             <div class="container text-white ps-3 ps-lg-5">
                 <h3 class="">{{total_clubs_cnt}} Clubs,</h3>
                 <h1 class="fw-bold">Infinite Possibilities</h1>
-                <a class="mt-4 btn btn-lg rounded-pill text-white bg-primary" href="/explore">
+                <a class="mt-4 btn btn-lg rounded-pill text-white bg-danger" href="/explore">
                     Explore Tino Clubs <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
@@ -45,12 +45,12 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 240" style="margin-top:-1px" class="mb-4 mb-sm-0">
     <defs>
-        <linearGradient id="gd-blue-fill" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#0acffe;stop-opacity:1"/>
-            <stop offset="100%" style="stop-color:#495aff;stop-opacity:1"/>
+        <linearGradient id="gd-crimson-fill" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="30%" style="stop-color:#992b34;stop-opacity:1"/>
+            <stop offset="88%" style="stop-color:#5a0d08;stop-opacity:1"/>
         </linearGradient>
     </defs>
-    <path fill="url(#gd-blue-fill)" fill-opacity="1"
+    <path fill="url(#gd-crimson-fill)" fill-opacity="1"
           d="M0,224L48,208C96,192,192,160,288,144C384,128,480,128,576,149.3C672,171,768,213,864,197.3C960,181,1056,107,1152,85.3C1248,64,1344,96,1392,112L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
 </svg>
 

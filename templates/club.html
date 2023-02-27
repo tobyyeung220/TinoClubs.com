@@ -25,7 +25,7 @@
 {% macro social_media(icon, url, text, margin_top="mt-3") %}
 <a class="{{margin_top}} px-0 d-flex text-decoration-none" href="{{url}}" target="_blank">
     <div style="width:36px;height:36px"><img src="{{icon}}" class="img-fluid"></div>
-    <p class="ms-3 text-primary">{{ text }}</p>
+    <p class="ms-3 text-danger">{{ text }}</p>
 </a>
 {% endmacro %}
 
@@ -39,9 +39,9 @@
         <div class="col-12 col-lg-8">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-danger">Home</a></li>
                     <li class="breadcrumb-item">
-                        <a href="/explore#{{club.category.value}}" class="text-decoration-none">
+                        <a href="/explore#{{club.category.value}}" class="text-decoration-none text-danger">
                             {{club.category.display_name}}
                         </a>
                     </li>
@@ -103,7 +103,7 @@
 <div class="container mt-3 mt-lg-5">
     <div class="d-flex justify-content-between mb-4">
         <h5>Other {{club.category.display_name}} Clubs</h5>
-        <a href="/explore#{{club.category.value}}" class="text-decoration-none">See More</a>
+        <a href="/explore#{{club.category.value}}" class="text-decoration-none text-danger">See All</a>
     </div>
     {{ club_cards_grid(overviews_of_same_category_clubs) }}
 </div>
