@@ -52,7 +52,7 @@ def club_page(hyphened_club_name: str):
     session.setdefault('recently_viewed', [])
     current_overview = ClubOverview(club_name, club_data.category, club_data.aka, club_data.is_new)
     prev_overviews = [prev for prev in session['recently_viewed'] if prev['name'] != club_name]
-    session['recently_viewed'] = [current_overview.dict()] + prev_overviews[:7]
+    session['recently_viewed'] = [current_overview.dict()] + prev_overviews[:3]
 
     same_category_clubs = GetClubOverviews.from_category(club_data.category, limit=4, exclude_name=club_name)
     return render_template('club.html', club=club_data, overviews_of_same_category_clubs=same_category_clubs)

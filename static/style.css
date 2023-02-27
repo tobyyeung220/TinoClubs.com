@@ -9,6 +9,9 @@
 .gd-pink-blue {background-color: #FF3CAC; background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);}
 .gd-blue {background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%);}
 .gd-crimson { background-image: linear-gradient(90deg, rgba(153,43,52,1) 30%, rgba(90,13,8,1) 88%);}
+.gd-gold {background-image:  linear-gradient(110deg, rgba(200,167,103,1) 23%, rgba(161,119,46,1) 56%);}
+
+.text-crimson {color: #990000;}
 
 /* clears the ‘X’ from Internet Explorer input fields */
 input[type=search]::-ms-clear { display: none; width : 0; height: 0; }

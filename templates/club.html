@@ -25,13 +25,13 @@
 {% macro social_media(icon, url, text, margin_top="mt-3") %}
 <a class="{{margin_top}} px-0 d-flex text-decoration-none" href="{{url}}" target="_blank">
     <div style="width:36px;height:36px"><img src="{{icon}}" class="img-fluid"></div>
-    <p class="ms-3 text-danger">{{ text }}</p>
+    <p class="ms-3 text-crimson">{{ text }}</p>
 </a>
 {% endmacro %}
 
 {% block content %}
 {% if club.is_new %}
-<div class="gd-pink text-center text-white">{{ club.name }} is a new club!</div>
+<div class="gd-gold text-center text-white">{{ club.name }} is a new club!</div>
 {% endif %}
 
 <div class="container mt-3 mt-lg-4">
@@ -53,9 +53,9 @@
                      style="max-width:140px;max-height:140px">
                 <div class="ms-5">
                     {% if club.aka %}
-                    <p class="text-secondary mb-1">aka. {{ club.aka }}</p>
+                    <p class="text-secondary mb-1">{{ club.aka }}</p>
                     {% endif %}
-                    <h1 class="fw-bold {{'gd-pink gd-text' if club.is_new}}">{{ club.name }}</h1>
+                    <h1 class="fw-bold {{'gd-gold gd-text' if club.is_new}}">{{ club.name }}</h1>
                 </div>
             </div>
             <div class="d-flex mt-4" style="flex-wrap: wrap;">
@@ -71,7 +71,7 @@
             <div class="card shadow-sm rounded-3" style="border:0px">
                 <div class="card-body">
                     <p class="card-subtitle text-secondary">{{ club.name }} Meets</p>
-                    <h5 class="card-title mt-2 gd-text gd-pink-blue">{{ club.meeting_time }} @ {{ club.meeting_location }}</h5>
+                    <h5 class="card-title mt-2 gd-text gd-gold">{{ club.meeting_time }} @ {{ club.meeting_location }}</h5>
                 </div>
             </div>
             {% if club.social_medias %}
@@ -103,7 +103,7 @@
 <div class="container mt-3 mt-lg-5">
     <div class="d-flex justify-content-between mb-4">
         <h5>Other {{club.category.display_name}} Clubs</h5>
-        <a href="/explore#{{club.category.value}}" class="text-decoration-none text-danger">See All</a>
+        <a href="/explore#{{club.category.value}}" class="text-decoration-none text-crimson">See All</a>
     </div>
     {{ club_cards_grid(overviews_of_same_category_clubs) }}
 </div>

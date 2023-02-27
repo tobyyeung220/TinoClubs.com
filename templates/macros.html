@@ -3,7 +3,7 @@
     <input name="search_query" type="search" class="form-input form-control" style="border-radius:20px"
            placeholder="{{placeholder}}" value="{{current_query}}" required maxlength="60">
     <button class="btn position-absolute end-0 top-0" type="submit">
-        <i class="bi bi-search text-danger"></i>
+        <i class="bi bi-search text-crimson"></i>
     </button>
 </form>
 {% endmacro %}
@@ -20,18 +20,18 @@
     <div class="position-relative bg-white rounded-3">
         <img src="{{overview.thumb_url}}" data-src="{{overview.img_url}}" class="card-img-top lazyload" style="max-width:280px;max-height:280px">
         <div class="position-absolute bottom-0 end-0">
-            {% if overview.is_new %} {{ tag("NEW", color_class="gd-pink shadow", margin="m-1") }} {% endif %}
+            {% if overview.is_new %} {{ tag("NEW", color_class="gd-gold shadow", margin="m-1") }} {% endif %}
             {% if display_category %} {{ tag(overview.category.display_name, margin="m-1") }} {% endif %}
         </div>
     </div>
     <div class="card-body p-0 alignment-placeholder"></div>
     <div class="card-body">
         {% if overview.aka %}
-        <small class="text-secondary">aka. {{ overview.aka }}</small>
+        <small class="text-secondary">{{ overview.aka }}</small>
         {% endif %}
         <h5 class="card-title">{{ overview.name }}</h5>
         <a href="{{overview.page_url}}" class="text-decoration-none stretched-link
-        {{'gd-pink gd-text' if overview.is_new else 'text-danger'}}">See More</a>
+        {{'gd-gold gd-text' if overview.is_new else 'text-crimson'}}">See More</a>
     </div>
 </div>
 {% endmacro %}
