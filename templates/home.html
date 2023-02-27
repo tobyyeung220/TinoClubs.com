@@ -5,18 +5,35 @@
 <div class="items-container {{scrolling_class}}">
     {% for overview in club_overviews %}
     <a class="item" href="{{overview.page_url}}" target="_blank">
-        <img src="{{overview.img_url}}" class="club rounded-pill" style="max-width:100px;max-height:100px">
+        <img src="{{overview.thumb_url}}" class="club rounded-pill" style="max-width:80px;max-height:80px">
     </a>
     {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro club_row(overview) %}
+<div class="d-flex align-items-center my-3 my-lg-4 px-lg-5">
+    <img src="/static/thumb/Future-Business-Leaders-of-America.jpg" class="img-fluid rounded-pill"
+             style="max-height:40px">
+    <div class="ms-3 w-100">
+        <hr class="mt-0 mb-2">
+        <div class="d-flex justify-content-between">
+            <a class="text-decoration-none"
+               href="/club/Future-Business-Leaders-of-America" target="_blank">
+                <h5 class="text-crimson mb-0">Future Business Leaders of America (FBLA)</h5>
+            </a>
+            <p class="text-secondary mb-0">Lunch @ Wagon Wheel</p>
+        </div>
+    </div>
 </div>
 {% endmacro %}
 
 {% block content %}
 <link rel="stylesheet" href="/static/roller.css">
 
-<div class="gd-crimson">
+<div class="gd-crimson" style="margin-top:-30px">
     <!-- relative -60 to counter the bottom wave offset -->
-    <div class="row" style="position:relative;bottom:-60px">
+    <div class="row" style="position:relative;bottom:-70px">
         <div class="col-12 col-lg-5">
             <div class="container text-white ps-3 ps-lg-5">
                 <h3 class="">{{total_clubs_cnt}} Clubs,</h3>
@@ -61,9 +78,18 @@
 </div>
 {% endif %}
 
+<div class="container {{'my-5' if recently_viewed}} py-5">
+    <div class="d-flex justify-content-between">
+        <h4>Clubs Meeting Today</h4>
+        <div class="spinner-grow text-crimson spinner-grow-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
 {% if new_clubs %}
 <div class="container">
-    <h3 class="text-center fw-bold gd-text gd-gold {{'mt-5' if recently_viewed}}">New Clubs!</h3>
+    <h3 class="text-center fw-bold gd-text gd-gold">New Clubs!</h3>
     {{ club_cards_grid(new_clubs) }}
 </div>
 {% endif %}

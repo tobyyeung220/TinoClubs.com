@@ -2,8 +2,8 @@
 
 .container .rollers .wrapper{
     position: relative;
-    width: 900px;
-    height: 100px;
+    width: 800px;
+    height: 80px;
     margin: 0 0 20px 0;
     flex: 0 0 auto;
 }
