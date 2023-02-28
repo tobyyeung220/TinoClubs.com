@@ -6,11 +6,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 
-<div class="container" data-bs-theme="light">
+<div class="container mt-3" data-bs-theme="light">
     <form method="POST">
         {{ form.csrf_token() }}
-        {{ render_field(form.name, form_type="horizontal") }}
-        {{ render_field(form.description) }}
+        {{ render_field(form.aka, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
+        {{ render_field(form.tags_separated_by_comma, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
+        {{ render_field(form.description_in_markdown) }}
+        {{ render_field(form.meeting_time, form_type="horizontal") }}
+        {{ render_field(form.meeting_location, form_type="horizontal") }}
         {{ render_field(form.submit) }}
     </form>
 </div>

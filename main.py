@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, session, redirect
 from flask_bootstrap import Bootstrap5
-from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField
 import uuid
-from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
-from admin import init_admin, is_valid_admin_credentials, assert_environ_are_valid
 from datetime import date
 import calendar
+from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
+from admin import init_admin, is_valid_admin_credentials, assert_environ_are_valid
+from forms import EditClubForm
 
 
 assert_environ_are_valid()
@@ -78,13 +77,9 @@ def edit_club_page(hyphened_club_name: str):
                               description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
     if not (request.authorization and request.authorization.username == club_name and request.authorization.password == club_data.admin_password):
         return HTTP_UNAUTHORIZED_RESPONSE
-    class EditForm(FlaskForm):
-        name = StringField('name')
-        description = TextAreaField('description')
-        submit = SubmitField('subtt')
-    form = EditForm()
+    form = EditClubForm(obj=club_data)
     if form.validate_on_submit():
-        print(form.description.raw_data)
+        ...
     return render_template('edit.html', club=club_data, form=form)
 
 
