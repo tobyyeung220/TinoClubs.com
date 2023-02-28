@@ -1,7 +1,9 @@
 from flask_admin import Admin, expose, AdminIndexView
-from flask import redirect
+from flask import redirect, send_file
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
+from pandas import DataFrame
+import datetime
 from db import Club
 import os
 
@@ -14,6 +16,7 @@ class ClubModelView(ModelView):
         self.column_filters = self.column_list
         super(ClubModelView, self).__init__(model, *args, **kwargs)
 
+    can_export = True
     column_display_pk = True
     column_descriptions = {
         'name': 'Club name must NOT contain hyphen - !',
