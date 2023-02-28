@@ -25,18 +25,18 @@
         </div>
     </div>
     <div class="card-body p-0 alignment-placeholder"></div>
-    <div class="card-body">
+    <div class="card-body p-2">
         {% if overview.aka %}
-        <small class="text-secondary">{{ overview.aka }}</small>
+        <small class="text-secondary" style="font-size:12px">{{ overview.aka }}</small>
         {% endif %}
-        <h5 class="card-title">{{ overview.name }}</h5>
+        <h6 class="card-title">{{ overview.name }}</h6>
         <a href="{{overview.page_url}}" class="text-decoration-none stretched-link
-        {{'gd-gold gd-text' if overview.is_new else 'text-crimson'}}">See More</a>
+        {{'gd-gold gd-text' if overview.is_new else 'text-crimson'}}"><small>See More</small></a>
     </div>
 </div>
 {% endmacro %}
 
-{% macro club_cards_grid(club_overviews, margin="pt-3 px-md-3 px-lg-5", row_cols="row-cols-2 row-cols-lg-3 row-cols-xl-4",
+{% macro club_cards_grid(club_overviews, margin="pt-3 px-md-2 px-lg-4", row_cols="row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5",
                         gutter="g-3 g-md-5", display_category=False) %}
 <div class="row {{margin}} {{row_cols}} {{gutter}}">
     {% for overview in club_overviews %}
