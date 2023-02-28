@@ -7,7 +7,16 @@
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 
 <div class="container mt-3" data-bs-theme="light">
-    <form method="POST">
+    <div class="d-flex align-items-center">
+        <img src="{{club.thumb_url}}" class="rounded-pill" style="max-width:40px;max-height:40px">
+        <h2 class="ms-3 mb-0">Edit {{club.name}}'s Info</h2>
+    </div>
+    <p class="text-secondary mt-2">
+        Keeping your club's information update-to-date will boost your club's ranking on TinoClubs.com,
+        help you attract more club members, and stay complaint with ASB regulations.
+        If you'd like to change your club's name, logo, or category, please directly reach out to ASB.
+    </p>
+    <form method="POST" class="mt-4">
         {{ form.csrf_token() }}
         {{ render_field(form.aka, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
         {{ render_field(form.tags_separated_by_comma, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
