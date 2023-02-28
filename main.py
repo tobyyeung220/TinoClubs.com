@@ -10,7 +10,7 @@ assert_environ_are_valid()
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite?check_same_thread=False'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -19,12 +19,14 @@ with app.app_context():
 
 init_admin(app, db.session)
 
+HTTP_UNAUTHORIZED_RESPONSE = 'Unauthorized', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'}
+
 
 @app.before_request
 def before_request():
     if request.path.startswith('/admin'):
         if not is_valid_admin_credentials(request.authorization):
-            return 'Unauthorized', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'}
+            return HTTP_UNAUTHORIZED_RESPONSE
     if 'toggleDarkMode' in request.args:
         session['isDarkMode'] = not session.get('isDarkMode', False)
         return redirect(request.path)

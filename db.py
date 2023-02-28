@@ -53,6 +53,8 @@ class Club(db.Model):
     social_medias_in_json = db.Column(db.String)  # visit /admin for acceptable data format
     leaderships_in_json = db.Column(db.String)  # visit /admin for acceptable data format
     is_new = db.Column(db.Boolean, index=True)
+    admin_password = db.Column(db.String, nullable=False)
+    last_modified = db.Column(db.DateTime)
 
     @property
     def description(self) -> str:

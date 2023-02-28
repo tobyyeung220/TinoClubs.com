@@ -51,7 +51,6 @@ class FileAdmin3(FileAdmin):
 
 
 def init_admin(app, db_session):
-    app.config['FLASK_ADMIN_SWATCH'] = 'darkly'
     tino_clubs_admin = Admin(app, name='Tino Clubs Admin', template_mode='bootstrap3', index_view=RedirectToClubDB())
     tino_clubs_admin.add_view(ClubModelView(Club, db_session, name="Manage Clubs"))
     tino_clubs_admin.add_view(FileAdmin('./static', name='Manage Static Assets'))
