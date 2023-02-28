@@ -14,14 +14,13 @@
 </span>
 {% endmacro %}
 
-{% macro club_card(overview, display_category=False) %}
+{% macro club_card(overview) %}
 <div class="card shadow-sm rounded-3 h-100" style="border:0px">
     <div class="card-body p-0 alignment-placeholder"></div>
     <div class="position-relative bg-white rounded-3">
         <img src="{{overview.thumb_url}}" data-src="{{overview.img_url}}" class="card-img-top lazyload" style="max-width:280px;max-height:280px">
         <div class="position-absolute bottom-0 end-0">
             {% if overview.is_new %} {{ tag("NEW", color_class="gd-gold shadow", margin="m-1") }} {% endif %}
-            {% if display_category %} {{ tag(overview.category.display_name, margin="m-1") }} {% endif %}
         </div>
     </div>
     <div class="card-body p-0 alignment-placeholder"></div>
@@ -37,11 +36,11 @@
 {% endmacro %}
 
 {% macro club_cards_grid(club_overviews, margin="pt-3 px-md-2 px-lg-4", row_cols="row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5",
-                        gutter="g-3 g-md-5", display_category=False) %}
+                        gutter="g-3 g-md-5") %}
 <div class="row {{margin}} {{row_cols}} {{gutter}}">
     {% for overview in club_overviews %}
     <div class="col">
-        {{ club_card(overview, display_category) }}
+        {{ club_card(overview) }}
     </div>
     {% endfor %}
     </div>

@@ -5,6 +5,6 @@
 {% block content %}
 <div class="container mt-3 mt-lg-5">
     <h5>{{ matching_club_overviews | length }} results found for {{ search_query }}</h5>
-    {{ club_cards_grid(matching_club_overviews, display_category=True) }}
+    {{ club_cards_grid(matching_club_overviews) }}
 </div>
 {% endblock %}
