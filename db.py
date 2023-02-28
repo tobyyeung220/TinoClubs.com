@@ -31,7 +31,29 @@ class ClubCategory(enum.Enum):
 db = SQLAlchemy()  # "app: Flask" argument will be passed into later during main.py
 
 
-class Club(db.Model):
+class _BaseClubProperties:
+    @property
+    def hyphened_name(self):
+        return self.name.replace(' ', '-')
+
+    @property
+    def thumb_url(self):
+        return '/static/thumb/' + self.hyphened_name + '.jpg'
+
+    @property
+    def img_url(self):
+        return '/static/club/' + self.hyphened_name + '.jpg'
+
+    @property
+    def page_url(self):
+        return '/club/' + self.hyphened_name
+
+    @property
+    def edit_url(self):
+        return '/edit/' + self.hyphened_name
+
+
+class Club(db.Model, _BaseClubProperties):
     class SocialMedia:
         def __init__(self, name: str, url: str, text: str):
             self.name = name
@@ -86,28 +108,12 @@ class Club(db.Model):
 
 
 @dataclass
-class ClubOverview:
+class ClubOverview(_BaseClubProperties):
     name: str
     category: ClubCategory
     aka: str
     meeting_location: str
     is_new: bool
-
-    @property
-    def hyphened_name(self):
-        return self.name.replace(' ', '-')
-
-    @property
-    def thumb_url(self):
-        return '/static/thumb/' + self.hyphened_name + '.jpg'
-
-    @property
-    def img_url(self):
-        return '/static/club/' + self.hyphened_name + '.jpg'
-
-    @property
-    def page_url(self):
-        return '/club/' + self.hyphened_name
 
     def dict(self):
         dict_data = asdict(self)

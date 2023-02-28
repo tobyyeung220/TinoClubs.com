@@ -1,9 +1,7 @@
 from flask_admin import Admin, expose, AdminIndexView
-from flask import redirect, send_file
+from flask import redirect
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
-from pandas import DataFrame
-import datetime
 from db import Club
 import os
 

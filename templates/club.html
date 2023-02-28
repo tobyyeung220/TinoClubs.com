@@ -49,7 +49,7 @@
                 </ol>
             </nav>
             <div class="d-flex align-items-center mt-lg-4">
-                <img src="/static/club/{{club.name.replace(' ', '-')}}.jpg" class="img-fluid rounded-pill img-thumbnail"
+                <img src="{{club.img_url}}" class="img-fluid rounded-pill img-thumbnail"
                      style="max-width:140px;max-height:140px">
                 <div class="ms-5">
                     {% if club.aka %}
@@ -63,7 +63,12 @@
                 {{ tag(t) }}
                 {% endfor %}
             </div>
-            <div class="container-fluid px-3 mt-4 text-secondary">
+            <div class="container-fluid px-3 text-secondary">
+                <div class="text-end">
+                    <a class="btn btn-warning btn-sm rounded-pill" href="{{club.edit_url}}" target="_blank">
+                        Edit <i class="bi bi-pen"></i>
+                    </a>
+                </div>
                 {{ club.description|safe }}
             </div>
         </div>
