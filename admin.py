@@ -51,9 +51,7 @@ def init_admin(app, db_session):
     app.config['FLASK_ADMIN_SWATCH'] = 'darkly'
     tino_clubs_admin = Admin(app, name='Tino Clubs Admin', template_mode='bootstrap3', index_view=RedirectToClubDB())
     tino_clubs_admin.add_view(ClubModelView(Club, db_session, name="Manage Clubs"))
-    tino_clubs_admin.add_view(FileAdmin('./static/club', name='Manage Club Logos'))
-    tino_clubs_admin.add_view(FileAdmin2('./static/thumb', name='Manage Club Thumbnails'))
-    tino_clubs_admin.add_view(FileAdmin3('./static/social_medias', name='Manage Social Medias Icons'))
+    tino_clubs_admin.add_view(FileAdmin('./static', name='Manage Static Assets'))
 
 
 def assert_environ_are_valid():
