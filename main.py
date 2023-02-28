@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, session, redirect
+from flask_bootstrap import Bootstrap5
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField, SubmitField
 import uuid
 from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
 from admin import init_admin, is_valid_admin_credentials, assert_environ_are_valid
@@ -12,6 +15,9 @@ app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite?check_same_thread=False'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+app.config['BOOTSTRAP_BTN_STYLE'] = 'warning'
+Bootstrap5(app)
 
 db.init_app(app)
 with app.app_context():
@@ -63,6 +69,23 @@ def club_page(hyphened_club_name: str):
 
     same_category_clubs = GetClubOverviews.from_category(club_data.category, limit=4, exclude_name=club_name)
     return render_template('club.html', club=club_data, overviews_of_same_category_clubs=same_category_clubs)
+
+
+@app.route('/edit/<hyphened_club_name>', methods=['GET', 'POST'])
+def edit_club_page(hyphened_club_name: str):
+    club_name = hyphened_club_name.replace('-', ' ')
+    club_data = db.get_or_404(Club, club_name,
+                              description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
+    if not (request.authorization and request.authorization.username == club_name and request.authorization.password == club_data.admin_password):
+        return HTTP_UNAUTHORIZED_RESPONSE
+    class EditForm(FlaskForm):
+        name = StringField('name')
+        description = TextAreaField('description')
+        submit = SubmitField('subtt')
+    form = EditForm()
+    if form.validate_on_submit():
+        print(form.description.raw_data)
+    return render_template('edit.html', club=club_data, form=form)
 
 
 @app.route('/explore')

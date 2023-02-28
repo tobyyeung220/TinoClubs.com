@@ -1,7 +1,7 @@
 {% from "macros.html" import searchbar, tag, club_card, club_cards_grid with context %}
 
 <!doctype html>
-<html lang="en" data-bs-theme="{{'dark' if session.isDarkMode else 'light'}}">
+<html lang="en" data-bs-theme="{{'dark' if (session.isDarkMode and not request.path.startswith('/edit')) else 'light'}}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

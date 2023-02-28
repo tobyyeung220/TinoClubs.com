@@ -1,0 +1,22 @@
+{% from 'bootstrap5/form.html' import render_field %}
+{% extends "base.html" %}
+{% set page_title = "Edit " + club.name %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+<div class="container" data-bs-theme="light">
+    <form method="POST">
+        {{ form.csrf_token() }}
+        {{ render_field(form.name, form_type="horizontal") }}
+        {{ render_field(form.description) }}
+        {{ render_field(form.submit) }}
+    </form>
+</div>
+
+<script>
+var simplemde = new SimpleMDE({hideIcons: ["guide", "strikethrough", "image", "side-by-side", "fullscreen", "heading", "quote", "link"],
+                               showIcons: ["heading-1", "heading-2", "heading-3", "heading-4"]});
+</script>
+{% endblock %}
