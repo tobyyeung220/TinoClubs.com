@@ -5,7 +5,7 @@ from datetime import date
 import calendar
 from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
 from admin import init_admin, is_valid_admin_credentials, assert_environ_are_valid
-from forms import EditClubForm
+from forms import EditBasicInfoForm, EditLeadershipsForm, EditSocialMediasForm
 
 
 assert_environ_are_valid()
@@ -77,11 +77,13 @@ def edit_club_page(hyphened_club_name: str):
                               description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
     if not (request.authorization and request.authorization.username == club_name and request.authorization.password == club_data.admin_password):
         return HTTP_UNAUTHORIZED_RESPONSE
-    form = EditClubForm(obj=club_data)
-    form.social_medias.fill(club_data.social_medias_in_json)
-    if form.validate_on_submit():
-        ...
-    return render_template('edit.html', club=club_data, form=form)
+    edit_basic_info_form = EditBasicInfoForm(obj=club_data)
+    edit_leaderships_form = EditLeadershipsForm()
+    edit_leaderships_form.fill(club_data.leaderships)
+    edit_social_medias_form = EditSocialMediasForm()
+    edit_social_medias_form.fill(club_data.social_medias)
+    return render_template('edit.html', club=club_data, basic_info_form=edit_basic_info_form,
+                           leaderships_form=edit_leaderships_form, social_medias_form=edit_social_medias_form)
 
 
 @app.route('/explore')

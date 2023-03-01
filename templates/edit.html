@@ -17,25 +17,22 @@
         If you'd like to change your club's name, logo, or category, please directly reach out to ASB.
     </p>
     <form method="POST" class="mt-4">
-        {{ form.csrf_token() }}
-        {{ render_field(form.aka, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
-        {{ render_field(form.tags_separated_by_comma, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
-        {{ render_field(form.email, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
-        {{ render_field(form.description_in_markdown) }}
-        {{ render_field(form.meeting_time, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
-        {{ render_field(form.meeting_location, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
-
-        <h4 class="mt-4 mt-lg-5">Edit Your Club's Leadership Info</h4>
-        <p class="text-secondary">You are welcome to have more than the following leadership roles.
-            TinoClubs.com only needs to know your advisor(s) and executive officers.</p>
-        {{ render_form(form.leaderships, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
-
-        <h4 class="mt-4 mt-lg-5">Edit Your Club's Social Media Info</h4>
-        {{ render_form(form.social_medias, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
-
-        {{ render_field(form.submit) }}
-        <p class="text-secondary">Double check what you put before you submit!</p>
+        {{ basic_info_form.csrf_token() }}
+        {{ render_field(basic_info_form.aka, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
+        {{ render_field(basic_info_form.tags_separated_by_comma, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
+        {{ render_field(basic_info_form.email, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
+        {{ render_field(basic_info_form.description_in_markdown) }}
+        {{ render_field(basic_info_form.meeting_time, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
+        {{ render_field(basic_info_form.meeting_location, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
+        {{ render_field(basic_info_form.submit) }}
     </form>
+    <h4 class="mt-4 mt-lg-5">Edit Your Club's Leadership Info</h4>
+    <p class="text-secondary">You are welcome to have more than the following leadership roles.
+        TinoClubs.com only needs to know your advisor(s) and executive officers.</p>
+    {{ render_form(leaderships_form, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
+
+    <h4 class="mt-4 mt-lg-5">Edit Your Club's Social Media Info</h4>
+    {{ render_form(social_medias_form, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
 </div>
 
 <script>
