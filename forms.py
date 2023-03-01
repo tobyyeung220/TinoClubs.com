@@ -23,12 +23,12 @@ class EditClubInfoForm(FlaskForm):
         description='Max 5000 characters. Reach out to ASB if you need help with editing your description. Clubs with high quality description will be prioritized on TinoClubs.com')
 
     advisor_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
-    advisor_2_full_name = StringField("Advisor 2 Full Name (if applicable)", validators=[Length(max=100)])
+    advisor_2_full_name = StringField("Advisor 2 Full Name (optional)", validators=[Length(max=100)])
     president_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
-    president_2_full_name = StringField("President 2 Full Name (if applicable)", validators=[Length(max=100)])
-    vice_president_1_full_name = StringField("Vice President 1 Full Name", validators=[DataRequired(), Length(max=100)])
-    vice_president_2_full_name = StringField("Vice President 2 Full Name (if applicable)", validators=[Length(max=100)])
-    vice_president_3_full_name = StringField("Vice President 3 Full Name (if applicable)", validators=[Length(max=100)])
+    president_2_full_name = StringField("President 2 Full Name (optional)", validators=[Length(max=100)])
+    vice_president_1_full_name = StringField("Vice President 1 Full Name (optional)", validators=[Length(max=100)])
+    vice_president_2_full_name = StringField("Vice President 2 Full Name (optional)", validators=[Length(max=100)])
+    vice_president_3_full_name = StringField("Vice President 3 Full Name (optional)", validators=[Length(max=100)])
     secretary_full_name = StringField(validators=[DataRequired(), Length(max=100)])
     treasurer_full_name = StringField(validators=[DataRequired(), Length(max=100)],
                                       description="Treasurer can be the same person as the secretary")

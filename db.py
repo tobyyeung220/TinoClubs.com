@@ -4,8 +4,9 @@ from sqlalchemy import or_, func
 import json
 import markdown2
 from dataclasses import dataclass, asdict
-from datetime import date, datetime
+from datetime import date
 import calendar
+import humanize
 
 
 class ClubCategory(enum.Enum):
@@ -111,6 +112,12 @@ class Club(db.Model, _BaseClubProperties):
         new_club = cls(**kwargs)
         db.session.merge(new_club)
         db.session.commit()
+
+    @property
+    def last_modified_humanized(self):
+        if not self.last_modified:
+            return "Unknown"
+        return humanize.naturaltime(self.last_modified)
 
 
 @dataclass

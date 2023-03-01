@@ -8,7 +8,8 @@
 
 <div class="container mt-3" data-bs-theme="light">
     <a href="{{club.page_url}}" class="text-decoration-none text-crimson"><i class="bi bi-arrow-left me-2"></i>Back</a>
-    <div class="d-flex align-items-center mt-2">
+    <p class="text-warning fw-bold mt-2">Last modified: {{club.last_modified_humanized}}</p>
+    <div class="d-flex align-items-center">
         <img src="{{club.thumb_url}}" class="rounded-pill" style="max-width:40px;max-height:40px">
         <h2 class="ms-3 mb-0">Edit {{club.name}}'s Info</h2>
     </div>
