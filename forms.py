@@ -1,30 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, Length, Email, URL, NoneOf
+from wtforms import StringField, TextAreaField, SubmitField, FormField
+from wtforms.validators import DataRequired, Length, Email, URL
 
 
 REQUIRED = DataRequired()
 LEN_100 = Length(max=100)
 
 
-class EditClubForm(FlaskForm):
-    name = StringField(render_kw={'readonly': True})
-    aka = StringField(validators=[Length(max=20)])
-    category = StringField(render_kw={'readonly': True})
-    description_in_markdown = TextAreaField(validators=[REQUIRED, Length(max=5000)])
-    meeting_time = StringField(validators=[REQUIRED])
-    meeting_location = StringField(validators=[REQUIRED, LEN_100])
-    tags_separated_by_comma = StringField(validators=[LEN_100])
-    submit = SubmitField()
-
-
 class LeadershipsForm(FlaskForm):
-    advisor = StringField([REQUIRED, LEN_100])
-    co_advisor = StringField(validators=[LEN_100])
-    president = StringField(validators=[REQUIRED, LEN_100])
-    co_president = StringField(validators=[LEN_100])
-    secretary = StringField(validators=[[REQUIRED, LEN_100]])
-    treasurer = StringField(validators=[[REQUIRED, LEN_100]])
+    advisor_full_name = StringField([REQUIRED, LEN_100])
+    co_advisor_full_name = StringField(validators=[LEN_100])
+    president_full_name = StringField(validators=[REQUIRED, LEN_100])
+    co_president_full_name = StringField(validators=[LEN_100])
+    secretary_full_name = StringField(validators=[REQUIRED, LEN_100])
+    treasurer_full_name = StringField(validators=[REQUIRED, LEN_100])
 
 
 class SocialMediasForm(FlaskForm):
@@ -36,3 +25,17 @@ class SocialMediasForm(FlaskForm):
     tiktok_profile_link = StringField(validators=[LEN_100, URL()])
     twitter_profile_link = StringField(validators=[LEN_100, URL()])
     linktree_link = StringField(validators=[LEN_100, URL()])
+
+
+class EditClubForm(FlaskForm):
+    aka = StringField("Acronym(s)", validators=[Length(max=30)])
+    description_in_markdown = TextAreaField("Club Description (Use the eye icon to preview your description. Use bullet points, emojis, bold, italic, and headings to make your description stand out!)",
+                                            validators=[REQUIRED, Length(max=5000)],
+                                            description='Max 5000 characters. Reach out to ASB if you need help with editing your description. Clubs with high quality description will be prioritized on TinoClubs.com')
+    meeting_time = StringField(validators=[REQUIRED, LEN_100])
+    meeting_location = StringField(validators=[REQUIRED, LEN_100])
+    tags_separated_by_comma = StringField("Hashtags (please separate it by comma)", validators=[LEN_100],
+                                          description="Example: #RecruitingNewMembers, #EveryoneCanJoin, #MeetingToday, #NoMeetingThisWeek, #OfficerApplicationOpen, #Fundraising")
+    leaderships = FormField(LeadershipsForm)
+    social_medias = FormField(SocialMediasForm)
+    submit = SubmitField()
