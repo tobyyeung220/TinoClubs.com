@@ -78,6 +78,7 @@ def edit_club_page(hyphened_club_name: str):
     if not (request.authorization and request.authorization.username == club_name and request.authorization.password == club_data.admin_password):
         return HTTP_UNAUTHORIZED_RESPONSE
     form = EditClubForm(obj=club_data)
+    form.social_medias.fill(club_data.social_medias_in_json)
     if form.validate_on_submit():
         ...
     return render_template('edit.html', club=club_data, form=form)

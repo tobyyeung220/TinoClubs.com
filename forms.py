@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField, FormField
 from wtforms.validators import DataRequired, Length, Email, URL
+import json
 
 
 REQUIRED = DataRequired()
@@ -25,6 +26,10 @@ class SocialMediasForm(FlaskForm):
     tiktok_profile_link = StringField(validators=[LEN_100, URL()])
     twitter_profile_link = StringField(validators=[LEN_100, URL()])
     linktree_link = StringField(validators=[LEN_100, URL()])
+
+    def fill(self, social_medias_in_json: str):
+        social_medias = json.loads(social_medias_in_json)
+        self.email_address.data = social_medias[0]['text']
 
 
 class EditClubForm(FlaskForm):

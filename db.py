@@ -55,9 +55,8 @@ class _BaseClubProperties:
 
 class Club(db.Model, _BaseClubProperties):
     class SocialMedia:
-        def __init__(self, name: str, url: str, text: str):
+        def __init__(self, name: str, text: str):
             self.name = name
-            self.url = url
             self.text = text
 
         @property
@@ -71,6 +70,7 @@ class Club(db.Model, _BaseClubProperties):
     description_in_markdown = db.Column(db.Text)
     meeting_time = db.Column(db.String, nullable=False, index=True)
     meeting_location = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
     tags_separated_by_comma = db.Column(db.String, index=True)
     social_medias_in_json = db.Column(db.String)  # visit /admin for acceptable data format
     leaderships_in_json = db.Column(db.String)  # visit /admin for acceptable data format
