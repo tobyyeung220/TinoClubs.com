@@ -76,7 +76,7 @@ class Club(db.Model, _BaseClubProperties):
     leaderships_in_json = db.Column(db.String)  # visit /admin for acceptable data format
     is_new = db.Column(db.Boolean, index=True, nullable=False)
     admin_password = db.Column(db.String, nullable=False)
-    last_modified = db.Column(db.DateTime, nullable=False, default_factory=datetime.now)
+    last_modified = db.Column(db.DateTime, nullable=False)
 
     @property
     def description(self) -> str:
