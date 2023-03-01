@@ -9,6 +9,9 @@ import calendar
 import humanize
 
 
+ClubCategory_display_names_mapping = {'stem': 'STEM & Technology', 'business': 'Business', 'volunteering': 'Volunteering', 'culture_and_identity': 'Culture & Identity', 'sports': 'Sports', 'hobbies': 'Hobbies'}
+
+
 class ClubCategory(enum.Enum):
     stem = 'stem'
     business = 'business'
@@ -17,16 +20,13 @@ class ClubCategory(enum.Enum):
     sports = 'sports'
     hobbies = 'hobbies'
 
-    __display_names_mapping = {'stem': 'STEM & Technology', 'business': 'Business', 'volunteering': 'Volunteering',
-                               'culture_and_identity': 'Culture & Identity', 'sports': 'Sports', 'hobbies': 'Hobbies'}
-
     @property
     def img(self):
         return f'/static/categories/{self.name}.png'
 
     @property
     def display_name(self):
-        return ClubCategory.__display_names_mapping[self.value]
+        return ClubCategory_display_names_mapping[self.value]
 
 
 db = SQLAlchemy()  # "app: Flask" argument will be passed into later during main.py
