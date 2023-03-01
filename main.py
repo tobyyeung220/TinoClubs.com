@@ -5,7 +5,7 @@ from datetime import date
 import calendar
 from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
 from admin import init_admin, is_valid_admin_credentials, assert_environ_are_valid
-from forms import EditBasicInfoForm, EditLeadershipsForm, EditSocialMediasForm
+from forms import EditClubInfoForm
 
 
 assert_environ_are_valid()
@@ -73,34 +73,20 @@ def club_page(hyphened_club_name: str):
 @app.route('/edit/<hyphened_club_name>', methods=['GET', 'POST'])
 def edit_club_page(hyphened_club_name: str):
     club_name = hyphened_club_name.replace('-', ' ')
-    club_data = db.get_or_404(Club, club_name,
+    club = db.get_or_404(Club, club_name,
                               description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
-    if not (request.authorization and request.authorization.username == club_name and request.authorization.password == club_data.admin_password):
+    if not (request.authorization and request.authorization.username == club_name and request.authorization.password == club.admin_password):
         return HTTP_UNAUTHORIZED_RESPONSE
-    basic_info_form = EditBasicInfoForm(obj=club_data)
-    leaderships_form = EditLeadershipsForm()
-    leaderships_form.try_fill(club_data.leaderships)
-    social_medias_form = EditSocialMediasForm()
-    social_medias_form.try_fill(club_data.social_medias)
-    if basic_info_form.validate_on_submit():
-        for field, value in basic_info_form.data.items():
-            if hasattr(club_data, field) and getattr(club_data, field) != value:
-                setattr(club_data, field, value)
-        db.session.commit()
-        flash("Succesfully saved all changes in basic info", 'success')
-        return redirect('/club/' + hyphened_club_name)
-    elif leaderships_form.validate_on_submit():
-        club_data.leaderships_in_json = leaderships_form.to_json()
-        db.session.commit()
-        flash("Succesfully saved all changes in leadership info", 'success')
-        return redirect('/club/' + hyphened_club_name)
-    elif social_medias_form.validate_on_submit():
-        club_data.social_medias_in_json = social_medias_form.to_json()
-        db.session.commit()
-        flash("Succesfully saved all changes in social media info", 'success')
-        return redirect('/club/' + hyphened_club_name)
-    return render_template('edit.html', club=club_data, basic_info_form=basic_info_form,
-                           leaderships_form=leaderships_form, social_medias_form=social_medias_form)
+    edit_form = EditClubInfoForm(obj=club)
+    edit_form.register_leaderships(club.leaderships)
+    edit_form.register_social_medias(club.social_medias)
+    if edit_form.is_submitted():
+        if edit_form.validate():
+            flash('Succesfully saved all changes', 'success')
+            return redirect('/club/' + hyphened_club_name)
+        else:
+            flash('You have one or more errors. Please scroll down to see them.', 'danger')
+    return render_template('edit.html', club=club, edit_form=edit_form)
 
 
 @app.route('/explore')
