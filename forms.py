@@ -8,12 +8,12 @@ LEN_100 = Length(max=100)
 
 
 class LeadershipsForm(FlaskForm):
-    advisor_full_name = StringField([REQUIRED, LEN_100])
-    co_advisor_full_name = StringField(validators=[LEN_100])
+    advisor_full_name = StringField(validators=[REQUIRED, LEN_100])
+    co_advisor_full_name = StringField("Co-Advisor Full Name (if applicable)", validators=[LEN_100])
     president_full_name = StringField(validators=[REQUIRED, LEN_100])
-    co_president_full_name = StringField(validators=[LEN_100])
+    co_president_full_name = StringField("Co-President Full Name (if applicable)", validators=[LEN_100])
     secretary_full_name = StringField(validators=[REQUIRED, LEN_100])
-    treasurer_full_name = StringField(validators=[REQUIRED, LEN_100])
+    treasurer_full_name = StringField(validators=[REQUIRED, LEN_100], description="Treasurer can be the same person as the secretary")
 
 
 class SocialMediasForm(FlaskForm):
@@ -34,8 +34,8 @@ class EditClubForm(FlaskForm):
                                             description='Max 5000 characters. Reach out to ASB if you need help with editing your description. Clubs with high quality description will be prioritized on TinoClubs.com')
     meeting_time = StringField(validators=[REQUIRED, LEN_100])
     meeting_location = StringField(validators=[REQUIRED, LEN_100])
-    tags_separated_by_comma = StringField("Hashtags (please separate it by comma)", validators=[LEN_100],
+    tags_separated_by_comma = StringField("Hashtags (separated by comma)", validators=[LEN_100],
                                           description="Example: #RecruitingNewMembers, #EveryoneCanJoin, #MeetingToday, #NoMeetingThisWeek, #OfficerApplicationOpen, #Fundraising")
     leaderships = FormField(LeadershipsForm)
     social_medias = FormField(SocialMediasForm)
-    submit = SubmitField()
+    submit = SubmitField("Save Changes")
