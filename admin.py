@@ -17,15 +17,14 @@ class ClubModelView(ModelView):
     can_export = True
     column_display_pk = True
     column_descriptions = {
-        'name': 'Club name must NOT contain hyphen - !',
+        'name': 'Club name must NOT contain hyphen',
         'description_in_markdown': 'This will be rendered as markdown',
-        'tags_separated_by_comma': 'Please separate this field by comma with NO SPACE. Example: #Recruiting,#NewClub,#JoinNow',
         'social_medias_in_json': 'Please follow a JSON array format of: [{"name": String, "url": String, "text": String}]'
-                             '\nExample: [{"name": "instagram", "url": "https://instagram.com/iamjiamingliu", "text": "@iamjiamingliu"}, {"name": "email", "url": "mailto:jiamingliu888@gmail.com", "text": "jiamingliu888@gmail.com"}]'
-                             '\n"name" can be anything as long as its .webp is in "Manage Social Media Icons"'
-                             '\nIf "name" is "website", then the url should be the url of the club\' own website',
+                             '\nExample: [{"name": "instagram", "text": "@someclub"}, {"name": "discord", "text": "somediscordinvitelink"}]'
+                             '\n"name" can be: instagram, discord, facebook, youtube, tiktok, twitter, and linktree',
         'leaderships_in_json': 'Please follow a JSON array format of: [{"name": String, "role": String}]'
-                           '\nExample: [{"name": "Jiaming Liu", "role": "President"}]'
+                           '\nExample: [{"name": "John Doe", "role": "President"}, {"name": "Billy Bob", "role": "President"}]',
+        'admin_password': 'Please let the club know that this is their admin password. They will need this to login and edit their own info.'
     }
     column_formatters = {'description_in_markdown': lambda v, c, m, p: m.description_in_markdown[:40] + ('...' if len(m.description_in_markdown) > 40 else '')
                         }

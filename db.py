@@ -4,7 +4,7 @@ from sqlalchemy import or_, func
 import json
 import markdown2
 from dataclasses import dataclass, asdict
-from datetime import date
+from datetime import date, datetime
 import calendar
 
 
@@ -68,15 +68,15 @@ class Club(db.Model, _BaseClubProperties):
     aka = db.Column(db.String, index=True)
     category = db.Column(db.Enum(ClubCategory), nullable=False, index=True)
     description_in_markdown = db.Column(db.Text)
-    meeting_time = db.Column(db.String, nullable=False, index=True)
-    meeting_location = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False)
+    meeting_time = db.Column(db.String, index=True)
+    meeting_location = db.Column(db.String)
+    email = db.Column(db.String)
     tags_separated_by_comma = db.Column(db.String, index=True)
     social_medias_in_json = db.Column(db.String)  # visit /admin for acceptable data format
     leaderships_in_json = db.Column(db.String)  # visit /admin for acceptable data format
-    is_new = db.Column(db.Boolean, index=True)
+    is_new = db.Column(db.Boolean, index=True, nullable=False)
     admin_password = db.Column(db.String, nullable=False)
-    last_modified = db.Column(db.DateTime)
+    last_modified = db.Column(db.DateTime, nullable=False, default_factory=datetime.now)
 
     @property
     def description(self) -> str:
