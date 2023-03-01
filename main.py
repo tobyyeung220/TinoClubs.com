@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, flash
 from flask_bootstrap import Bootstrap5
 import uuid
 from datetime import date
@@ -77,23 +77,25 @@ def edit_club_page(hyphened_club_name: str):
                               description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
     if not (request.authorization and request.authorization.username == club_name and request.authorization.password == club_data.admin_password):
         return HTTP_UNAUTHORIZED_RESPONSE
-
-    edit_basic_info_form = EditBasicInfoForm(obj=club_data)
-    if edit_basic_info_form.validate_on_submit():
-        print(edit_basic_info_form.data)
-
-    edit_leaderships_form = EditLeadershipsForm()
-    if edit_leaderships_form.validate_on_submit():
-        print(edit_leaderships_form)
-    edit_leaderships_form.fill(club_data.leaderships)
-
-    edit_social_medias_form = EditSocialMediasForm()
-    if edit_social_medias_form.validate_on_submit():
-        print(edit_social_medias_form.to_list())
-    edit_social_medias_form.fill(club_data.social_medias)
-
-    return render_template('edit.html', club=club_data, basic_info_form=edit_basic_info_form,
-                           leaderships_form=edit_leaderships_form, social_medias_form=edit_social_medias_form)
+    basic_info_form = EditBasicInfoForm(obj=club_data)
+    leaderships_form = EditLeadershipsForm()
+    leaderships_form.fill(club_data.leaderships)
+    social_medias_form = EditSocialMediasForm()
+    social_medias_form.fill(club_data.social_medias)
+    if basic_info_form.validate_on_submit():
+        print('basic', basic_info_form)
+    elif leaderships_form.validate_on_submit():
+        club_data.leaderships_in_json = leaderships_form.to_json()
+        db.session.commit()
+        flash("Succesfully saved all changes in leadership info", 'success')
+        return redirect('/club/' + hyphened_club_name)
+    elif social_medias_form.validate_on_submit():
+        club_data.social_medias_in_json = social_medias_form.to_json()
+        db.session.commit()
+        flash("Succesfully saved all changes in social media info", 'success')
+        return redirect('/club/' + hyphened_club_name)
+    return render_template('edit.html', club=club_data, basic_info_form=basic_info_form,
+                           leaderships_form=leaderships_form, social_medias_form=social_medias_form)
 
 
 @app.route('/explore')

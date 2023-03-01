@@ -2,9 +2,27 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, ValidationError
 import calendar
+import json
 
 
-class EditBasicInfoForm(FlaskForm):
+class MyForm(FlaskForm):
+    def __init__(self, prefix_name, *args, **kwargs):
+        kwargs['prefix'] = prefix_name
+        super().__init__(*args, **kwargs)
+        assert hasattr(self, 'submit'), 'MyForm must have a "submit" attribute!'
+
+    @property
+    def string_field_names(self):
+        return [f for f in self._fields if isinstance(getattr(self, f), StringField) and not f.startswith('csrf')]
+
+    def validate_on_submit(self, extra_validators=None):
+        return super().validate_on_submit(extra_validators) and self.submit.data
+
+
+class EditBasicInfoForm(MyForm):
+    def __init__(self, *args, **kwargs):
+        super(EditBasicInfoForm, self).__init__(prefix_name='edit_basic_info', *args, **kwargs)
+
     aka = StringField("Acronym(s)", validators=[Length(max=30)])
     description_in_markdown = TextAreaField("Club Description (Use the eye icon to preview your description. Use bullet points, emojis, bold, italic, and headings to make your description stand out!)",
                                             validators=[DataRequired(), Length(max=5000)],
@@ -22,13 +40,10 @@ class EditBasicInfoForm(FlaskForm):
             raise ValidationError(f"Please ensure your meeting time contains one of the following keywords: {', '.join(days_of_week)}")
 
 
-class _StringFieldsOnly(FlaskForm):
-    @property
-    def string_field_names(self):
-        return [f for f in self._fields if isinstance(getattr(self, f), StringField)]
+class EditLeadershipsForm(MyForm):
+    def __init__(self, *args, **kwargs):
+        super(EditLeadershipsForm, self).__init__(prefix_name='edit_leaderships_info', *args, **kwargs)
 
-
-class EditLeadershipsForm(_StringFieldsOnly):
     advisor_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
     advisor_2_full_name = StringField("Advisor 2 Full Name (if applicable)", validators=[Length(max=100)])
     president_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
@@ -43,7 +58,7 @@ class EditLeadershipsForm(_StringFieldsOnly):
     def fill(self, leaderships: list[dict]):
         for person in leaderships:
             field_name_prefix = person['role'].lower().replace(' ', '_')
-            if hasattr(self, field_name_prefix + '_full_name'):
+            if hasattr(self, field_name_prefix + '_full_name') and not getattr(self, field_name_prefix + '_full_name'):
                 getattr(self, field_name_prefix + '_full_name').data = person['name']
             else:
                 for i in range(1, 3):
@@ -51,8 +66,14 @@ class EditLeadershipsForm(_StringFieldsOnly):
                         getattr(self, f'{field_name_prefix}_{i}_full_name').data = person['name']
                         break
 
+    def to_json(self) -> str:
+        ...
 
-class EditSocialMediasForm(_StringFieldsOnly):
+
+class EditSocialMediasForm(MyForm):
+    def __init__(self, *args, **kwargs):
+        super(EditSocialMediasForm, self).__init__(prefix_name='edit_social_medias_', *args, **kwargs)
+
     instagram_username = StringField(validators=[Length(max=100)])
     facebook_username = StringField(validators=[Length(max=100)])
     youtube_username = StringField(validators=[Length(max=100)])
@@ -66,16 +87,15 @@ class EditSocialMediasForm(_StringFieldsOnly):
         for field in self.string_field_names:
             platform_name = field.split('_')[0]
             possible_info = [media for media in social_medias if media.name == platform_name]
-            if possible_info:
+            if possible_info and not getattr(self, field).data:
                 getattr(self, field).data = possible_info[0].text
 
-    def to_list(self):
+    def to_json(self):
         social_medias = []
         for field in self.string_field_names:
-            print(field, getattr(self, field).data)
             platform_name = field.split('_')[0]
             text = getattr(self, field).data.strip()
             if not text:
                 continue
             social_medias.append({'name': platform_name, 'text': text})
-        return social_medias
+        return json.dumps(social_medias)
