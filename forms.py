@@ -5,7 +5,7 @@ import calendar
 import json
 from db import Club
 
-VALID_ROLE_PREFIXES = {'advisor', 'president', 'vice president', 'secretary', 'treasurer'}
+VALID_ROLE_PREFIXES = {'advisor', 'president', 'vice', 'secretary', 'treasurer'}
 VALID_SOCIAL_MEDIA = {'instagram', 'facebook', 'youtube', 'tiktok', 'twitter', 'discord', 'linktree'}
 
 

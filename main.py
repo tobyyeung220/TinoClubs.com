@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, flash
+from flask import Flask, render_template, request, session, redirect, flash, abort
 from flask_bootstrap import Bootstrap5
 import uuid
 from datetime import date, datetime
@@ -57,17 +57,19 @@ def home_page():
 
 @app.route('/club/<hyphened_club_name>')
 def club_page(hyphened_club_name: str):
-    club_name = hyphened_club_name.replace('-', ' ')
-    club_data = db.get_or_404(Club, club_name,
-                              description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
-
     session.setdefault('recently_viewed', [])
-    current_overview = ClubOverview(club_name, club_data.category, club_data.aka, club_data.meeting_location, club_data.is_new)
+    club_name = hyphened_club_name.replace('-', ' ')
+    club = db.session.get(Club, club_name)
+    if club is None:
+        # removes it from recently viewed, in case this club was deleted recently
+        session['recently_viewed'] = [history for history in session['recently_viewed'] if history['name'] != club_name]
+        return abort(404, f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
+    current_overview = ClubOverview(club_name, club.category, club.aka, club.meeting_location, club.is_new)
     prev_overviews = [prev for prev in session['recently_viewed'] if prev['name'] != club_name]
     session['recently_viewed'] = [current_overview.dict()] + prev_overviews[:3]
 
-    same_category_clubs = GetClubOverviews.from_category(club_data.category, limit=4, exclude_name=club_name)
-    return render_template('club.html', club=club_data, overviews_of_same_category_clubs=same_category_clubs)
+    same_category_clubs = GetClubOverviews.from_category(club.category, limit=4, exclude_name=club_name)
+    return render_template('club.html', club=club, overviews_of_same_category_clubs=same_category_clubs)
 
 
 @app.route('/edit/<hyphened_club_name>', methods=['GET', 'POST'])
