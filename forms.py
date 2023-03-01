@@ -1,54 +1,81 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, Length, Email, URL
-
-
-REQUIRED = DataRequired()
-LEN_100 = Length(max=100)
+from wtforms.validators import DataRequired, Length, Email, ValidationError
+import calendar
 
 
 class EditBasicInfoForm(FlaskForm):
     aka = StringField("Acronym(s)", validators=[Length(max=30)])
     description_in_markdown = TextAreaField("Club Description (Use the eye icon to preview your description. Use bullet points, emojis, bold, italic, and headings to make your description stand out!)",
-                                            validators=[REQUIRED, Length(max=5000)],
+                                            validators=[DataRequired(), Length(max=5000)],
                                             description='Max 5000 characters. Reach out to ASB if you need help with editing your description. Clubs with high quality description will be prioritized on TinoClubs.com')
-    email = StringField(validators=[REQUIRED, Email(), LEN_100])
-    meeting_time = StringField(validators=[REQUIRED, LEN_100])
-    meeting_location = StringField(validators=[REQUIRED, LEN_100])
-    tags_separated_by_comma = StringField("Hashtags (separated by comma)", validators=[LEN_100],
+    email = StringField(validators=[DataRequired(), Email(), Length(max=100)])
+    meeting_time = StringField(validators=[DataRequired(), Length(max=100)])
+    meeting_location = StringField(validators=[DataRequired(), Length(max=100)])
+    tags_separated_by_comma = StringField("Hashtags (separated by comma)", validators=[Length(max=100)],
                                           description="Example: #RecruitingNewMembers, #EveryoneCanJoin, #MeetingToday, #NoMeetingThisWeek, #OfficerApplicationOpen, #Fundraising")
     submit = SubmitField("Save Club Info Changes")
 
+    def validate_meeting_time(self, field):
+        days_of_week = [calendar.day_name[i] for i in range(7)]
+        if not any(day.lower() in field.data.lower() for day in days_of_week):
+            raise ValidationError(f"Please ensure your meeting time contains one of the following keywords: {', '.join(days_of_week)}")
 
-class EditLeadershipsForm(FlaskForm):
-    advisor_full_name = StringField(validators=[REQUIRED, LEN_100])
-    co_advisor_full_name = StringField("Co-Advisor Full Name (if applicable)", validators=[LEN_100])
-    president_full_name = StringField(validators=[REQUIRED, LEN_100])
-    co_president_full_name = StringField("Co-President Full Name (if applicable)", validators=[LEN_100])
-    vice_president_1_full_name = StringField("Vice-President 1 Full Name", validators=[REQUIRED, LEN_100])
-    vice_president_2_full_name = StringField("Vice-President 2 Full Name (if applicable)", validators=[LEN_100])
-    vice_president_3_full_name = StringField("Vice-President 3 Full Name (if applicable)", validators=[LEN_100])
-    secretary_full_name = StringField(validators=[REQUIRED, LEN_100])
-    treasurer_full_name = StringField(validators=[REQUIRED, LEN_100], description="Treasurer can be the same person as the secretary")
+
+class _StringFieldsOnly(FlaskForm):
+    @property
+    def string_field_names(self):
+        return [f for f in self._fields if isinstance(getattr(self, f), StringField)]
+
+
+class EditLeadershipsForm(_StringFieldsOnly):
+    advisor_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
+    advisor_2_full_name = StringField("Advisor 2 Full Name (if applicable)", validators=[Length(max=100)])
+    president_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
+    president_2_full_name = StringField("President 2 Full Name (if applicable)", validators=[Length(max=100)])
+    vice_president_1_full_name = StringField("Vice President 1 Full Name", validators=[DataRequired(), Length(max=100)])
+    vice_president_2_full_name = StringField("Vice President 2 Full Name (if applicable)", validators=[Length(max=100)])
+    vice_president_3_full_name = StringField("Vice President 3 Full Name (if applicable)", validators=[Length(max=100)])
+    secretary_full_name = StringField(validators=[DataRequired(), Length(max=100)])
+    treasurer_full_name = StringField(validators=[DataRequired(), Length(max=100)], description="Treasurer can be the same person as the secretary")
     submit = SubmitField("Save Leadership Info Changes")
 
     def fill(self, leaderships: list[dict]):
-        ...
+        for person in leaderships:
+            field_name_prefix = person['role'].lower().replace(' ', '_')
+            if hasattr(self, field_name_prefix + '_full_name'):
+                getattr(self, field_name_prefix + '_full_name').data = person['name']
+            else:
+                for i in range(1, 3):
+                    if hasattr(self, f'{field_name_prefix}_{i}_full_name') and not getattr(self, f'{field_name_prefix}_{i}_full_name').data:
+                        getattr(self, f'{field_name_prefix}_{i}_full_name').data = person['name']
+                        break
 
 
-class EditSocialMediasForm(FlaskForm):
-    instagram_username = StringField(validators=[LEN_100, URL()])
-    facebook_username = StringField(validators=[LEN_100, URL()])
-    youtube_username = StringField(validators=[LEN_100, URL()])
-    tiktok_username = StringField(validators=[LEN_100, URL()])
-    twitter_username = StringField(validators=[LEN_100, URL()])
-    discord_invite_code = StringField(validators=[LEN_100, URL()])
-    linktree_link = StringField(validators=[LEN_100, URL()])
+class EditSocialMediasForm(_StringFieldsOnly):
+    instagram_username = StringField(validators=[Length(max=100)])
+    facebook_username = StringField(validators=[Length(max=100)])
+    youtube_username = StringField(validators=[Length(max=100)])
+    tiktok_username = StringField(validators=[Length(max=100)])
+    twitter_username = StringField(validators=[Length(max=100)])
+    discord_invite_code = StringField(validators=[Length(max=100)])
+    linktree_link = StringField(validators=[Length(max=100)])
     submit = SubmitField("Save Social Media Changes")
 
     def fill(self, social_medias: list['SocialMedia']):
-        for field in self._fields:
+        for field in self.string_field_names:
             platform_name = field.split('_')[0]
             possible_info = [media for media in social_medias if media.name == platform_name]
             if possible_info:
                 getattr(self, field).data = possible_info[0].text
+
+    def to_list(self):
+        social_medias = []
+        for field in self.string_field_names:
+            print(field, getattr(self, field).data)
+            platform_name = field.split('_')[0]
+            text = getattr(self, field).data.strip()
+            if not text:
+                continue
+            social_medias.append({'name': platform_name, 'text': text})
+        return social_medias
