@@ -22,11 +22,11 @@
 </div>
 {% endmacro %}
 
-{% macro social_media(icon, url, text, margin_top="mt-3") %}
-<a class="{{margin_top}} px-0 d-flex text-decoration-none" href="{{url}}" target="_blank">
-    <div style="width:36px;height:36px"><img src="{{icon}}" class="img-fluid"></div>
-    <p class="ms-3 text-crimson">{{ text }}</p>
-</a>
+{% macro social_media(icon_url, text, margin_top="mt-3") %}
+<div class="{{margin_top}} px-0 d-flex align-items-center">
+    <div style="width:36px;height:36px"><img src="{{icon_url}}" class="img-fluid"></div>
+    <p class="ms-3 mb-1 text-crimson">{{ text }}</p>
+</div>
 {% endmacro %}
 
 {% block content %}
@@ -83,8 +83,9 @@
             <div class="mt-4 card shadow-sm rounded-3" style="border:0px">
                 <div class="card-body">
                     <p class="card-subtitle text-secondary">Reach out to {{ club.name}}</p>
+                    {{ social_media("/static/social_medias/email.webp", club.email) }}
                     {% for media in club.social_medias %}
-                    {{ social_media(media.icon_url, media.url, media.text) }}
+                    {{ social_media(media.icon_url, media.text) }}
                     {% endfor %}
                 </div>
             </div>
