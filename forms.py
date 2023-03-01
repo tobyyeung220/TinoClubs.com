@@ -14,11 +14,12 @@ class EditClubInfoForm(FlaskForm):
     tags_separated_by_comma = StringField("Hashtags (separated by comma)", validators=[Length(max=100)],
                                           description="Example: #RecruitingNewMembers, #EveryoneCanJoin, #MeetingToday, #NoMeetingThisWeek, #OfficerApplicationOpen, #Fundraising")
     email = StringField(validators=[DataRequired(), Email(), Length(max=100)])
-    meeting_time = StringField(validators=[DataRequired(), Length(max=100)])
+    meeting_time = StringField(validators=[DataRequired(), Length(max=100)],
+                               description="Example: Every Monday at lunch, Every other Tuesday after school, First Monday of the month")
     meeting_location = StringField(validators=[DataRequired(), Length(max=100)])
     description_in_markdown = TextAreaField(
         "Club Description (Use the eye icon to preview your description. Use bullet points, emojis, bold, italic, and headings to make your description stand out!)",
-        validators=[DataRequired(), Length(max=5000)],
+        validators=[Length(max=5000)],
         description='Max 5000 characters. Reach out to ASB if you need help with editing your description. Clubs with high quality description will be prioritized on TinoClubs.com')
 
     advisor_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
@@ -67,11 +68,14 @@ class EditClubInfoForm(FlaskForm):
         for field in self._fields:
             if not any(field.startswith(prefix) for prefix in VALID_ROLE_PREFIXES):
                 continue
-            role = [prefix for prefix in VALID_ROLE_PREFIXES if field.startswith(prefix)][0]
+            if field.startswith('vice'):
+                role = 'Vice President'
+            else:
+                role = field.split('_')[0]
             name = getattr(self, field).data.strip()
             if not name:
                 continue
-            leaderships.append({'name': name, 'role': role})
+            leaderships.append({'name': name, 'role': role.title()})
         return json.dumps(leaderships)
 
     def register_social_medias(self, social_medias: list[Club.SocialMedia]):

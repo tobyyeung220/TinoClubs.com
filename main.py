@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, flash
 from flask_bootstrap import Bootstrap5
 import uuid
-from datetime import date
+from datetime import date, datetime
 import calendar
 from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
 from admin import init_admin, is_valid_admin_credentials, assert_environ_are_valid
@@ -78,14 +78,22 @@ def edit_club_page(hyphened_club_name: str):
     if not (request.authorization and request.authorization.username == club_name and request.authorization.password == club.admin_password):
         return HTTP_UNAUTHORIZED_RESPONSE
     edit_form = EditClubInfoForm(obj=club)
-    edit_form.register_leaderships(club.leaderships)
-    edit_form.register_social_medias(club.social_medias)
     if edit_form.is_submitted():
         if edit_form.validate():
+            for field_name, value in edit_form.data.items():
+                if hasattr(club, field_name):
+                    setattr(club, field_name, value)
+            club.leaderships_in_json = edit_form.leaderships_in_json
+            club.social_medias_in_json = edit_form.social_medias_in_json
+            club.last_modified = datetime.now()
+            db.session.commit()
             flash('Succesfully saved all changes', 'success')
             return redirect('/club/' + hyphened_club_name)
         else:
             flash('You have one or more errors. Please scroll down to see them.', 'danger')
+    else:
+        edit_form.register_leaderships(club.leaderships)
+        edit_form.register_social_medias(club.social_medias)
     return render_template('edit.html', club=club, edit_form=edit_form)
 
 
