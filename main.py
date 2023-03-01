@@ -79,11 +79,16 @@ def edit_club_page(hyphened_club_name: str):
         return HTTP_UNAUTHORIZED_RESPONSE
     basic_info_form = EditBasicInfoForm(obj=club_data)
     leaderships_form = EditLeadershipsForm()
-    leaderships_form.fill(club_data.leaderships)
+    leaderships_form.try_fill(club_data.leaderships)
     social_medias_form = EditSocialMediasForm()
-    social_medias_form.fill(club_data.social_medias)
+    social_medias_form.try_fill(club_data.social_medias)
     if basic_info_form.validate_on_submit():
-        print('basic', basic_info_form)
+        for field, value in basic_info_form.data.items():
+            if hasattr(club_data, field) and getattr(club_data, field) != value:
+                setattr(club_data, field, value)
+        db.session.commit()
+        flash("Succesfully saved all changes in basic info", 'success')
+        return redirect('/club/' + hyphened_club_name)
     elif leaderships_form.validate_on_submit():
         club_data.leaderships_in_json = leaderships_form.to_json()
         db.session.commit()

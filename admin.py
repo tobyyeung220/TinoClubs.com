@@ -21,9 +21,11 @@ class ClubModelView(ModelView):
         'description_in_markdown': 'This will be rendered as markdown',
         'social_medias_in_json': 'Please follow a JSON array format of: [{"name": String, "url": String, "text": String}]'
                              '\nExample: [{"name": "instagram", "text": "@someclub"}, {"name": "discord", "text": "somediscordinvitelink"}]'
-                             '\n"name" can be: instagram, discord, facebook, youtube, tiktok, twitter, and linktree',
+                             '\nname can be: instagram, discord, facebook, youtube, tiktok, twitter, linktree',
         'leaderships_in_json': 'Please follow a JSON array format of: [{"name": String, "role": String}]'
-                           '\nExample: [{"name": "John Doe", "role": "President"}, {"name": "Billy Bob", "role": "President"}]',
+                           '\nExample: [{"name": "John Doe", "role": "President"}, {"name": "Billy Bob", "role": "Vice President"}]'
+                               '\nrole can be: Advisor, President, Vice President, Secretary, Treasurer'
+                               '\n2 advisors max, 2 presidents max, 3 vice presidents max, and 1 each for secretary and treasurer',
         'admin_password': 'Please let the club know that this is their admin password. They will need this to login and edit their own info.'
     }
     column_formatters = {'description_in_markdown': lambda v, c, m, p: m.description_in_markdown[:40] + ('...' if len(m.description_in_markdown) > 40 else '')

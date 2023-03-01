@@ -84,19 +84,25 @@ class Club(db.Model, _BaseClubProperties):
 
     @property
     def tags(self) -> list[str]:
-        return (self.tags_separated_by_comma or '').split()
+        if not self.tags_separated_by_comma:
+            return []
+        return (self.tags_separated_by_comma or '').replace(', ', ',').split(',')
 
     @property
     def social_medias(self) -> list[SocialMedia]:
+        if not self.social_medias_in_json:
+            return []
         try:
-            return [self.SocialMedia(**d) for d in json.loads(self.social_medias_in_json or "[]")]
+            return [self.SocialMedia(**d) for d in json.loads(self.social_medias_in_json)]
         except json.JSONDecodeError:
             return []
 
     @property
     def leaderships(self) -> list[dict]:
+        if not self.leaderships_in_json:
+            return []
         try:
-            return json.loads(self.leaderships_in_json or "[]")
+            return json.loads(self.leaderships_in_json)
         except json.JSONDecodeError:
             return []
 

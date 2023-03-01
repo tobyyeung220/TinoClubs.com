@@ -55,7 +55,9 @@ class EditLeadershipsForm(MyForm):
     treasurer_full_name = StringField(validators=[DataRequired(), Length(max=100)], description="Treasurer can be the same person as the secretary")
     submit = SubmitField("Save Leadership Info Changes")
 
-    def fill(self, leaderships: list[dict]):
+    def try_fill(self, leaderships: list[dict]):
+        if self.submit.data:
+            return
         for person in leaderships:
             field_name_prefix = person['role'].lower().replace(' ', '_')
             if hasattr(self, field_name_prefix + '_full_name') and not getattr(self, field_name_prefix + '_full_name'):
@@ -83,7 +85,9 @@ class EditSocialMediasForm(MyForm):
     linktree_link = StringField(validators=[Length(max=100)])
     submit = SubmitField("Save Social Media Changes")
 
-    def fill(self, social_medias: list['SocialMedia']):
+    def try_fill(self, social_medias: list['SocialMedia']):
+        if self.submit.data:
+            return
         for field in self.string_field_names:
             platform_name = field.split('_')[0]
             possible_info = [media for media in social_medias if media.name == platform_name]
