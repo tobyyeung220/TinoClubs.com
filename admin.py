@@ -45,8 +45,14 @@ class MailingListView(BaseView):
     @expose('/')
     def mailing_list_home_page(self):
         clubs_grouped_by_category = {}
+        all_club_emails = set()
+        all_advisor_emails = set()
         for category in ClubCategory:
             clubs_grouped_by_category[category] = db.session.query(Club).filter_by(category=category).all()
+            for club in clubs_grouped_by_category[category]:
+                setattr(club, 'advisor_emails', {person['name'].lower().replace(' ', '_') + '@fuhsd.org' for person in club.leaderships if person['role'].lower().strip() == 'advisor'})
+                all_advisor_emails |= club.advisor_emails
+                all_club_emails.add(club.email)
         return self.render('admin_mailing_list.html', clubs_grouped_by_category=clubs_grouped_by_category)
 
 
