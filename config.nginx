@@ -1,0 +1,26 @@
+limit_req_zone $binary_remote_addr zone=mylimit:20m rate=50r/s;
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name tinoclubs.com;
+
+    limit_req zone=mylimit burst=12;
+
+	client_max_body_size 5M;
+
+	gzip on;
+	gzip_types text/html text/css text/xml application/x-javascript text/plain application/javascript;
+
+
+    location /static {
+		alias /root/TinoClubs.com/static;
+		expires 720m;
+	}
+
+	location / {
+		proxy_pass http://localhost:8000;
+		include /etc/nginx/proxy_params;
+		proxy_redirect off;
+	}
+}

@@ -1,3 +1,8 @@
+# To run development robustly, use:
+# gunicorn -w 3 main:app --daemon
+# And configure nginx to pass to 8000
+
+
 from flask import Flask, render_template, request, session, redirect, flash, abort
 from flask_bootstrap import Bootstrap5
 import uuid
