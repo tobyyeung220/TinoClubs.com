@@ -53,7 +53,8 @@ class MailingListView(BaseView):
                 setattr(club, 'advisor_emails', {person['name'].lower().replace(' ', '_') + '@fuhsd.org' for person in club.leaderships if person['role'].lower().strip() == 'advisor'})
                 all_advisor_emails |= club.advisor_emails
                 all_club_emails.add(club.email)
-        return self.render('admin_mailing_list.html', clubs_grouped_by_category=clubs_grouped_by_category)
+        return self.render('admin_mailing_list.html', clubs_grouped_by_category=clubs_grouped_by_category,
+                           all_club_emails=all_club_emails, all_advisor_emails=all_advisor_emails)
 
 
 def init_admin(app):

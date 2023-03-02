@@ -2,12 +2,20 @@
 
 {% extends 'admin/master.html' %}
 {% block body %}
+<script>
+function copyToClipboard(emails_separated_by_comma){
+    navigator.clipboard.writeText(emails_separated_by_comma);
+    alert("Succesfully copied " + emails_separated_by_comma.split(", ").length + " emails to clipboard");
+}
+</script>
 
 <div style="display:flex;justify-content:space-between">
     <h2 style="margin:0px">Clubs Mailing List</h2>
     <div>
-        <button class="btn btn-primary">Copy All Club Emails</button>
-        <button class="btn btn-primary">Copy All Advisor Emails</button>
+        {% set all_club_emails_sep_comma = all_club_emails | join(', ') %}
+        {% set all_advisor_emails_sep_comma = all_advisor_emails | join(', ') %}
+        <button class="btn btn-primary" onclick="copyToClipboard('{{all_club_emails_sep_comma}}')">Copy All Club Emails</button>
+        <button class="btn btn-primary" onclick="copyToClipboard('{{all_advisor_emails_sep_comma}}')">Copy All Advisor Emails</button>
     </div>
 </div>
 
