@@ -38,10 +38,16 @@
         {% endfor %}
     </div>
     <div class="col col-lg-4" style="padding-left:0px;padding-right:0px">
-        <h5 style="color:gray">Advisor Email</h5>
+        <h5 style="color:gray">Advisor Email(s)</h5>
         {% for club in clubs_grouped_by_category[category] %}
+        {% set advisor_emails = [] %}
+        {% for person in club.leaderships %}
+        {% if person.role.lower() == "advisor" %}
+        {% do advisor_emails.append(person.name.lower().replace(' ', '_') + '@fuhsd.org') %}
+        {% endif %}
+        {% endfor %}
         <div style="height:24px;overflow-y:scroll">
-            <p style="display:inline">hi</p>
+            <p style="display:inline">{{ advisor_emails | join(', ') }}</p>
         </div>
         <hr>
         {% endfor %}
