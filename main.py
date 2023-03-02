@@ -5,7 +5,7 @@
 
 from flask import Flask, render_template, request, session, redirect, flash, abort
 from flask_bootstrap import Bootstrap5
-import uuid
+import os
 from datetime import date, datetime
 import calendar
 from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
@@ -16,7 +16,7 @@ from forms import EditClubInfoForm
 assert_environ_are_valid()
 
 app = Flask(__name__)
-app.secret_key = uuid.uuid4().hex
+app.secret_key = os.environ['ADMIN_PASSWORD']
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite?check_same_thread=False'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
