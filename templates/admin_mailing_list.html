@@ -5,23 +5,40 @@
 
 <div style="display:flex;justify-content:space-between">
     <h2 style="margin:0px">Clubs Mailing List</h2>
-    <button class="btn btn-primary">Copy All Clubs and Advisors Emails</button>
+    <div>
+        <button class="btn btn-primary">Copy All Club Emails</button>
+        <button class="btn btn-primary">Copy All Advisor Emails</button>
+    </div>
 </div>
 
 {% for category in clubs_grouped_by_category %}
 <div class="row" style="margin-top:16px;padding-left:16px;padding-right:16px">
     <h4>{{ category.display_name }}</h4>
-    <div class="col col-lg-6" style="padding-left:0px;padding-right:0px">
-        <h5 style="color:gray">Clubs Emails</h5>
+    <div class="col col-lg-4" style="padding-left:0px;padding-right:0px">
+        <h5 style="color:gray">Club Name</h5>
         {% for club in clubs_grouped_by_category[category] %}
         <div style="height:24px;overflow-y:scroll">
-            <p style="display:inline">hi</p>
+            <p style="display:inline">
+                {{ club.name }}
+                {% if club.aka %}
+                ({{ club.aka }})
+                {% endif %}
+            </p>
         </div>
         <hr>
         {% endfor %}
     </div>
-    <div class="col col-lg-6" style="padding-left:0px;padding-right:0px">
-        <h5 style="color:gray">Advisors Emails</h5>
+    <div class="col col-lg-4" style="padding-left:0px;padding-right:0px">
+        <h5 style="color:gray">Club Email</h5>
+        {% for club in clubs_grouped_by_category[category] %}
+        <div style="height:24px;overflow-y:scroll">
+            <p style="display:inline">{{ club.email }}</p>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+    <div class="col col-lg-4" style="padding-left:0px;padding-right:0px">
+        <h5 style="color:gray">Advisor Email</h5>
         {% for club in clubs_grouped_by_category[category] %}
         <div style="height:24px;overflow-y:scroll">
             <p style="display:inline">hi</p>
