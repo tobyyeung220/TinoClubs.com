@@ -134,16 +134,16 @@ class ClubOverview(_BaseClubProperties):
         return dict_data
 
 
+def return_overviews(func):
+    def inner(*args, **kwargs):
+        return [ClubOverview(*row) for row in func(*args, **kwargs)]
+    return inner
+
+
 class GetClubOverviews:
     fulltext_matchable_fields = [Club.name, Club.aka, Club.category, Club.tags_separated_by_comma]
 
     order_by_clauses = [Club.is_new.desc(), func.length(Club.description_in_markdown).desc()]
-
-    @staticmethod
-    def return_overviews(func):
-        def inner(*args, **kwargs):
-            return [ClubOverview(*row) for row in func(*args, **kwargs)]
-        return inner
 
     @classmethod
     def sql_base(cls):
