@@ -38,7 +38,8 @@
 
 <div class="gd-crimson" style="margin-top:-30px">
     <!-- relative -60 to counter the bottom wave offset -->
-    <div class="row" style="position:relative;bottom:-70px">
+    <!-- must add w-100 g-0 following row, otherwise there will be a problematic white space -->
+    <div class="row w-100 g-0" style="position:relative;bottom:-70px">
         <div class="col-12 col-lg-5">
             <div class="container text-white ps-3 ps-lg-5">
                 <h3 class="">{{total_clubs_cnt}} Clubs,</h3>
@@ -84,7 +85,7 @@
 {% endif %}
 
 {% if clubs_meeting_today %}
-<div class="container {{'mt-4 mt-lg-5' if recently_viewed}} pb-5">
+<div class="container {{'mt-4 mt-lg-5' if recently_viewed}} pb-4">
     <div class="d-flex justify-content-between px-lg-4">
         <h4>Clubs Meeting Today</h4>
         <div class="spinner-grow text-crimson spinner-grow-sm" role="status">
@@ -102,7 +103,7 @@
 {% endif %}
 
 {% if clubs_meeting_today_or_next_week %}
-<div class="container pb-5">
+<div class="container pb-3">
     <div class="d-flex justify-content-between px-lg-4">
         <h4>Clubs Meeting Today Or Next {{day_of_the_week}}</h4>
         <div class="spinner-grow text-crimson spinner-grow-sm" role="status">

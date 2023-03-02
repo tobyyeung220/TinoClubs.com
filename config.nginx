@@ -1,8 +1,8 @@
 limit_req_zone $binary_remote_addr zone=mylimit:20m rate=50r/s;
 
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+    listen 80;
+    listen [::]:80;
     server_name tinoclubs.com;
 
     limit_req zone=mylimit burst=12;
