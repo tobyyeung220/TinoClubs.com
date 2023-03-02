@@ -1,0 +1,35 @@
+<!-- The entre /admin system is under Bootstrap 3, while everything else is Bootstrap 5 -->
+
+{% extends 'admin/master.html' %}
+{% block body %}
+
+<div style="display:flex;justify-content:space-between">
+    <h2 style="margin:0px">Clubs Mailing List</h2>
+    <button class="btn btn-primary">Copy All Clubs and Advisors Emails</button>
+</div>
+
+{% for category in clubs_grouped_by_category %}
+<div class="row" style="margin-top:16px;padding-left:16px;padding-right:16px">
+    <h4>{{ category.display_name }}</h4>
+    <div class="col col-lg-6" style="padding-left:0px;padding-right:0px">
+        <h5 style="color:gray">Clubs Emails</h5>
+        {% for club in clubs_grouped_by_category[category] %}
+        <div style="height:24px;overflow-y:scroll">
+            <p style="display:inline">hi</p>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+    <div class="col col-lg-6" style="padding-left:0px;padding-right:0px">
+        <h5 style="color:gray">Advisors Emails</h5>
+        {% for club in clubs_grouped_by_category[category] %}
+        <div style="height:24px;overflow-y:scroll">
+            <p style="display:inline">hi</p>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,8 +1,8 @@
-from flask_admin import Admin, expose, AdminIndexView
+from flask_admin import Admin, expose, AdminIndexView, BaseView
 from flask import redirect
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
-from db import Club
+from db import Club, ClubCategory, db
 import os
 
 
@@ -41,18 +41,20 @@ class RedirectToClubDB(AdminIndexView):
         return redirect('./club')
 
 
-class FileAdmin2(FileAdmin):
-    ...
+class MailingListView(BaseView):
+    @expose('/')
+    def mailing_list_home_page(self):
+        clubs_grouped_by_category = {}
+        for category in ClubCategory:
+            clubs_grouped_by_category[category] = db.session.query(Club).filter_by(category=category).all()
+        return self.render('admin_mailing_list.html', clubs_grouped_by_category=clubs_grouped_by_category)
 
 
-class FileAdmin3(FileAdmin):
-    ...
-
-
-def init_admin(app, db_session):
+def init_admin(app):
     tino_clubs_admin = Admin(app, name='Tino Clubs Admin', template_mode='bootstrap3', index_view=RedirectToClubDB())
-    tino_clubs_admin.add_view(ClubModelView(Club, db_session, name="Manage Clubs"))
+    tino_clubs_admin.add_view(ClubModelView(Club, db.session, name="Manage Clubs"))
     tino_clubs_admin.add_view(FileAdmin('./static', name='Manage Static Assets'))
+    tino_clubs_admin.add_view(MailingListView(name='Mailing List', endpoint='mailing_list'))
 
 
 def assert_environ_are_valid():

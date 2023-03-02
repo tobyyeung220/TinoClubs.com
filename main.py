@@ -27,7 +27,7 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-init_admin(app, db.session)
+init_admin(app)
 
 HTTP_UNAUTHORIZED_RESPONSE = 'Unauthorized', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'}
 
