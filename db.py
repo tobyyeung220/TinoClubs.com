@@ -81,7 +81,7 @@ class Club(db.Model, _BaseClubProperties):
 
     @property
     def description(self) -> str:
-        return markdown2.markdown(self.description_in_markdown or '')
+        return markdown2.markdown(self.description_in_markdown.replace('\n', '\n\n') or '')
 
     @property
     def tags(self) -> list[str]:
