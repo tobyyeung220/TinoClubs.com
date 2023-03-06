@@ -120,4 +120,56 @@ def search_page(search_query: str = None):
 
 
 if __name__ == '__main__':
+    import smtplib
+    import ssl
+    from email.message import EmailMessage
+
+    email_sender = 'tinoclubs@gmail.com'
+    email_password = 'ozhuoxcurimddtve'
+
+    subject = 'Introducing TinoClubs.com & Your Login Credentials'
+    body = """Hi {club_name},
+
+ASB has ditched the google spreadsheet on cupertinoasb.org/clubs. From now on and moving forward, your club will be featured on TinoClubs.com:
+- A lot more information and features compared to the simple spreadsheet
+- You can customize your club’s profile page on TinoClubs.com, anytime, anywhere
+
+This is the link to your club’s profile page: {profile_link}
+To edit your club’s profile page, click on the “Edit” yellow button, which should lead you to this page: {edit_link}
+
+Your username is: {club_name}
+Your password is: {edit_password} (if someday you forget or want to change your password, let us know)
+
+Then the creativity is yours! A good profile page will help you attract more members and give you prioritized ranking on the website.
+
+A few tips on making a good profile page:
+1. Enrich the description section with bullet points, sub-headings, italics, and bold
+2. FYI, the description uses a “markdown” syntax. If one of your officers took a CS class before, ask them. They have the knowledge to unlock the fullest potential for your description section.
+3. Keep your social media and leadership info sections up-to-date
+
+This is a new site, so we apologize in advance of any defects or bugs. If you have any feedback for TinoClubs.com, we’d love to hear!
+
+Best Regards,
+Clubs Commissioners
+    """
+
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+        smtp.login(email_sender, email_password)
+
+        with app.app_context():
+            clubs = Club.query.all()
+            for club in clubs:
+                email_receiver = club.email
+                em = EmailMessage()
+                em['From'] = email_sender
+                em['To'] = email_receiver
+                em['Subject'] = subject
+                em.set_content(body.format(club_name=club.name, profile_link='tinoclubs.com/club/' + club.name.replace(' ', '-'),
+                                           edit_link='tinoclubs.com/edit/' + club.name.replace(' ', '-'),
+                                           edit_password=club.admin_password))
+                smtp.sendmail(email_sender, email_receiver, em.as_string())
+                print(club.name)
+    exit()
     app.run(debug=True, port=8000)
