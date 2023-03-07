@@ -20,9 +20,9 @@ class EditClubInfoForm(FlaskForm):
                                description="Example: Every Monday at lunch, Every other Tuesday after school, First Monday of the month")
     meeting_location = StringField(validators=[DataRequired(), Length(max=100)])
     description_in_markdown = TextAreaField(
-        "Club Description (Use the eye icon to preview your description. Use bullet points, emojis, bold, italic, and headings to make your description stand out!)",
+        "Club Description",
         validators=[Length(max=5000)],
-        description='Max 5000 characters. Reach out to ASB if you need help with editing your description. Clubs with high quality description will be prioritized on TinoClubs.com')
+        description='Max 5000 characters. Clubs with high quality description will automatically receive prioritized ranking on TinoClubs.com')
 
     advisor_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
     advisor_2_full_name = StringField("Advisor 2 Full Name (optional)", validators=[Length(max=100)])

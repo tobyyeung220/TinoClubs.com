@@ -1,11 +1,9 @@
 import enum
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_, func
+from sqlalchemy import or_, func, text
 import json
 import markdown2
 from dataclasses import dataclass, asdict
-from datetime import date
-import calendar
 import humanize
 
 
@@ -146,7 +144,8 @@ def return_overviews(func):
 class GetClubOverviews:
     fulltext_matchable_fields = [Club.name, Club.aka, Club.category, Club.tags_separated_by_comma]
 
-    order_by_clauses = [Club.is_new.desc(), func.length(Club.description_in_markdown).desc()]
+    # must be 360.0, otherwise int division results in zero
+    order_by_clauses = [Club.is_new.desc(), (func.length(Club.description_in_markdown) / (360.0 + func.ifnull(func.julianday('now') - func.julianday(Club.last_modified), 360.0))).desc()]
 
     @classmethod
     def sql_base(cls):
