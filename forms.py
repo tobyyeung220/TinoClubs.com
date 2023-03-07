@@ -10,7 +10,7 @@ VALID_SOCIAL_MEDIA = {'instagram', 'facebook', 'youtube', 'tiktok', 'twitter', '
 
 
 class EditClubInfoForm(FlaskForm):
-    aka = StringField("Acronym(s)", validators=[Length(max=30)])
+    aka = StringField("Acronym", validators=[Length(max=30)])
     category = SelectField(validators=[DataRequired()],
                            choices=[(member.value, name.capitalize()) for name, member in ClubCategory.__members__.items()])
     tags_separated_by_comma = StringField("Hashtags (separated by comma)", validators=[Length(max=100)],
@@ -40,7 +40,7 @@ class EditClubInfoForm(FlaskForm):
     youtube_username = StringField(validators=[Length(max=100)])
     tiktok_username = StringField(validators=[Length(max=100)])
     twitter_username = StringField(validators=[Length(max=100)])
-    discord_invite_code = StringField(validators=[Length(max=100)])
+    discord_link = StringField(validators=[Length(max=100)])
     linktree_link = StringField(validators=[Length(max=100)])
 
     submit = SubmitField("Save all changes")
