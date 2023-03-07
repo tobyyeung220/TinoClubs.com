@@ -53,11 +53,16 @@ def home_page():
     total_clubs_cnt = Club.query.count()
     random_club_names = GetClubOverviews.random(10)
     recently_viewed = [ClubOverview(**d) for d in session.get('recently_viewed', [])]
-    day_of_the_week = calendar.day_name[date.today().weekday()]
+    idx_of_today = date.today().weekday()
+    if 0 <= datetime.now().hour <= 15:  # if today's school hasn't ended
+        target_day_name = calendar.day_name[idx_of_today]
+    else:  # today's school has ended, so show tomorrow's club meetings
+        target_day_name = calendar.day_name[(idx_of_today + 1) % 7]
     return render_template('home.html', new_clubs=GetClubOverviews.new_clubs(), recently_viewed=recently_viewed,
                            total_clubs_cnt=total_clubs_cnt, random_club_names=random_club_names,
-                           clubs_meeting_today=GetClubOverviews.meetings_today(), day_of_the_week=day_of_the_week,
-                           clubs_meeting_today_or_next_week=GetClubOverviews.meetings_today_or_next_week())
+                           weekly_clubs_meeting=GetClubOverviews.weekly_meetings_on_the_day_of(target_day_name),
+                           non_weekly_clubs_meeting=GetClubOverviews.non_weekly_meetings_on_the_day_of(target_day_name),
+                           name_of_today=calendar.day_name[idx_of_today], target_day_name=target_day_name)
 
 
 @app.route('/club/<hyphened_club_name>')

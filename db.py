@@ -166,14 +166,12 @@ class GetClubOverviews:
 
     @classmethod
     @return_overviews
-    def meetings_today(cls):
-        day_of_the_week = calendar.day_name[date.today().weekday()]
+    def weekly_meetings_on_the_day_of(cls, day_of_the_week: str):
         return cls.sql_base().filter(Club.meeting_time.like('%every ' + day_of_the_week + '%')).order_by(*cls.order_by_clauses)
 
     @classmethod
     @return_overviews
-    def meetings_today_or_next_week(cls):
-        day_of_the_week = calendar.day_name[date.today().weekday()]
+    def non_weekly_meetings_on_the_day_of(cls, day_of_the_week: str):
         return cls.sql_base().filter(
             Club.meeting_time.like('%' + day_of_the_week + '%') & Club.meeting_time.not_like('%every ' + day_of_the_week +'%')).order_by(*cls.order_by_clauses)
 

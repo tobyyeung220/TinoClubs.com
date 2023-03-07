@@ -84,17 +84,15 @@
 </div>
 {% endif %}
 
-{% if clubs_meeting_today %}
+{% if weekly_clubs_meeting %}
 <div class="container {{'mt-4 mt-lg-5' if recently_viewed}} pb-4">
     <div class="d-flex justify-content-between px-lg-4">
-        <h4>Clubs Meeting Today</h4>
-        <div class="spinner-grow text-crimson spinner-grow-sm" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+        <h4>Clubs Meeting {{'Today' if name_of_today == target_day_name else 'Tomorrow'}}</h4>
+        <div class="spinner-grow text-crimson spinner-grow-sm" role="status"></div>
     </div>
     <div class="d-flex justify-content-center">
         <div style="width:1200px">
-            {% for overview in clubs_meeting_today %}
+            {% for overview in weekly_clubs_meeting %}
             {{ club_row(overview) }}
             {% endfor %}
         </div>
@@ -102,17 +100,15 @@
 </div>
 {% endif %}
 
-{% if clubs_meeting_today_or_next_week %}
+{% if non_weekly_clubs_meeting %}
 <div class="container pb-3">
     <div class="d-flex justify-content-between px-lg-4">
-        <h4>Clubs Meeting Today Or Next {{day_of_the_week}}</h4>
-        <div class="spinner-grow text-crimson spinner-grow-sm" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+        <h4>Clubs Meeting {{'Today' if name_of_today == target_day_name else 'Tomorrow'}} Or Next {{target_day_name}}</h4>
+        <div class="spinner-grow text-crimson spinner-grow-sm" role="status"></div>
     </div>
     <div class="d-flex justify-content-center">
         <div style="width:1200px">
-            {% for overview in clubs_meeting_today_or_next_week %}
+            {% for overview in non_weekly_clubs_meeting %}
             {{ club_row(overview) }}
             {% endfor %}
         </div>
