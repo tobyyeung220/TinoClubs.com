@@ -13,11 +13,11 @@
         <img src="{{club.thumb_url}}" class="rounded-pill" style="max-width:40px;max-height:40px">
         <h2 class="ms-3 mb-0">Edit {{club.name}}'s Info</h2>
     </div>
-    <p class="text-secondary mt-2">
+    <p class="text-secondary mt-2 mb-1">
         Keeping your club's information update-to-date will boost your club's ranking on TinoClubs.com,
         help you attract more members, and stay complaint with ASB regulations.
-        If you'd like to change your club's name, logo, or category, please directly reach out to ASB.
     </p>
+    <p class="text-secondary">If you'd like to change your club's <b>name or logo</b>, directly reach out to ASB.</p>
     {{ render_form(edit_form, form_type="horizontal", horizontal_columns=('lg', 3, 9)) }}
 </div>
 

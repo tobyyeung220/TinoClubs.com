@@ -20,6 +20,9 @@ class ClubCategory(enum.Enum):
     sports = 'sports'
     hobbies = 'hobbies'
 
+    def __str__(self):
+        return str(self.value)
+
     @property
     def img(self):
         return f'/static/categories/{self.name}.png'

@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField
+from wtforms import StringField, TextAreaField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, Email, ValidationError
 import calendar
 import json
-from db import Club
+from db import Club, ClubCategory
 
 VALID_ROLE_PREFIXES = {'advisor', 'president', 'vice', 'secretary', 'treasurer'}
 VALID_SOCIAL_MEDIA = {'instagram', 'facebook', 'youtube', 'tiktok', 'twitter', 'discord', 'linktree'}
@@ -11,6 +11,8 @@ VALID_SOCIAL_MEDIA = {'instagram', 'facebook', 'youtube', 'tiktok', 'twitter', '
 
 class EditClubInfoForm(FlaskForm):
     aka = StringField("Acronym(s)", validators=[Length(max=30)])
+    category = SelectField(validators=[DataRequired()],
+                           choices=[(member.value, name.capitalize()) for name, member in ClubCategory.__members__.items()])
     tags_separated_by_comma = StringField("Hashtags (separated by comma)", validators=[Length(max=100)],
                                           description="Example: #RecruitingNewMembers, #EveryoneCanJoin, #MeetingToday, #NoMeetingThisWeek, #OfficerApplicationOpen, #Fundraising")
     email = StringField(validators=[DataRequired(), Email(), Length(max=100)])
