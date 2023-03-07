@@ -19,21 +19,13 @@ class EditClubInfoForm(FlaskForm):
     meeting_time = StringField(validators=[DataRequired(), Length(max=100)],
                                description="Example: Every Monday at lunch, Every other Tuesday after school, First Monday of the month")
     meeting_location = StringField(validators=[DataRequired(), Length(max=100)])
-    description_in_markdown = TextAreaField(
-        "Club Description",
-        validators=[Length(max=5000)],
+    description_in_markdown = TextAreaField("Club Description", validators=[Length(max=5000)],
         description='Max 5000 characters. Clubs with high quality description will automatically receive prioritized ranking on TinoClubs.com')
 
-    advisor_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
-    advisor_2_full_name = StringField("Advisor 2 Full Name (optional)", validators=[Length(max=100)])
-    president_1_full_name = StringField(validators=[DataRequired(), Length(max=100)])
-    president_2_full_name = StringField("President 2 Full Name (optional)", validators=[Length(max=100)])
-    vice_president_1_full_name = StringField("Vice President 1 Full Name (optional)", validators=[Length(max=100)])
-    vice_president_2_full_name = StringField("Vice President 2 Full Name (optional)", validators=[Length(max=100)])
-    vice_president_3_full_name = StringField("Vice President 3 Full Name (optional)", validators=[Length(max=100)])
-    secretary_full_name = StringField(validators=[DataRequired(), Length(max=100)])
-    treasurer_full_name = StringField(validators=[DataRequired(), Length(max=100)],
-                                      description="Treasurer can be the same person as the secretary")
+    leaderships_information = TextAreaField("Advisor(s) and Officers Information",
+                                            validators=[DataRequired(), Length(max=1000)],
+                                            description="Please make sure every advisor or officer is in its own line, "
+                                                        "and each line follows the format of Role: Firstname Lastname")
 
     instagram_username = StringField(validators=[Length(max=100)])
     facebook_username = StringField(validators=[Length(max=100)])
@@ -51,33 +43,33 @@ class EditClubInfoForm(FlaskForm):
             raise ValidationError(
                 f"Please ensure your meeting time contains one of the following keywords: {', '.join(days_of_week)}")
 
+    def validate_leaderships_information(self, field):
+        try:
+            leaderships = json.loads(self.leaderships_in_json)
+        except Exception:
+            raise ValidationError("Incorrect format. Please make sure every advisor or officer is in its own line, "
+                                  "and each line follows the format of Role: Firstname Lastname")
+        required_roles = ['advisor', 'president', 'secretary', 'treasurer']
+        missing_roles = set()
+        for role in required_roles:
+            if not any(role in person['role'].lower() for person in leaderships):
+                missing_roles.add(role)
+        if missing_roles:
+            raise ValidationError(f"Please provide information regarding: {', '.join(r.capitalize() for r in missing_roles)}")
+
     def register_leaderships(self, leaderships: list[dict]):
-        for person in leaderships:
-            field_name_prefix = person['role'].lower().replace(' ', '_')
-            if hasattr(self, field_name_prefix + '_full_name') and not getattr(self,
-                                                                               field_name_prefix + '_full_name').data:
-                getattr(self, field_name_prefix + '_full_name').data = person['name']
-            else:
-                for i in range(1, 3):
-                    if hasattr(self, f'{field_name_prefix}_{i}_full_name') and not getattr(self,
-                                                                                           f'{field_name_prefix}_{i}_full_name').data:
-                        getattr(self, f'{field_name_prefix}_{i}_full_name').data = person['name']
-                        break
+        self.leaderships_information.data = '\n'.join(f'{person["role"]}: {person["name"]}' for person in leaderships)
+        self.leaderships_information.render_kw = {'rows': len(leaderships)}
 
     @property
     def leaderships_in_json(self) -> str:
         leaderships = []
-        for field in self._fields:
-            if not any(field.startswith(prefix) for prefix in VALID_ROLE_PREFIXES):
+        for line in self.leaderships_information.data.split('\n'):
+            if not line:
                 continue
-            if field.startswith('vice'):
-                role = 'Vice President'
-            else:
-                role = field.split('_')[0]
-            name = getattr(self, field).data.strip()
-            if not name:
-                continue
-            leaderships.append({'name': name, 'role': role.title()})
+            line = line.strip().replace('  ', ' ').replace(': ', ':')
+            role, name = line.split(':')
+            leaderships.append({'role': role.title(), 'name': name})
         return json.dumps(leaderships)
 
     def register_social_medias(self, social_medias: list[Club.SocialMedia]):
