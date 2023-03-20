@@ -66,7 +66,7 @@
     </div>
 </div>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 240" style="margin-top:-1px" class="mb-4 mb-sm-0">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 240" style="margin-top:-1px" class="mb-5 mb-md-4 mb-sm-0">
     <defs>
         <linearGradient id="gd-crimson-try_fill" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="30%" style="stop-color:#992b34;stop-opacity:1"/>
@@ -88,7 +88,9 @@
 <div class="container {{'mt-4 mt-lg-5' if recently_viewed}} pb-4">
     <div class="d-flex justify-content-between px-lg-4">
         <h4>Clubs Meeting {{'Today' if name_of_today == target_day_name else 'Tomorrow'}}</h4>
-        <div class="spinner-grow text-crimson spinner-grow-sm" role="status"></div>
+        <a href="/calendar"><button class="btn btn-sm btn-danger rounded-pill">
+            <i class="bi bi-calendar3 mx-1"></i> Clubs Calendar
+        </button></a>
     </div>
     <div class="d-flex justify-content-center">
         <div style="width:1200px">
@@ -104,8 +106,9 @@
 <div class="container pb-3">
     <div class="d-flex justify-content-between px-lg-4">
         <h4>Clubs Meeting {{'Today' if name_of_today == target_day_name else 'Tomorrow'}} Or Next {{target_day_name}}</h4>
-        <div class="spinner-grow text-crimson spinner-grow-sm" role="status"></div>
-    </div>
+        <a href="/calendar" class="d-none d-lg-block"><button class="btn btn-sm btn-danger rounded-pill">
+            <i class="bi bi-calendar3 mx-1"></i> Clubs Calendar
+        </button></a></div>
     <div class="d-flex justify-content-center">
         <div style="width:1200px">
             {% for overview in non_weekly_clubs_meeting %}
@@ -124,7 +127,7 @@
 {% endif %}
 
 <div class="text-center mt-3 mt-lg-5">
-    <a href="/explore" class="btn btn-lg shadow-sm btn-danger rounded-pill">
+    <a href="/explore" class="btn btn-danger rounded-pill">
         See All Tino Clubs <i class="bi bi-arrow-right"></i>
     </a>
 </div>
