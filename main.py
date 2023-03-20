@@ -9,7 +9,7 @@ import os
 from datetime import date, datetime
 import calendar
 from db import db, ClubCategory, Club, GetClubOverviews, ClubOverview
-from admin import init_admin, is_valid_admin_credentials, assert_environ_are_valid
+from admin import init_admin, is_valid_admin_credentials, is_valid_club_credentials, assert_environ_are_valid
 from forms import EditClubInfoForm
 
 
@@ -87,7 +87,7 @@ def edit_club_page(hyphened_club_name: str):
     club_name = hyphened_club_name.replace('-', ' ')
     club = db.get_or_404(Club, club_name,
                               description=f"Sorry, \"{club_name}\" does not exist. Please check your spelling, or, the club might not exist at all.")
-    if not (request.authorization and request.authorization.username == club_name and request.authorization.password == club.admin_password):
+    if not (is_valid_admin_credentials(request.authorization) or is_valid_club_credentials(request.authorization, club_name, club.admin_password)):
         return HTTP_UNAUTHORIZED_RESPONSE
     edit_form = EditClubInfoForm(obj=club)
     if edit_form.is_submitted():

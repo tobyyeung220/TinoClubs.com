@@ -71,3 +71,7 @@ def assert_environ_are_valid():
 
 def is_valid_admin_credentials(auth):
     return auth and auth.username == os.environ['ADMIN_USERNAME'] and auth.password == os.environ['ADMIN_PASSWORD']
+
+
+def is_valid_club_credentials(auth, correct_club_name, correct_club_password):
+    return auth and auth.username == correct_club_name and auth.password == correct_club_password
