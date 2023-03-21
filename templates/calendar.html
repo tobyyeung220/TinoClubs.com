@@ -4,10 +4,15 @@
 {% block content %}
 <div class="container mt-3 mt-lg-5">
     <h3 class="text-danger"><i class="bi bi-calendar3 me-2"></i> Clubs Calendar</h3>
-    <div class="mt-4 row flex-row flex-nowrap" style="overflow:auto;white-space:nowrap;padding-bottom:12px">
+    <div class="hide-scrollbar mt-4 row flex-row flex-nowrap pb-2" style="overflow:auto;white-space:nowrap">
         {% for day in weekly_days %}
         <div class="pe-3 pe-lg-5" style="max-width:500px;overflow-x:hidden;margin-right:-24px">
-            <h5>{{ day }}</h5>
+            <div class="d-flex align-items-center">
+                <h5 id="{{day}}">{{ day }}</h5>
+                {% if day == today %}
+                <div class="ms-2 mb-1 spinner-grow spinner-grow-sm text-danger" role="status"></div>
+                {% endif %}
+            </div>
             {% for overview in clubs_meeting_on[day] %}
             {{ club_row(overview, show_detail=False, margin="pe-2") }}
             {% endfor %}
@@ -15,4 +20,8 @@
         {% endfor %}
     </div>
 </div>
+
+<script>
+    document.getElementById("{{today}}").scrollIntoView({ inline: "center" });
+</script>
 {% endblock %}
