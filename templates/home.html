@@ -11,28 +11,6 @@
 </div>
 {% endmacro %}
 
-{% macro club_row(overview) %}
-<div class="d-flex align-items-center my-4 px-lg-5">
-    <img src="{{overview.thumb_url}}" class="img-fluid rounded-pill"
-             style="max-height:40px;max-width:40px">
-    <div class="ms-3 ms-lg-4 w-100">
-        <hr class="mt-0 mb-2">
-        <div class="row">
-            <div class="col-12 col-lg-6 col-xl-8 d-flex align-items-center">
-                <h6 class="mb-0">{{overview.name}}</h6>
-                {% if overview.aka %}
-                <span class="ms-2 d-none d-xl-inline text-secondary">({{overview.aka}})</span>
-                {% endif %}
-            </div>
-            <p class="col-6 col-lg-3 col-xl-2 text-secondary mb-0">{{overview.meeting_location}}</p>
-            <a class="col-6 col-lg-3 col-xl-2 text-decoration-none text-crimson text-end" href="{{overview.page_url}}">
-                See More
-            </a>
-        </div>
-    </div>
-</div>
-{% endmacro %}
-
 {% block content %}
 <link rel="stylesheet" href="/static/roller.css">
 

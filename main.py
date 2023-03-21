@@ -51,7 +51,7 @@ def page_not_found(e):
 @app.route('/')
 def home_page():
     total_clubs_cnt = Club.query.count()
-    random_club_names = GetClubOverviews.random(10)
+    random_club_names = GetClubOverviews.random(10)  # for scrolling circular images
     recently_viewed = [ClubOverview(**d) for d in session.get('recently_viewed', [])]
     idx_of_today = date.today().weekday()
     if 0 <= datetime.now().hour <= 15:  # if today's school hasn't ended
@@ -126,7 +126,10 @@ def search_page(search_query: str = None):
 
 @app.route('/calendar')
 def calendar_page():
-    return render_template('calendar.html')
+    clubs_meeting_on = {day: GetClubOverviews.all_meetings_on_the_day_of(day) for day in calendar.day_name}
+    return render_template('calendar.html', days_of_week=calendar.day_name,
+                           today=calendar.day_name[date.today().weekday()],
+                           clubs_meeting_on=clubs_meeting_on)
 
 
 if __name__ == '__main__':

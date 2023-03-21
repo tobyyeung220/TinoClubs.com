@@ -3,6 +3,16 @@
 
 {% block content %}
 <div class="container mt-3 mt-lg-5">
-    <h3><i class="bi bi-calendar3 me-2"></i> Clubs Calendar</h3>
+    <h3 class="text-danger"><i class="bi bi-calendar3 me-2"></i> Clubs Calendar</h3>
+    <div class="mt-4 row flex-row flex-nowrap" style="overflow:auto;white-space:nowrap;padding-bottom:12px">
+        {% for day in days_of_week %}
+        <div style="width:400px">
+            <h5>{{ day }}</h5>
+            {% for overview in clubs_meeting_on[day] %}
+            {{ club_row(overview) }}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
