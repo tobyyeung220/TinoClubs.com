@@ -126,8 +126,9 @@ def search_page(search_query: str = None):
 
 @app.route('/calendar')
 def calendar_page():
-    clubs_meeting_on = {day: GetClubOverviews.all_meetings_on_the_day_of(day) for day in calendar.day_name}
-    return render_template('calendar.html', days_of_week=calendar.day_name,
+    weekly_days = calendar.day_name[:5]
+    clubs_meeting_on = {day: GetClubOverviews.all_meetings_on_the_day_of(day) for day in weekly_days}
+    return render_template('calendar.html', weekly_days=weekly_days,
                            today=calendar.day_name[date.today().weekday()],
                            clubs_meeting_on=clubs_meeting_on)
 

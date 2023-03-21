@@ -167,6 +167,7 @@ class GetClubOverviews:
         return cls.sql_base().filter_by(is_new=True)
 
     @classmethod
+    @return_overviews
     def all_meetings_on_the_day_of(cls, day_of_the_week: str):
         return cls.sql_base().filter(Club.meeting_time.like('%' + day_of_the_week + '%')).order_by(*cls.order_by_clauses)
 
