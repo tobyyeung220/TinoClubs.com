@@ -124,5 +124,10 @@ def search_page(search_query: str = None):
                            matching_club_overviews=GetClubOverviews.from_search_query(search_query))
 
 
+@app.route('/calendar')
+def calendar_page():
+    return render_template('calendar.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

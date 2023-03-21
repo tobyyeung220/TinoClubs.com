@@ -38,14 +38,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/explore">Explore</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/calendar">Calendar</a>
+                    </li>
                 </ul>
                 {{ searchbar("d-none d-md-inline w-50", "Search your favorite clubs", current_query) }}
                 {% if not request.path.startswith('/edit') %}
-                <form class="form-check form-switch me-2 opacity-75">
+                <form class="form-check form-switch ms-2 me-3 opacity-75">
                     <input class="form-check-input {{'bg-danger border-danger' if session.isDarkMode }}"
                            type="checkbox" role="switch" id="darkModeToggle"
                            onchange="toggleDarkMode()" {{'checked' if session.isDarkMode}}>
-                    <label class="form-check-label text-white" for="darkModeToggle">Dark Mode</label>
+                    <label class="form-check-label text-white" for="darkModeToggle">Dark</label>
                 </form>
                 {% else %}
                 <div class="placeholder opacity-0" style="width:120px"></div>
@@ -81,6 +84,7 @@
         <ul class="nav col-md-4 justify-content-end">
             <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
             <li class="nav-item"><a href="/explore" class="nav-link px-2 text-muted">Explore</a></li>
+            <li class="nav-item"><a href="/calendar" class="nav-link px-2 text-muted">Calendar</a></li>
             <li class="nav-item"><p class="nav-link px-2 text-decoration-none text-warning">Credit: Jiaming L</p></li>
         </ul>
     </footer>
