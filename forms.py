@@ -49,7 +49,7 @@ class EditClubInfoForm(FlaskForm):
         except Exception:
             raise ValidationError("Incorrect format. Please make sure every advisor or officer is in its own line, "
                                   "and each line follows the format of Role: Firstname Lastname")
-        required_roles = ['advisor', 'president', 'secretary', 'treasurer']
+        required_roles = ['advisor', 'president']
         missing_roles = set()
         for role in required_roles:
             if not any(role in person['role'].lower() for person in leaderships):
