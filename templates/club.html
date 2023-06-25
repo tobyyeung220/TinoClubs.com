@@ -22,10 +22,34 @@
 </div>
 {% endmacro %}
 
-{% macro social_media(icon_url, text, margin_top="mt-3") %}
+{% macro social_media(icon_url, text, margin_top="mt-3", isEmail=False) %}
 <div class="{{margin_top}} px-0 d-flex align-items-center">
     <div style="width:36px;height:36px"><img src="{{icon_url}}" class="img-fluid"></div>
-    <p class="ms-3 mb-1 text-crimson">{{ text }}</p>
+    {% if isEmail %}
+    <a href = "mailto:{{ text }}" style="text-decoration:none;">
+    {% endif %}
+    {% if "instagram" in icon_url %}
+    <a href = "https://instagram.com/{{ text.lstrip('@') }}" style="text-decoration:none;" target="_blank">
+    {% endif %}
+    {% if "facebook" in icon_url %}
+    <a href = "https://facebook.com/{{ text.lstrip('@') }}" style="text-decoration:none;" target="_blank">
+    {% endif %}
+    {% if "discord" in icon_url %}
+    <a href = "https://{{ text.lstrip('https://') }}" style="text-decoration:none;" target="_blank">
+    {% endif %}
+    {% if "linktree" in icon_url %}
+    <a href = "https://{{ text.lstrip('https://') }}" style="text-decoration:none;" target="_blank">
+    {% endif %}
+    {% if "tiktok" in icon_url %}
+    <a href = "https://tiktok.com/@{{ text.lstrip('@') }}" style="text-decoration:none;" target="_blank">
+    {% endif %}
+    {% if "twitter" in icon_url %}
+    <a href = "https://twitter.com/{{ text.lstrip('@') }}" style="text-decoration:none;" target="_blank">
+    {% endif %}
+    {% if "youtube" in icon_url %}
+    <a href = "https://youtube.com/@{{ text.lstrip('@') }}" style="text-decoration:none;" target="_blank">
+    {% endif %}
+    <p class="ms-3 mb-1 text-crimson">{{ text }}</p></a>
 </div>
 {% endmacro %}
 
@@ -83,8 +107,8 @@
             {% if club.social_medias %}
             <div class="mt-4 card shadow-sm rounded-3" style="border:0px">
                 <div class="card-body">
-                    <p class="card-subtitle text-secondary">Reach out to {{ club.name}}</p>
-                    {{ social_media("/static/social_medias/email.webp", club.email) }}
+                    <p class="card-subtitle text-secondary">Reach out to {{ club.name }}</p>
+                    {{ social_media("/static/social_medias/email.webp", club.email, "mt-3", True) }}
                     {% for media in club.social_medias %}
                     {{ social_media(media.icon_url, media.text) }}
                     {% endfor %}
