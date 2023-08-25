@@ -101,7 +101,7 @@
             <div class="card shadow-sm rounded-3" style="border:0px">
                 <div class="card-body">
                     <p class="card-subtitle text-secondary">{{ club.name }} Meets</p>
-                    <h5 class="card-title mt-2 {{'gd-text gd-gold' if club.is_new}}">{{ club.meeting_time }} @ {{ club.meeting_location }}</h5>
+                    <h5 class="card-title mt-2 {{'gd-text gd-gold' if club.is_new}}">{{ club.meeting_time }} @ <a href="https://chs-map.vercel.app/?rooms={{ club.meeting_location.lstrip('Room ') }}">{{ club.meeting_location }}</a></h5>
                 </div>
             </div>
             {% if club.social_medias %}
