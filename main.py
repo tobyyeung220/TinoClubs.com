@@ -130,6 +130,7 @@ def calendar_page():
     clubs_meeting_on = {day: GetClubOverviews.all_meetings_on_the_day_of(day) for day in weekly_days}
     return render_template('calendar.html', weekly_days=weekly_days,
                            today=calendar.day_name[date.today().weekday()],
+                           current_timestamp=datetime.now(),
                            clubs_meeting_on=clubs_meeting_on)
 
 
