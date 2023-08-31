@@ -65,7 +65,7 @@
 {% if weekly_clubs_meeting %}
 <div class="container {{'mt-4 mt-lg-5' if recently_viewed}} pb-4">
     <div class="d-flex justify-content-between px-lg-4">
-        <h4>Clubs Meeting {{'Today' if name_of_today == target_day_name else 'Tomorrow'}}</h4>
+        <h4>Club Meetings {{'Today' if name_of_today == target_day_name else 'Tomorrow'}}</h4>
         <a href="/calendar"><button class="btn btn-sm btn-danger rounded-pill">
             <i class="bi bi-calendar3 mx-1"></i> Clubs Calendar
         </button></a>
@@ -83,7 +83,7 @@
 {% if non_weekly_clubs_meeting %}
 <div class="container pb-3">
     <div class="d-flex justify-content-between px-lg-4">
-        <h4>Clubs Meeting {{'Today' if name_of_today == target_day_name else 'Tomorrow'}} Or Next {{target_day_name}}</h4>
+        <h4>Club Meetings {{'Today' if name_of_today == target_day_name else 'Tomorrow'}} Or Next {{target_day_name}}</h4>
         <a href="/calendar" class="d-none d-lg-block"><button class="btn btn-sm btn-danger rounded-pill">
             <i class="bi bi-calendar3 mx-1"></i> Clubs Calendar
         </button></a></div>
