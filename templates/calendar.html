@@ -4,7 +4,7 @@
 {% macro club_badge(overview) %}
 <a href="{{overview.page_url}}" class="d-block text-center text-decoration-none text-dark" target="_blank">
     <img src="{{overview.thumb_url}}" class="img-fluid rounded-pill" style="max-height:60px;max-width:60px">
-    <p class="mt-2" style="font-size:12px">
+    <p class="text-secondary mt-2" style="font-size:12px">
         {% if overview.aka %}
         {{overview.aka}}
         {% else %}
@@ -25,15 +25,13 @@
     {% for overview in clubs_meeting_on[today] %}
     {{ club_row(overview) }}
     {% endfor %}
-</div>
 
-<div class="container mt-3 mt-lg-5">
-    <div class="row row-cols-2 g-5">
+    <div class="row row-cols-1 row-cols-lg-2 g-4 g-lg-5 mt-4">
         {% for day in weekly_days %}
         {% if day != today %}
-        <div class="col pe-5">
+        <div class="col pe-lg-5">
             <h5>{{ day }}</h5>
-            <div class="row row-cols-4 g-3 mt-0">
+            <div class="row row-cols-4 g-2 g-lg-3 mt-0">
                 {% for overview in clubs_meeting_on[day] %}
                 <div class="col">
                 {{ club_badge(overview) }}
