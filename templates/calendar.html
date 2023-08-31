@@ -1,23 +1,38 @@
 {% extends "base.html" %}
 {% set page_title = "Calendar" %}
 
+{% macro club_banner(overview) %}
+<a href="{{overview.page_url}}" class="d-block text-center text-decoration-none text-dark" target="_blank">
+    <img src="{{overview.thumb_url}}" class="img-fluid rounded-pill" style="max-height:60px;max-width:60px">
+    <p class="mb-0" style="font-size:12px">{{overview.name}}</p>
+</a>
+{% endmacro %}
+
 {% block content %}
 <div class="container mt-3 mt-lg-5">
-    <h3 class="text-danger"><i class="bi bi-calendar3 me-2"></i> Clubs Calendar</h3>
-    <div class="hide-scrollbar mt-4 row flex-row flex-nowrap pb-2" style="overflow:auto;white-space:nowrap">
-        {% for day in weekly_days %}
-        <div class="pe-3 pe-lg-5" style="max-width:500px;overflow-x:hidden;margin-right:-24px">
-            <div class="d-flex align-items-center">
-                <h5 id="{{day}}">{{ day }}</h5>
-                {% if day == today %}
-                <div class="ms-2 mb-1 spinner-grow spinner-grow-sm text-danger" role="status"></div>
+    <div class="row">
+        <div class="col-8">
+            <h3 class="text-danger"><i class="bi bi-calendar3 me-2"></i> Clubs Calendar</h3>
+            <div class="row row-cols-2 g-5">
+                {% for day in weekly_days %}
+                {% if day != today %}
+                <div class="col py-2">
+                    <h5>{{ day }}</h5>
+                    <div class="row row-cols-3 g-2">
+                        {% for overview in clubs_meeting_on[day] %}
+                        <div class="col p-3">
+                        {{ club_banner(overview) }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 {% endif %}
+                {% endfor %}
             </div>
-            {% for overview in clubs_meeting_on[day] %}
-            {{ club_row(overview, show_detail=False, margin="pe-2") }}
-            {% endfor %}
         </div>
-        {% endfor %}
+        <div class="col-4">
+
+        </div>
     </div>
 </div>
 
