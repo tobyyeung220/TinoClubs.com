@@ -2,7 +2,7 @@
 {% set page_title = "Calendar" %}
 
 {% macro club_badge(overview) %}
-<a href="{{overview.page_url}}" class="d-block text-center text-decoration-none text-dark" target="_blank">
+<a href="{{overview.page_url}}" class="d-block text-center text-decoration-none" target="_blank">
     <img src="{{overview.thumb_url}}" class="img-fluid rounded-pill" style="max-height:60px;max-width:60px">
     <p class="text-secondary mt-2" style="font-size:12px">
         {% if overview.aka %}
